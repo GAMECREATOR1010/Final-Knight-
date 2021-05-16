@@ -40,3 +40,4 @@ proj.win32
 win-build
 .cocos-project.json
 CMakeLists.txt
+.vshistory
