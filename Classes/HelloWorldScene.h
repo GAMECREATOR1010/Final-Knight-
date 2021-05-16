@@ -29,16 +29,20 @@
 #include <ctime>
 #include <map>
 //#include "cocos2d.h"
-#include "Room.h"
+#include "General.h"
 
 class HelloWorld : public cocos2d::Scene
 {
 public:
     static cocos2d::Scene* createScene();
     Vector<Room*> rooms;
+    Node* map;
+    Sprite* sprite1;
     virtual bool init();
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
+   bool onKeyPressed(EventKeyboard::KeyCode keycode, Event* event);
+
     
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);

@@ -31,18 +31,7 @@ Scene* HelloWorld::createScene()
 	return HelloWorld::create();
 }
 
-Vec2 ChangeDir()
-{
-	int i = rand() % 4;
-	if (i == 0)
-		return Vec2(1, 0);
-	else if (i == 1)
-		return Vec2(0, 1);
-	else if (i == 2)
-		return Vec2(-1, 0);
-	else
-		return Vec2(0, -1);
-}
+
 // Print useful error message instead of segfaulting when files are not there.
 static void problemLoading(const char* filename)
 {
@@ -59,6 +48,11 @@ bool HelloWorld::init()
 	{
 		return false;
 	}
+	if (!Scene::initWithPhysics())
+	{ 
+		return false; 
+	}
+	
 	srand((unsigned)time(NULL));
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -112,87 +106,15 @@ bool HelloWorld::init()
 			this->addChild(label, 1);
 		}*/
 
-	
-	int roomNumber = 6;
 	int theme = rand() % 5;
-	float offSet = 2112;
-	Vec2 genPoint = Vec2(0, 0);
-	bool first = true, flag = false;
-	int wid = 12, hei =12;
-
-	for (int i = 0; i < roomNumber; i++)
-	{
-		
-		if (first)
-		{
-			first = false;
-		}
-		else
-		{
-			Vec2 tempPos = ChangeDir() * offSet + genPoint;
-			for (auto tempR : rooms)
-			{
-				Vec2 pos = tempR->getPosition();
-				if (tempPos == pos)
-				{
-					flag = true;
-					break;
-				}
-				else
-					flag = false;
-			}
-			if (flag)
-			{
-				i--;
-				continue;
-			}
-			genPoint = tempPos;
-			wid = (rand() % 5) * 2 + 10;
-			hei = (rand() % 5) * 2 + 10;
-		}
-
-		Room* tempRoom = Room::create(wid, hei, 0, theme, genPoint);
-		addChild(tempRoom);
-		tempRoom->setPosition(genPoint);
-		tempRoom->distance = genPoint.x / offSet + genPoint.y / offSet;
-		rooms.pushBack(tempRoom);
-	}
-
-	for (auto temp1 : rooms)
-	{
-		Vec2 pos = temp1->getPosition();
-		for (auto temp2 : rooms)
-		{
-			if (temp2->Ifnear(pos + Vec2(0, offSet)))
-			{
-				temp1->doorUp = true;
-				temp1->doorNum++;
-			}
-			if (temp2->Ifnear(pos - Vec2(0, offSet)))
-			{
-				temp1->doorDown = true;
-				temp1->doorNum++;
-			}
-			if (temp2->Ifnear(pos + Vec2( offSet,0)))
-			{
-				temp1->doorRight = true;
-				temp1->doorNum++;
-			}
-			if (temp2->Ifnear(pos -Vec2(offSet, 0)))
-			{
-				temp1->doorLeft = true;
-				temp1->doorNum++;
-			}
-			if (temp1->doorNum >= 4)
-				break;
-		}
-		temp1->drawPassage();
-		temp1->updateDoor();
-		temp1->updateObstacles();
-	}
+	map= BattleMap::create(0,theme);
+	map->setPosition(Vec2(-300, -300));
+	addChild(map,0);
+	
+	
 
 
-	auto sprite1 = Sprite::create("Knight1.png");
+	sprite1= Sprite::create("Knight1.png");
 	if (sprite1 == nullptr)
 	{
 		problemLoading("'Knight1'");
@@ -202,6 +124,15 @@ bool HelloWorld::init()
 		sprite1->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 		addChild(sprite1, 0);
 	}
+	auto herobody = PhysicsBody::create();
+	Vec2 verts[] = { Vec2(0, 55), Vec2(50, -30), Vec2(-50, -30) };
+	herobody->addShape(PhysicsShapePolygon::create(verts, 3));
+	herobody->setPositionOffset(Vec2(30, 0)); 
+	herobody->setGravityEnable(false);
+	sprite1->setPhysicsBody(herobody);
+	sprite1->setGlobalZOrder(2);
+	
+	
 
 	auto sprite2 = Sprite::create("shade.png");
 	if (sprite2 == nullptr)
@@ -213,9 +144,42 @@ bool HelloWorld::init()
 		sprite1->addChild(sprite2, -1);
 		sprite2->setPosition(Vec2(55, 0));
 	}
+
+
+
+	auto listener = EventListenerKeyboard::create();
+	listener->onKeyPressed = CC_CALLBACK_2(HelloWorld::onKeyPressed, this);
+	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
+
 	return true;
 }
 
+bool HelloWorld::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event) 
+{
+	Vec2 change = Vec2(0, 0);
+	if (keycode == EventKeyboard::KeyCode::KEY_UP_ARROW) 
+	{
+		change = Vec2(0,-10);
+	}
+	else if (keycode == EventKeyboard::KeyCode::KEY_LEFT_ARROW)
+	{
+		change = Vec2(10, 0);
+		
+	}
+	else if (keycode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW)
+	{
+		change = Vec2(-10, 0);
+		
+	}
+	else if (keycode == EventKeyboard::KeyCode::KEY_DOWN_ARROW)
+	{
+		change = Vec2(0, 10);
+	}
+
+	map->setPosition(map->getPosition() +change);
+
+	return true;
+}
 
 
 

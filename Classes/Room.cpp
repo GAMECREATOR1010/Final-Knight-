@@ -13,6 +13,7 @@ Room* Room::create(int  wid, int hei, int rType, int rTheme, Vec2 roomPos)
 	return nullptr;
 }
 
+
 void Room::drawRoom()
 {
 	for (float x = 15 - width / 2; x < 18 + width / 2; x++)
@@ -109,7 +110,8 @@ void Room::drawDoor(float x,float y)
 	shade->setTileGID(31, Vec2(x, y + 1));
 	if (doorOpen)
 	{
-		wall->setTileGID(21, Vec2(x, y));
+		floor->setTileGID(21, Vec2(x, y));
+		shade->setTileGID(31, Vec2(x, y));
 		meta->setTileGID(31, Vec2(x, y));
 	}
 	else
@@ -143,12 +145,12 @@ void Room::updateDoor()
 	{
 		if (doorLeft)
 		{
-			float x = 15 - height / 2;
+			float x = 15 - width / 2;
 			drawDoor(x, y);
 		}
 		if (doorRight)
 		{
-			float x = 17 + height / 2;
+			float x = 17 + width / 2;
 			drawDoor(x, y);
 		}
 	}
@@ -168,7 +170,7 @@ void Room::updateObstacles()
 		int i = rand() % 3;
 		if (i == 0)
 		{
-			float x =12-rand()%2;
+			float x =13-rand()%2;
 			int hei =  height - 3-rand()%3;
 			for (float y = 16 - height / 2; y < 16 - height / 2+hei; y++)
 			{
@@ -209,6 +211,8 @@ bool Room::Ifnear(Vec2 pos)
 }
 
 
+
+
 //rType=0为起始房间，rType=1为正常房，有敌人
 bool Room::init(int wid, int hei, int rType, int rTheme, Vec2 roomPos)
 {
@@ -222,16 +226,19 @@ bool Room::init(int wid, int hei, int rType, int rTheme, Vec2 roomPos)
 	}
 	else
 		enemyCount = 0;
-	playerEnter = false;
-	doorUp = false, doorDown = false, doorLeft = false, doorRight = false;
 	doorNum = 0;
 	roomPosition = roomPos;
 	roomMap = TMXTiledMap::create("room.tmx");
 	meta = roomMap->getLayer("meta");
+	meta->setGlobalZOrder(0);
 	floor = roomMap->getLayer("floor");
+	floor->setGlobalZOrder(1);
 	shade = roomMap->getLayer("shade");
+	shade->setGlobalZOrder(2);
 	wall = roomMap->getLayer("wall");
+	wall->setGlobalZOrder(3);
 	obstacles = roomMap->getLayer("obstacles");
+	obstacles->setGlobalZOrder(3);
 	drawRoom();
 	addChild(roomMap);
 

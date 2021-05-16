@@ -5,7 +5,10 @@
 #include "cocos2d.h"
 #include "Gaming.h"
 #include "Room.h"
+#include "BattleMap.h"
+#include "Actor.h"
 USING_NS_CC;
+Vec2 ChangeDir();
 
 
 #endif 
