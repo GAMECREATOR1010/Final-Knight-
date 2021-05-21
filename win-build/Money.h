@@ -1,0 +1,65 @@
+/****************************************************************************
+ Copyright (c) 2021 Final-Knight- Group.
+
+ Code version 21w20a (2021-5-21).
+
+ 该部分为Money货币类，派生出局内金币，局外蓝币
+
+
+ 需要外部接口
+
+ 需要外部全局宏定义
+ * 存档路径PATH
+ 
+ To Do list:
+ * 打死敌人随机掉落金币 响应：怪物死亡；输入：敌人等级、总体难度、关卡层数；输出：金币随机增加(当然也可能不增加）
+ * 开启宝箱随机掉落金币/道具 响应：宝箱开启；输入：总体难度、关卡层数；输出：金币随机增加/道具增加
+ ****************************************************************************/
+#pragma once
+
+#ifndef __MONEY_H__
+#define __MONEY_H__
+
+#include "cocos2d.h"
+#include <string>
+USING_NS_CC;
+
+// 金钱账户,抽象基类
+class Money :public Sprite
+{
+public:
+	//设置余额
+	void setBalance(int setValue);
+	//改变余额
+	bool changeBalance(int changeValue);
+private:
+	int _balance;
+	virtual bool init()=0;
+
+};
+
+// 局内金币账户，继承自Money
+class GoldMoney :public Money
+{
+public:
+	CREATE_FUNC(GoldMoney)
+private:
+	virtual bool init();
+	virtual bool init(int);
+};
+
+// 局外蓝币账户，继承自Money
+class BlueMoney : public Money
+{
+public:
+	CREATE_FUNC(BlueMoney)
+private:
+	virtual bool init();
+	virtual bool init(int);
+	//从存档中导入蓝币
+	bool loadMoneyFromFile(std::string);
+};
+
+
+#endif // !__MONEY_H__
+
