@@ -19,8 +19,9 @@ public:
 	CREATE_FUNC(Item);
 
 private:
-
+	int _id;
+	int _value;
+	int _rarity;
 	virtual bool init();
-
 };
 #endif // !__ITEMS_H__
