@@ -29,9 +29,9 @@ class Money :public Sprite
 {
 public:
 	//设置余额
-	void setBalance(int setValue);
+	void SetBalance(int setValue);
 	//改变余额
-	bool changeBalance(int changeValue);
+	bool ChangeBalance(int changeValue);
 private:
 	int _balance;
 	virtual bool init()=0;
@@ -57,7 +57,9 @@ private:
 	virtual bool init();
 	virtual bool init(int);
 	//从存档中导入蓝币
-	bool loadMoneyFromFile(std::string);
+	bool LoadMoneyFromFile(std::string);
+	//将蓝币存储到存档中
+	bool SaveMoneyToFile(std::string);
 };
 
 

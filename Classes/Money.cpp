@@ -11,7 +11,7 @@
 /// 设置余额
 /// </summary>
 /// <param name="setValue">设置余额值</param>
-void Money::setBalance(int setValue)
+void Money::SetBalance(int setValue)
 {
 	_balance = setValue;
 
@@ -22,7 +22,7 @@ void Money::setBalance(int setValue)
 /// </summary>
 /// <param name="changeValue">改变余额值，正加负减</param>
 /// <returns>是否改变成功</returns>
-bool Money::changeBalance(int changeValue)
+bool Money::ChangeBalance(int changeValue)
 {
 	if (_balance + changeValue >= 0)
 	{
@@ -48,7 +48,7 @@ bool GoldMoney::init()
 /// <returns></returns>
 bool GoldMoney::init(int value)
 {
-	this->setBalance(value);
+	this->SetBalance(value);
 
 	return true;
 }
@@ -68,7 +68,7 @@ bool BlueMoney::init()
 /// <returns></returns>
 bool BlueMoney::init(int value)
 {
-	this->setBalance(value);
+	this->SetBalance(value);
 
 	return true;
 }
@@ -77,22 +77,40 @@ bool BlueMoney::init(int value)
 /// </summary>
 /// <param name="">存档路径</param>
 /// <returns></returns>
-bool BlueMoney::loadMoneyFromFile(std::string)
+bool BlueMoney::LoadMoneyFromFile(std::string)
 {
 	/* 打开文件等操作 */
 	int value;
 
 
 
-	this->setBalance(value);
+	this->SetBalance(value);
+
+	return false;
+}
+/// <summary>
+/// 将蓝币存储到存档中
+/// </summary>
+/// <param name="">存档路径</param>
+/// <returns></returns>
+bool BlueMoney::SaveMoneyToFile(std::string)
+{
+	/* 写入文件等操作 */
+
+
+
 
 	return false;
 }
 
+
+
+
+
 void test()
 {
 	auto m = GoldMoney::create();
-	m->changeBalance(0);
+	m->ChangeBalance(0);
 
 	return;
 }
