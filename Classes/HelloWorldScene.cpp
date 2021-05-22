@@ -49,10 +49,10 @@ bool HelloWorld::init()
 		return false;
 	}
 	if (!Scene::initWithPhysics())
-	{ 
-		return false; 
+	{
+		return false;
 	}
-	
+
 	srand((unsigned)time(NULL));
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -107,81 +107,123 @@ bool HelloWorld::init()
 		}*/
 
 	int theme = rand() % 5;
-	map= BattleMap::create(0,theme);
-	map->setPosition(Vec2(-300, -300));
-	addChild(map,0);
-	
-	
+	map = BattleMap::create(6, theme);
+	change = Vec2(0, 0);
+	addChild(map, 0);
 
-
-	sprite1= Sprite::create("Knight1.png");
-	if (sprite1 == nullptr)
-	{
-		problemLoading("'Knight1'");
-	}
-	else
-	{
-		sprite1->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-		addChild(sprite1, 0);
-	}
-	auto herobody = PhysicsBody::create();
-	Vec2 verts[] = { Vec2(0, 55), Vec2(50, -30), Vec2(-50, -30) };
-	herobody->addShape(PhysicsShapePolygon::create(verts, 3));
-	herobody->setPositionOffset(Vec2(30, 0)); 
-	herobody->setGravityEnable(false);
-	sprite1->setPhysicsBody(herobody);
-	sprite1->setGlobalZOrder(2);
 	
+	flag = false;//
+	inPassage = false;
 	
+	sprite1 = Knight::create(0,1);
+	sprite1->_setLocalZOrder(2);
+	
+	sprite1->setPosition(Vec2(origin.x + visibleSize.width / 2,
+		origin.y + visibleSize.height/2 ));
+	addChild(sprite1);
 
-	auto sprite2 = Sprite::create("shade.png");
-	if (sprite2 == nullptr)
+	Sprite* weapon = Sprite::create("wea.png");
+	if (weapon == nullptr)
 	{
 		problemLoading("'test1.png'");
 	}
 	else
 	{
-		sprite1->addChild(sprite2, -1);
-		sprite2->setPosition(Vec2(55, 0));
+		sprite1->addChild(weapon, 1);
+		weapon->setPosition(Vec2(30, 20));
+		weapon->setGlobalZOrder(2);
 	}
-
-
 
 	auto listener = EventListenerKeyboard::create();
 	listener->onKeyPressed = CC_CALLBACK_2(HelloWorld::onKeyPressed, this);
+
+	listener->onKeyReleased = CC_CALLBACK_2(HelloWorld::onKeyReleased, this);
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
+	this->scheduleUpdate();
 	return true;
 }
 
-bool HelloWorld::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event) 
+bool HelloWorld::onKeyReleased(EventKeyboard::KeyCode keycode, Event* event)
 {
-	Vec2 change = Vec2(0, 0);
-	if (keycode == EventKeyboard::KeyCode::KEY_UP_ARROW) 
+	if (keycode == EventKeyboard::KeyCode::KEY_UP_ARROW)
 	{
-		change = Vec2(0,-10);
+		if (change == Vec2(0, -1))
+			change = Vec2(0, 0);
+	}
+	if (keycode == EventKeyboard::KeyCode::KEY_DOWN_ARROW)
+	{
+		if (change == Vec2(0, 1))
+			change = Vec2(0, 0);
+	}
+	if (keycode == EventKeyboard::KeyCode::KEY_LEFT_ARROW)
+	{
+		if (change == Vec2(1, 0))
+			change = Vec2(0, 0);
+	}
+	if (keycode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW)
+	{
+		if (change == Vec2(-1, 0))
+			change = Vec2(0, 0);
+	}
+	return true;
+}
+
+
+bool HelloWorld::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
+{
+	if (keycode == EventKeyboard::KeyCode::KEY_UP_ARROW)
+	{
+		change = Vec2(0, -1);
+		//return true;
 	}
 	else if (keycode == EventKeyboard::KeyCode::KEY_LEFT_ARROW)
 	{
-		change = Vec2(10, 0);
-		
+		sprite1->setScaleX(-1);
+		change = Vec2(1, 0);
+		//return true;
 	}
 	else if (keycode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW)
 	{
-		change = Vec2(-10, 0);
-		
+		sprite1->setScaleX(1);
+		change = Vec2(-1, 0);
+		//return true;
 	}
 	else if (keycode == EventKeyboard::KeyCode::KEY_DOWN_ARROW)
 	{
-		change = Vec2(0, 10);
+		change = Vec2(0, 1);
+		//return true;
 	}
-
-	map->setPosition(map->getPosition() +change);
-
+	else
+		return false;
 	return true;
+	
 }
 
-
+void HelloWorld::update(float delta)
+{
+	atRoom = map->InRoom(sprite1->getPosition());
+	nextRoom = map->InRoom(sprite1->getPosition() - change * 100);
+	if (atRoom == nextRoom)
+	{
+		Vec2 roomPos = atRoom->roomPosition + map->getPosition();
+		if (atRoom->Movable(sprite1->getPosition() - change * 30- roomPos, 41, false))
+		{
+			flag = true;
+		}
+		else
+			flag = false;
+	}
+	else//修复通道中行动易发生错误的bug
+	{
+		flag = true;
+	}
+	
+	if (flag)
+	{
+		map->setPosition(map->getPosition() + change * 10);
+	}
+}
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {

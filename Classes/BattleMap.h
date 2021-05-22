@@ -15,7 +15,7 @@ private:
     int roomTheme;
     int roomNumber;
     int chapter;
-    
+
 };
 
 #endif 

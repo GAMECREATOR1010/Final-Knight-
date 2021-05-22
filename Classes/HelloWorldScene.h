@@ -36,14 +36,20 @@ class HelloWorld : public cocos2d::Scene
 public:
     static cocos2d::Scene* createScene();
     Vector<Room*> rooms;
-    Node* map;
-    Sprite* sprite1;
+    BattleMap* map;
+    Knight* sprite1;
+    Sprite* sprite2;
+    bool flag,inPassage;
     virtual bool init();
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
    bool onKeyPressed(EventKeyboard::KeyCode keycode, Event* event);
-
-    
+   bool onKeyReleased(EventKeyboard::KeyCode keycode, Event* event);
+   void update(float delta);
+   Vec2 change;
+   Room* atRoom;
+   Room* nextRoom;
+   void Update();
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 };

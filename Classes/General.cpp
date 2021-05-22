@@ -12,3 +12,4 @@ Vec2 ChangeDir()
 	else
 		return Vec2(0, -1);
 }
+

@@ -1,11 +1,10 @@
 #include "BattleMap.h"
 USING_NS_CC;
 
-
 BattleMap* BattleMap::create(int chapter, int rTheme)
 {
 	BattleMap* battleMap = new BattleMap;
-	if (battleMap != nullptr && battleMap->init(chapter,  rTheme))
+	if (battleMap != nullptr && battleMap->init(chapter, rTheme))
 	{
 		battleMap->autorelease();
 		return battleMap;
@@ -99,11 +98,11 @@ bool BattleMap::init(int cha, int rTheme)
 			if (temp1->doorNum >= 4)
 				break;
 		}
-		temp1->drawPassage();
-		temp1->updateDoor();
-		temp1->updateObstacles();
+		temp1->DrawPassage();
+		temp1->UpdateDoor();
+		temp1->UpdateObstacles();
 	}
-	
+
 	return true;
 }
 
@@ -111,10 +110,11 @@ Room* BattleMap::InRoom(Vec2 pos)
 {
 	for (auto tempR : rooms)
 	{
-		Vec2 roomPos = convertToWorldSpaceAR(tempR->getPosition());
-		if (pos.x- roomPos.x<=2112&& pos.y - roomPos.y <= 2112)
+		Vec2 roomPos = tempR->roomPosition + this->getPosition();
+		if (pos.x - roomPos.x <= 2112 && pos.y - roomPos.y <= 2112 && pos.x - roomPos.x >= 0 && pos.y - roomPos.y >= 0)
 		{
 			return tempR;
+			break;
 		}
 	}
 	return nullptr;

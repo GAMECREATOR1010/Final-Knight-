@@ -2,25 +2,30 @@
 #ifndef __ACTOR_H__
 #define __ACTOR_H__
 
-#include "General.h"
+#include "cocos2d.h"
 
 USING_NS_CC;
-class Actor :public cocos2d::Node
+class Actor :public Node
 {
+	friend class Knight;
 public:
     static Actor* create();
-private:
-	virtual bool init();
-	Sprite* actor;
+	Sprite* pic;
 	Sprite* weapon;
+	Sprite* shade;
+	~Actor();
 protected:
-	int attack = 3;
-	int HP =5, maxHP=5 ;
-	int attackMode=0;
-	int weaponId = 0;
-	float attackSpeed = 0.0f; 
-	float moveSpeed = 0.0f; 
+	virtual bool init();
+	void AddShade(const Vec2);
+	int damage;
+	int defence;
+	int HP , maxHP ;
+	int attackMode;
+	int weaponId ;
+	float attackSpeed ; 
+	float moveSpeed; 
 	bool death = false;
+	Vec2 movement;
 };
 
 #endif 
