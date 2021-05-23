@@ -1,16 +1,19 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
- Code version 21w20b (2021-5-22).
+ Code version 21w20c (2021-5-23).
 
  该部分为Money货币类，派生出局内金币，局外蓝币
  ****************************************************************************/
 
 #include "Money.h"
+
+#pragma region Money
+
  /// <summary>
-/// 设置余额
-/// </summary>
-/// <param name="setValue">设置余额值</param>
+ /// 设置余额
+ /// </summary>
+ /// <param name="setValue">设置余额值</param>
 void Money::SetBalance(int setValue)
 {
 	_balance = setValue;
@@ -32,6 +35,18 @@ bool Money::ChangeBalance(int changeValue)
 
 	return false;
 }
+/// <summary>
+/// 获取当前账户余额
+/// </summary>
+/// <returns></returns>
+int Money::getBalance()
+{
+	return _balance;
+}
+
+#pragma endregion
+
+#pragma region GoldMoney
 
 /// <summary>
 /// 默认初始化，金币设置为0
@@ -52,6 +67,10 @@ bool GoldMoney::init(int value)
 
 	return true;
 }
+
+#pragma endregion
+
+#pragma region BlueMoney
 
 /// <summary>
 /// 默认初始化，金币设置为0
@@ -103,8 +122,7 @@ bool BlueMoney::SaveMoneyToFile(std::string)
 	return false;
 }
 
-
-
+#pragma endregion
 
 
 void test()
