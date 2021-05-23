@@ -5,8 +5,9 @@
 
  该部分为Potion药水类
  包括：
- · 生命药水
- · 魔力药水
+ · 生命药水 HP 2
+ · 魔力药水 MP 80
+ · 恢复药水 HP 1 MP 40
  · Buff药水(需要开发）
  调用接口：
  · 英雄HP、MP相关（需要接口）
@@ -32,19 +33,30 @@ private:
 class HealPotion : public Potion
 {
 public:
+	void Drink(float multi = 1);
 private:
-	int _healValue;
+	int _baseHealValue;
 	virtual bool init();
-	void Drink();
+
 };
 
 class ManaPotion : public Potion
 {
 public:
+	void Drink(float multi = 1);
 private:
-	int _healValue;
+	int _baseHealValue;
 	virtual bool init();
+
+};
+
+class FullPotion :public HealPotion, public ManaPotion
+{
+public:
 	void Drink();
+private:
+	virtual bool init();
+
 };
 
 class BuffPotion : public Potion

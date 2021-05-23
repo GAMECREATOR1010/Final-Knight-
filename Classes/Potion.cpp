@@ -12,9 +12,10 @@
  /// <summary>
  /// 使用药水
  /// </summary>
-void HealPotion::Drink()
+ /// <param name="multi">附加倍率，大小瓶规模无需附加</param>
+void HealPotion::Drink(float multi)
 {
-	int heal = _healValue * _scale;
+	int heal = heal = _baseHealValue * _scale * multi;
 	/* 调用增加生命接口 */
 	if (curHP + heal >= maxHP)
 	{
@@ -36,9 +37,10 @@ void HealPotion::Drink()
 /// <summary>
 /// 使用药水
 /// </summary>
-void ManaPotion::Drink()
+/// <param name="multi">附加倍率，大小瓶规模无需附加</param>
+void ManaPotion::Drink(float multi)
 {
-	int heal = _healValue * _scale;
+	int heal = _baseHealValue * _scale * multi;
 	/* 调用增加魔力接口 */
 	if (curMP + heal >= maxMP)
 	{
@@ -54,3 +56,13 @@ void ManaPotion::Drink()
 
 #pragma endregion
 
+/// <summary>
+/// 使用药水
+/// </summary>
+void FullPotion::Drink()
+{
+	HealPotion::Drink(0.5);
+	ManaPotion::Drink(0.5);
+
+	return;
+}
