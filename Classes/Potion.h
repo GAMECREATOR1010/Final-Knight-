@@ -17,17 +17,29 @@
 #define __POTION_H__
 
 #include "Item.h"
+
+const int MAX_POTION_SCALE = 2;
+enum Scale
+{
+	SMALL=1, LARGE
+};
+enum Type
+{
+	HEAL, MANA, FULL, BUFF
+};
+
 class Potion : public Item
 {
 public:
+	CREATE_FUNC(Potion);
+	static Potion* create(Scale);
 	int GetScale();
+	int GetType();
 private:
-	enum Scale
-	{
-		SMALL, LARGE
-	}_scale;
+	Scale _scale;
+	Type _type;
 	//以_scale作为效果倍数，SMALL为1，LARGE为2
-	virtual bool init();
+	virtual bool init(Scale _scale=SMALL);
 };
 
 class HealPotion : public Potion
@@ -36,7 +48,7 @@ public:
 	void Drink(float multi = 1);
 private:
 	int _baseHealValue;
-	virtual bool init();
+	virtual bool init(Scale _scale = SMALL);
 
 };
 
@@ -46,7 +58,7 @@ public:
 	void Drink(float multi = 1);
 private:
 	int _baseHealValue;
-	virtual bool init();
+	virtual bool init(Scale _scale = SMALL);
 
 };
 
@@ -55,7 +67,7 @@ class FullPotion :virtual public HealPotion, virtual public ManaPotion
 public:
 	void Drink();
 private:
-	virtual bool init();
+	virtual bool init(Scale _scale = SMALL);
 
 };
 

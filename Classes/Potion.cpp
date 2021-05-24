@@ -9,6 +9,23 @@
 
 #pragma region Potion
 
+Potion* Potion::create(Scale scale)
+{
+	auto pRet = new(std::nothrow) Potion();
+	if (pRet && pRet->init(scale))
+	{
+		pRet->autorelease();
+		return pRet;
+	}
+	else
+	{
+		delete pRet;
+		pRet = nullptr;
+		return nullptr;
+	}
+	return nullptr;
+}
+
 /// <summary>
 /// 获取药水规模
 /// </summary>
@@ -16,6 +33,11 @@
 int Potion::GetScale()
 {
 	return _scale;
+}
+
+int Potion::GetType()
+{
+	return _type;
 }
 
 #pragma endregion
