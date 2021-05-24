@@ -1,11 +1,24 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
- Code version 21w20a (2021-5-23)
+ Code version 21w21a (2021-5-24)
 
  该部分为Potion药水类
  ****************************************************************************/
 #include "Potion.h"
+
+#pragma region Potion
+
+/// <summary>
+/// 获取药水规模
+/// </summary>
+/// <returns></returns>
+int Potion::GetScale()
+{
+	return _scale;
+}
+
+#pragma endregion
 
 #pragma region HealPotion
 
@@ -15,7 +28,7 @@
  /// <param name="multi">附加倍率，大小瓶规模无需附加</param>
 void HealPotion::Drink(float multi)
 {
-	int heal = heal = _baseHealValue * _scale * multi;
+	int heal = heal = _baseHealValue * GetScale() * multi;
 	/* 调用增加生命接口 */
 	if (curHP + heal >= maxHP)
 	{
@@ -40,7 +53,7 @@ void HealPotion::Drink(float multi)
 /// <param name="multi">附加倍率，大小瓶规模无需附加</param>
 void ManaPotion::Drink(float multi)
 {
-	int heal = _baseHealValue * _scale * multi;
+	int heal = _baseHealValue * GetScale() * multi;
 	/* 调用增加魔力接口 */
 	if (curMP + heal >= maxMP)
 	{
@@ -66,3 +79,5 @@ void FullPotion::Drink()
 
 	return;
 }
+
+

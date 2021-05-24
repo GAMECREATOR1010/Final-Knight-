@@ -1,7 +1,7 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
- Code version 21w20a (2021-5-23)
+ Code version 21w21a (2021-5-24)
 
  该部分为Potion药水类
  包括：
@@ -20,12 +20,12 @@
 class Potion : public Item
 {
 public:
-protected:
+	int GetScale();
+private:
 	enum Scale
 	{
 		SMALL, LARGE
 	}_scale;
-private:
 	//以_scale作为效果倍数，SMALL为1，LARGE为2
 	virtual bool init();
 };
@@ -50,7 +50,7 @@ private:
 
 };
 
-class FullPotion :public HealPotion, public ManaPotion
+class FullPotion :virtual public HealPotion, virtual public ManaPotion
 {
 public:
 	void Drink();

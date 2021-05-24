@@ -1,7 +1,7 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
- Code version 21w20c (2021-5-23).
+ Code version 21w21a (2021-5-24)
 
  该部分为Money货币类，派生出局内金币，局外蓝币
 
@@ -29,6 +29,8 @@ USING_NS_CC;
 class Money :public Sprite
 {
 public:
+	//获取金额
+	int GetBalance();
 	//设置余额
 	void SetBalance(int setValue);
 	//改变余额
@@ -36,7 +38,6 @@ public:
 private:
 	int _balance;
 	virtual bool init() = 0;
-	int getBalance();
 };
 
 // 局内金币账户，继承自Money
@@ -57,10 +58,6 @@ public:
 private:
 	virtual bool init();
 	virtual bool init(int);
-	//从存档中导入蓝币
-	bool LoadMoneyFromFile(std::string);
-	//将蓝币存储到存档中
-	bool SaveMoneyToFile(std::string);
 };
 
 

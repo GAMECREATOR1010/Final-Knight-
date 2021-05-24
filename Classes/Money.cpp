@@ -1,7 +1,7 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
- Code version 21w20c (2021-5-23).
+ Code version 21w21a (2021-5-24)
 
  该部分为Money货币类，派生出局内金币，局外蓝币
  ****************************************************************************/
@@ -11,9 +11,18 @@
 #pragma region Money
 
  /// <summary>
- /// 设置余额
+ /// 获取金额
  /// </summary>
- /// <param name="setValue">设置余额值</param>
+ /// <returns></returns>
+int Money::GetBalance()
+{
+	return _balance;
+}
+
+/// <summary>
+/// 设置余额
+/// </summary>
+/// <param name="setValue">设置余额值</param>
 void Money::SetBalance(int setValue)
 {
 	_balance = setValue;
@@ -34,14 +43,6 @@ bool Money::ChangeBalance(int changeValue)
 	}
 
 	return false;
-}
-/// <summary>
-/// 获取当前账户余额
-/// </summary>
-/// <returns></returns>
-int Money::getBalance()
-{
-	return _balance;
 }
 
 #pragma endregion
