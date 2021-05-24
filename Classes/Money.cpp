@@ -92,36 +92,6 @@ bool BlueMoney::init(int value)
 
 	return true;
 }
-/// <summary>
-/// 从存档中导入蓝币
-/// </summary>
-/// <param name="">存档路径</param>
-/// <returns></returns>
-bool BlueMoney::LoadMoneyFromFile(std::string)
-{
-	/* 打开文件等操作 */
-	int value;
-
-
-
-	this->SetBalance(value);
-
-	return false;
-}
-/// <summary>
-/// 将蓝币存储到存档中
-/// </summary>
-/// <param name="">存档路径</param>
-/// <returns></returns>
-bool BlueMoney::SaveMoneyToFile(std::string)
-{
-	/* 写入文件等操作 */
-
-
-
-
-	return false;
-}
 
 #pragma endregion
 

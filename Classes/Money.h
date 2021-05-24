@@ -22,7 +22,6 @@
 #define __MONEY_H__
 
 #include "cocos2d.h"
-#include <string>
 USING_NS_CC;
 
 // 金钱账户,抽象基类
