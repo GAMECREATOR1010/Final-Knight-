@@ -22,18 +22,16 @@ bool Knight::init(int type, int rank)
 	{
 		maxHP = 5;
 		HP = 5;
-		auto pinfo = AutoPolygon::generatePolygon("Knight1.png");
-		pic = Sprite::create(pinfo);
+		pic = Sprite::create("Knight1.png");
 		addChild(pic, 0);
-		auto herobody = PhysicsBody::create();
+		body = PhysicsBody::create();
 		Vec2 verts[] = { Vec2(0, 55), Vec2(50, -30), Vec2(-50, -30) };
-		herobody->addShape(PhysicsShapePolygon::create(verts, 3));
-		herobody->setPositionOffset(Vec2(30, 0));
-		herobody->setGravityEnable(false);
-		pic->setPhysicsBody(herobody);
-		pic->setGlobalZOrder(2);
-		
-		pic->setAnchorPoint(Vec2(0.7, 0.65));
+		body->addShape(PhysicsShapePolygon::create(verts, 3));
+		body->setPositionOffset(Vec2(30, 0));
+		body->setGravityEnable(false);
+		pic->setPhysicsBody(body);
+		pic->setGlobalZOrder(shadeOrder);
+		pic->setAnchorPoint(Vec2(0.7, 0.6));
 		
 		Animation* animation = Animation::create();
 		animation->addSpriteFrameWithFile("Knight1.png");

@@ -54,8 +54,12 @@ bool HelloWorld::init()
 	}
 
 	srand((unsigned)time(NULL));
+	
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	auto spritecache = SpriteFrameCache::getInstance();
+	spritecache->addSpriteFramesWithFile("gate/gate.plist");
+
 	/*
 		/////////////////////////////
 		// 2. add a menu item with "X" image, which is clicked to quit the program
@@ -130,7 +134,8 @@ bool HelloWorld::init()
 	else
 	{
 		sprite1->addChild(weapon, 1);
-		weapon->setPosition(Vec2(30, 20));
+		weapon->setPosition(Vec2(-10,-20));
+		
 		weapon->setGlobalZOrder(2);
 	}
 
@@ -139,7 +144,7 @@ bool HelloWorld::init()
 
 	listener->onKeyReleased = CC_CALLBACK_2(HelloWorld::onKeyReleased, this);
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
-
+	this->setScale(0.1f);
 	this->scheduleUpdate();
 	return true;
 }
@@ -221,7 +226,7 @@ void HelloWorld::update(float delta)
 	
 	if (flag)
 	{
-		map->setPosition(map->getPosition() + change * 10);
+		map->setPosition(map->getPosition() + change * 20);
 	}
 }
 

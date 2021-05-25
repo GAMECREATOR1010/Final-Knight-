@@ -3,29 +3,37 @@
 #define __ACTOR_H__
 
 #include "cocos2d.h"
+#include "Const.h"
 
 USING_NS_CC;
 class Actor :public Node
 {
-	friend class Knight;
 public:
     static Actor* create();
+	
+	~Actor();
+	Actor();
+protected:
 	Sprite* pic;
 	Sprite* weapon;
 	Sprite* shade;
-	~Actor();
-protected:
+	int state;
 	virtual bool init();
 	void AddShade(const Vec2);
-	int damage;
-	int defence;
-	int HP , maxHP ;
+	float damage;
+	float defence;
+	float HP , maxHP ;
 	int attackMode;
 	int weaponId ;
 	float attackSpeed ; 
 	float moveSpeed; 
 	bool death = false;
 	Vec2 movement;
+	Vec2 weaponPos;
+	PhysicsBody* body;
+	void DeathEffect();
+	Action deathEffect;
+	Action ghostAppear;
 };
 
 #endif 

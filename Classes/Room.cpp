@@ -46,7 +46,7 @@ void Room::DrawFloor(float x, float y, bool flag)
 	floor->setTileGID(gid, Vec2(x, y));
 	if (!flag)
 	{
-		meta->setTileGID(61, Vec2(x, y));
+		meta->setTileGID(roomFloorGid, Vec2(x, y));
 	}
 }
 
@@ -61,7 +61,7 @@ void Room::DrawWall(float x, float y, bool flag, bool shadow)
 	else
 		shade->setTileGID(gid, Vec2(x, y));
 
-	meta->setTileGID(41, Vec2(x, y));
+	meta->setTileGID(metaGid, Vec2(x, y));
 	if (flag)
 	{
 		gid += 1;
@@ -131,20 +131,21 @@ void Room::DrawPassage()
 
 void Room::DrawDoor(float x, float y)
 {
-	wall->setTileGID(31, Vec2(x, y));
-	shade->setTileGID(31, Vec2(x, y + 1));
+	wall->setTileGID(passageFloorGid, Vec2(x, y));
+	shade->setTileGID(passageFloorGid, Vec2(x, y + 1));
 	if (doorOpen)
 	{
-		floor->setTileGID(21, Vec2(x, y));
-		shade->setTileGID(31, Vec2(x, y));
-		meta->setTileGID(31, Vec2(x, y));
+		floor->setTileGID(doorOpenGid, Vec2(x, y));
+		shade->setTileGID(passageFloorGid, Vec2(x, y));
+		meta->setTileGID(passageFloorGid, Vec2(x, y));
 	}
 	else
 	{
-		shade->setTileGID(11, Vec2(x, y + 1));
-		meta->setTileGID(41, Vec2(x, y + 1));
-		wall->setTileGID(1, Vec2(x, y));
+		shade->setTileGID(doorCloseGid+10, Vec2(x, y + 1));
+		meta->setTileGID(metaGid, Vec2(x, y + 1));
+		wall->setTileGID(doorCloseGid, Vec2(x, y));
 	}
+
 }
 
 void Room::UpdateDoor()
@@ -153,6 +154,7 @@ void Room::UpdateDoor()
 		doorOpen = true;
 	else
 		doorOpen = false;
+
 	for (float x = 14; x < 19; x++)
 	{
 		if (doorUp)
@@ -226,6 +228,8 @@ void Room::UpdateObstacles()//添加障碍物，后期会更改丰富
 		}
 
 	}
+
+	
 }
 
 bool Room::Ifnear(Vec2 pos)
@@ -237,7 +241,7 @@ bool Room::Ifnear(Vec2 pos)
 
 bool Room::Movable(Vec2 pos, unsigned int gid, bool flag)//判断是否可行走
 {
-	unsigned int myGid = meta->getTileGIDAt(Vec2(int(pos.x / 64), int((2112 - pos.y) / 64)));
+	unsigned int myGid = meta->getTileGIDAt(Vec2(int(pos.x / 64), int((offSet - pos.y) / 64)));
 	if (flag)
 	{
 		if (myGid != gid)
@@ -259,7 +263,7 @@ bool Room::Movable(Vec2 pos, unsigned int gid, bool flag)//判断是否可行走
 	return true;
 }
 
-//rType=0为起始房间，rType=1为正常房，有敌人
+//rType=0为起始房间/中止房间，rType=1为正常房，有敌人,
 bool Room::init(int wid, int hei, int rType, int rTheme, Vec2 roomPos)
 {
 	roomType = rType;
@@ -276,15 +280,16 @@ bool Room::init(int wid, int hei, int rType, int rTheme, Vec2 roomPos)
 	roomPosition = roomPos;
 	roomMap = TMXTiledMap::create("room.tmx");
 	meta = roomMap->getLayer("meta");
-	meta->setGlobalZOrder(0);
+	meta->setGlobalZOrder(metaOrder);
 	floor = roomMap->getLayer("floor");
-	floor->setGlobalZOrder(1);
+	floor->setGlobalZOrder(floorOrder);
 	shade = roomMap->getLayer("shade");
-	shade->setGlobalZOrder(2);
+	shade->setGlobalZOrder(shadeOrder);
 	wall = roomMap->getLayer("wall");
-	wall->setGlobalZOrder(3);
+	wall->setGlobalZOrder(wallOrder);
 	obstacles = roomMap->getLayer("obstacles");
-	obstacles->setGlobalZOrder(4);
+	obstacles->setGlobalZOrder(obstaclesOrder);
+	endRoom = false;
 	DrawRoom();
 	addChild(roomMap);
 

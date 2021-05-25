@@ -9,7 +9,8 @@
 #include "BattleMap.h"
 #include "Actor.h"
 #include "Knight.h"
-
+#include "Bullet.h"
+#include "Const.h"
 Vec2 ChangeDir();
 
 

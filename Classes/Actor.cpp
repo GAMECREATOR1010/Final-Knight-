@@ -14,23 +14,31 @@ Actor* Actor::create()
 }
 
 Actor::~Actor() {}
+Actor::Actor() {}
 
 void Actor::AddShade(const Vec2 test)
 {
 	shade = Sprite::create("shade.png");
 	if (shade == nullptr)
 	{
-		log("'test1.png'");
+		log("'shade.png'");
 	}
 	else
 	{
 		addChild(shade);
 		shade->setPosition(test);
-		shade->setGlobalZOrder(1);
+		shade->setGlobalZOrder(floorOrder);
 	}
 }
 
 bool Actor::init()
 {
+
 	return true;
+}
+
+void Actor::DeathEffect()
+{
+
+	
 }

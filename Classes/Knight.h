@@ -2,8 +2,12 @@
 #ifndef __KNIGHT_H__
 #define __KNIGHT_H__
 
-#include "General.h"
+#include "Actor.h"
+#include "Const.h"
+
 USING_NS_CC;
+
+
 
 class Knight :public Actor
 {
