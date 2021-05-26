@@ -10,14 +10,14 @@
 #ifndef __START_SCENE_H__
 #define __START_SCENE_H__
 
+#include "BGM.h"
 #include "cocos2d.h"
 #include "audio/include/AudioEngine.h"
 
 class StartScene :public cocos2d::Scene
 {
 private:
-    int _audioID;
-
+    BGM bg;
 public:
     virtual bool init() override;
 

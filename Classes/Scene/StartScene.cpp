@@ -33,7 +33,7 @@ bool StartScene::init()
 
     {
         //背景音乐
-        _audioID = AudioEngine::play2d(s_M_StartBGM, true);
+        bg._audioIDBGM = bg.play2dBGM(s_M_StartBGM);
     }
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -80,7 +80,9 @@ bool StartScene::init()
 
 void StartScene::startCallback(Ref* sender)
 {
+    //音效
+    bg._audioIDSE = bg.play2dSE(s_M_ButtonSelected);
     //回调函数，设置关掉音乐，打开游戏关卡
-    AudioEngine::stop(_audioID);
+    bg.stopBGM();
     Director::getInstance()->replaceScene(HelloWorld::createScene());
 }
