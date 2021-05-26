@@ -8,8 +8,8 @@
 
 #pragma once
 
-#ifndef _STOP_LAYER_H_
-#define _STOP_LAYER_H_
+#ifndef __STOP_LAYER_H__
+#define __STOP_LAYER_H__
 
 #include "cocos2d.h"
 
@@ -21,5 +21,5 @@ public:
     CREATE_FUNC(StopLayer);
 };
 
-#endif _STOP_LAYER_H_
+#endif __STOP_LAYER_H__
 
