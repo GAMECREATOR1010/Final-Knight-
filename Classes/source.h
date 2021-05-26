@@ -17,4 +17,5 @@ static const char s_P_SetupButtonSelected[] = "buttons/SetupButtonSelected.png";
 static const char s_P_StopButton[]          = "buttons/StopButton.png";
 static const char s_P_StopButtonSelected[]  = "buttons/StopButtonSelected.png";
 static const char s_P_Start[]               = "scenePictures/Start.png";
-static const char s_M_StartBGM[]            = "bgm/StartBGM.mp3"; 
+static const char s_M_StartBGM[]            = "bgm/StartBGM.mp3";
+static const char s_M_ButtonSelected[]      = "bgm/ButtonSelected.wav";
