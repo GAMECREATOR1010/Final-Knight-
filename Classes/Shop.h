@@ -1,9 +1,13 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
- Code version 21w21a (2021-5-24)
+ Code version 21w21b (2021-5-26)
+
+ 此部分尚未完成，请勿使用
+
 
  该部分为商店
+
  商店内有NPC
  小商店：一种健康药水，一种能量药水和一种武器，或者一瓶恢复药水和两件武器
  物品的价格或随层数上升上涨
@@ -32,7 +36,6 @@ private:
 		int price;
 	}goods;
 	Vector<Goods> _goodses;
-	//Vector<Item*> items;
 	virtual bool init();
 	bool SetPotion(Type type);
 	bool SetWeapon();

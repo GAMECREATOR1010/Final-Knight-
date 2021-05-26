@@ -25,5 +25,5 @@ int Item::GetRarity()
 
 bool Item::init()
 {
-	return false;
+	return true;
 }

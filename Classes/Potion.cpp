@@ -66,7 +66,6 @@ void HealPotion::Drink(float multi)
 
 #pragma endregion
 
-
 #pragma region ManaPotion
 
 /// <summary>

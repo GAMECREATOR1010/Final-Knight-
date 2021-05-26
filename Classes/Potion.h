@@ -3,6 +3,8 @@
 
  Code version 21w21a (2021-5-24)
 
+ 此部分尚未完成，请勿使用
+
  该部分为Potion药水类
  包括：
  · 生命药水 HP 2
@@ -10,7 +12,7 @@
  · 恢复药水 HP 1 MP 40
  · Buff药水(需要开发）
  调用接口：
- · 英雄HP、MP相关（需要接口）
+ · 英雄HP、MP相关（需要接口/将Drink设为友元函数）
  ****************************************************************************/
 #pragma once
 #ifndef __POTION_H__
@@ -35,6 +37,7 @@ public:
 	static Potion* create(Scale);
 	int GetScale();
 	int GetType();
+	virtual void Drink();
 private:
 	Scale _scale;
 	Type _type;
@@ -45,7 +48,7 @@ private:
 class HealPotion : public Potion
 {
 public:
-	void Drink(float multi = 1);
+	virtual void Drink(float multi = 1);
 private:
 	int _baseHealValue;
 	virtual bool init(Scale _scale = SMALL);
@@ -55,7 +58,7 @@ private:
 class ManaPotion : public Potion
 {
 public:
-	void Drink(float multi = 1);
+	virtual void Drink(float multi = 1);
 private:
 	int _baseHealValue;
 	virtual bool init(Scale _scale = SMALL);
@@ -65,7 +68,7 @@ private:
 class FullPotion :virtual public HealPotion, virtual public ManaPotion
 {
 public:
-	void Drink();
+	virtual void Drink();
 private:
 	virtual bool init(Scale _scale = SMALL);
 
@@ -74,6 +77,7 @@ private:
 class BuffPotion : public Potion
 {
 public:
+	virtual void Drink();
 private:
 	//buff种类
 	enum _buffType
@@ -85,9 +89,7 @@ private:
 
 	};
 	virtual bool init();
-	void Drink();
 };
-
 
 
 #endif // !__POTION_H__
