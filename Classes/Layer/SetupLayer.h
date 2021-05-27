@@ -1,7 +1,7 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
- Code version 21w20a (2021-5-26)
+ Code version 21w20a (2021-5-27)
 
  Annotation:…Ë÷√ƒ⁄»›
  ****************************************************************************/
@@ -11,14 +11,30 @@
 #define __SETUP_LAYER_H__
 
 #include "cocos2d.h"
-class SetupLayer : public cocos2d::Layer
+#include "source.h" 
+
+class SetupLayerStart : public cocos2d::Layer
 {
 public:
     virtual bool init();
     void StopCallBack(Ref* sendef);
+    CREATE_FUNC(SetupLayerStart);
+};
+
+class SetupLayer : public SetupLayerStart
+{
+public:
+    virtual bool init();
+
+    CREATE_FUNC(SetupLayerStart);
+};
+class BGMLayer : public cocos2d::Layer
+{
+public:
+    virtual bool init();
     void StopCallBackBGM(Ref* sendef);
     void StopCallBackSE(Ref* sendef);
-    CREATE_FUNC(SetupLayer);
+    CREATE_FUNC(BGMLayer);
 };
 
 #endif __SETUP_LAYER_H__
