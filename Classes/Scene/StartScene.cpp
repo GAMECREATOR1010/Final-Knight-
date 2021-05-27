@@ -1,16 +1,12 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
- Code version 21w20a (2021-5-24)
+ Code version 21w20a (2021-5-27)
  
  Annotation:开始界面UI
  ****************************************************************************/
 
-#include "HelloWorldScene.h"
-#include "Layer/StopLayer.h"
 #include "StartScene.h"
-#include "source.h" 
-
 USING_NS_CC;
 
 Scene* StartScene::createScene()
@@ -33,7 +29,7 @@ bool StartScene::init()
 
     {
         //背景音乐
-        bg._audioIDBGM = bg.play2dBGM(s_M_StartBGM);
+        bgm._audioIDBGM = bgm.play2dBGM(s_M_StartBGM);
     }
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -75,14 +71,19 @@ bool StartScene::init()
         menu->setPosition(Vec2(visibleSize.width / 2 + originSize.x, visibleSize.height / 4 + originSize.y));
     }
 
+    {
+        auto setupButton = SetupLayerStart::create();
+        this->addChild(setupButton);
+    }
+
     return true;
 }
 
 void StartScene::startCallback(Ref* sender)
 {
-    //音效
-    bg._audioIDSE = bg.play2dSE(s_M_ButtonSelected);
     //回调函数，设置关掉音乐，打开游戏关卡
-    bg.stopBGM();
+    bgm.stopBGM();
+    //音效
+    bgm._audioIDSE = bgm.play2dSE(s_M_ButtonSelected);
     Director::getInstance()->replaceScene(HelloWorld::createScene());
 }

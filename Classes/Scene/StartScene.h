@@ -1,7 +1,7 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
- Code version 21w20a (2021-5-24)
+ Code version 21w20a (2021-5-27)
 
  Annotation:开始界面UI
  ****************************************************************************/
@@ -13,11 +13,16 @@
 #include "BGM.h"
 #include "cocos2d.h"
 #include "audio/include/AudioEngine.h"
+#include "HelloWorldScene.h"
+#include "Layer/StopLayer.h"
+#include "Layer/SetupLayer.h"
+#include "source.h" 
 
 class StartScene :public cocos2d::Scene
 {
 private:
-    BGM bg;
+    BGM bgm;
+
 public:
     virtual bool init() override;
 
