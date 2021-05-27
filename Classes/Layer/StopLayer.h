@@ -1,7 +1,7 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
- Code version 21w20a (2021-5-24)
+ Code version 21w20a (2021-5-27)
 
  Annotation:ÔÝÍ£ÄÚÈÝ
  ****************************************************************************/
@@ -12,6 +12,7 @@
 #define __STOP_LAYER_H__
 
 #include "cocos2d.h"
+#include "source.h" 
 
 class StopLayer : public cocos2d::Layer
 {

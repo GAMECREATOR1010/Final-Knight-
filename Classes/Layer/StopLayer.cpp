@@ -1,12 +1,11 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
- Code version 21w20a (2021-5-24)
+ Code version 21w20a (2021-5-27)
 
  Annotation:ÔÝÍ£ÄÚÈÝ
  ****************************************************************************/
 #include "StopLayer.h"
-#include "source.h" 
 
 #define StopFramePre     0.6f
 #define StopButtonPre    0.075f
@@ -34,14 +33,14 @@ bool StopLayer::init()
 
     auto stopItem = MenuItemImage::create(
         s_P_StopButton,
-        s_P_StopButtonSelected,
+        s_P_StopButtonSelectedBG,
         CC_CALLBACK_1(StopLayer::StopCallBack, this));
 
     if (stopItem == nullptr ||
         stopItem->getContentSize().width <= 0 ||
         stopItem->getContentSize().height <= 0)
     {
-        problemLoading("'s_P_StopButton' and ' s_P_StopButtonSelected'");
+        problemLoading("'s_P_StopButton' and ' s_P_StopButtonSelectedBG'");
     }
     else
     {
@@ -52,6 +51,7 @@ bool StopLayer::init()
         stopItem->setPosition(Vec2(x, y));
         addChild(stopItem);
     }
+
     return true;
 }
 
