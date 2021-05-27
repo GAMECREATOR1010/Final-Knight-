@@ -1,7 +1,7 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
- Code version 21w21a (2021-5-24)
+ Code version 21w21b (2021-5-27)
 
  该部分为Potion药水类
  ****************************************************************************/
@@ -90,6 +90,8 @@ void ManaPotion::Drink(float multi)
 
 #pragma endregion
 
+#pragma region FullPotion
+
 /// <summary>
 /// 使用药水
 /// </summary>
@@ -101,4 +103,4 @@ void FullPotion::Drink()
 	return;
 }
 
-
+#pragma endregion

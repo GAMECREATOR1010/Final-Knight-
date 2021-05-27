@@ -1,6 +1,6 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
- Code version 21w20b (2021-5-22).
+ Code version 21w21a (2021-5-27).
  该部分为Item道具类基类头文件（暂定）
  ****************************************************************************/
 #pragma once
@@ -21,6 +21,7 @@ private:
 	int _id;
 	int _value;
 	int _rarity;
+	const double _physicalRange = 80 ;
 	virtual bool init();
 };
 #endif // !__ITEMS_H__
