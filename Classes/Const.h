@@ -23,6 +23,7 @@
 #define weaponTag 2
 #define meleeTag 3
 #define bulletTag 4
+#define itemTag 5
 
 #define KnightCate 1
 #define EnemyCate 2
