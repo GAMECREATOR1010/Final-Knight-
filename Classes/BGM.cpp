@@ -7,6 +7,15 @@
  ****************************************************************************/
 #include "BGM.h"
 
+
+BGM::BGM()
+{
+	_audioIDBGM = AudioEngine::INVALID_AUDIO_ID;
+	_audioIDSE = AudioEngine::INVALID_AUDIO_ID;
+	_ifonBGM = true;
+	_ifonSE = true;
+}
+
 int BGM::play2dBGM(const std::string& filePath, bool loop )
 {
 	if (true == _ifonBGM)

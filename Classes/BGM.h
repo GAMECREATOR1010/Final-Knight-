@@ -18,22 +18,18 @@ private:
 	bool _ifonBGM;
 	bool _ifonSE;
 public:
-	BGM()
-	{
-		_audioIDBGM = AudioEngine::INVALID_AUDIO_ID;
-		_audioIDSE = AudioEngine::INVALID_AUDIO_ID;
-		_ifonBGM = true;
-		_ifonSE = true;
-	}
 	int _audioIDBGM;
 	int _audioIDSE;
 
+	BGM();
+
 	int play2dBGM(const std::string& filePath, bool loop = true);
 
-	int play2dSE(const std::string& filePath,bool loop = false);
+	int play2dSE(const std::string& filePath, bool loop = false);
 
 	void stopBGM();
 
 	void stopSE();
 };
+
 #endif  __BGM_H_H__
