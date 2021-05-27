@@ -14,6 +14,7 @@ Bullet* Bullet::create(int bulletType)
 
 bool Bullet::init(int bulletType)
 {
+	this->setTag(bulletTag);
 	return true;
 }
 

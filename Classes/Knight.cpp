@@ -15,24 +15,26 @@ Knight* Knight::create(int type, int rank)
 
 bool Knight::init(int type, int rank)
 {
-	/*pic= Sprite::create("Knight1.png");
-	pic->setPosition(Vec2(0, 0));
-	addChild(pic, 0);*/
+	this->setTag(knightTag);
+	state = KnightIdle;
+	body = PhysicsBody::create();
 	if (type == 0)
 	{
 		maxHP = 5;
 		HP = 5;
 		pic = Sprite::create("Knight1.png");
 		addChild(pic, 0);
-		body = PhysicsBody::create();
-		Vec2 verts[] = { Vec2(0, 55), Vec2(50, -30), Vec2(-50, -30) };
-		body->addShape(PhysicsShapePolygon::create(verts, 3));
+		auto shape = PhysicsShapeBox::create(Size(65.0f, 80.0f));
+		//Vec2 verts[] = { Vec2(0, 55), Vec2(50, -30), Vec2(-50, -30) };
+		//body->addShape(PhysicsShapePolygon::create(verts, 3));
+		body->addShape(shape);
 		body->setPositionOffset(Vec2(30, 0));
-		body->setGravityEnable(false);
 		pic->setPhysicsBody(body);
 		pic->setGlobalZOrder(shadeOrder);
-		pic->setAnchorPoint(Vec2(0.7, 0.6));
+		pic->setAnchorPoint(Vec2(0.7f, 0.6f));
+		attackMode = gunEnum;
 		
+	
 		Animation* animation = Animation::create();
 		animation->addSpriteFrameWithFile("Knight1.png");
 		animation->addSpriteFrameWithFile("Knight2.png");
@@ -42,6 +44,8 @@ bool Knight::init(int type, int rank)
 		
 		AddShade( Vec2(-5,-40));
    }
+		body->setDynamic(false);
+	SetBody(body, KnightCate);
 	return true;
 }
 

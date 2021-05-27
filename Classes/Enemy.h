@@ -5,8 +5,6 @@
 #include "General.h"
 USING_NS_CC;
 
-
-
 class Enemy :public Actor
 {
 public:
@@ -14,12 +12,12 @@ public:
 
 private:
     virtual bool init(int type = 0, bool ifBoss = true);
-    int state;
     float chaseDistance;
     float attackDistance;
     float attackDelayTime;/*¹¥»÷Ê±¼ä¼ä¸ô*/
+    float touchDamage;
     Room* inRoom;
-
+    EnemyState state;
 };
 
 #endif 

@@ -1,7 +1,7 @@
 #include "BattleMap.h"
 USING_NS_CC;
 
-BattleMap* BattleMap::create(int chapter, int rTheme)
+BattleMap* BattleMap::create(int chapter, roomThemeEnum rTheme)
 {
 	BattleMap* battleMap = new BattleMap;
 	if (battleMap != nullptr && battleMap->init(chapter, rTheme))
@@ -13,50 +13,39 @@ BattleMap* BattleMap::create(int chapter, int rTheme)
 	return nullptr;
 }
 
-bool BattleMap::init(int cha, int rTheme)
+bool BattleMap::init(int cha, roomThemeEnum rTheme)
 {
 	roomTheme = rTheme;
 	chapter = cha;
 	if (chapter <= 4)
 	{
-		roomNumber = rand() % 1 + 5;
+		roomNumber =  7;
 	}
 	else
-		roomNumber = rand() % 2 + 6;
+		roomNumber = rand() % 3 + 8;
 
 	Vec2 genPoint = Vec2(0, 0);
 	Vec2 dirOne = ChangeDir(), dirNext = dirOne;
-	int countDir = 0;
 	bool first = true, flag = false;
 	int wid = 12, hei = 12;
 	maxDistance = 0;
 	for (int i = 0; i < roomNumber; i++)
 	{
-		if (first)
+		roomTypeEnum type=startRoomEnum;
+		if (!first)
 		{
-			first = false;
-		}
-		else
-		{//´ý¸ü¸Ä
 			while (true)
 			{
 				if (dirOne == dirNext)
-				{
-					countDir++;
-				}
-				else
-				{
-					countDir = 0;
-					dirNext = dirOne;
-				}
-
-				if (countDir > 0)
 				{
 					dirOne = ChangeDir();
 					continue;
 				}
 				else
+				{
+					dirNext = dirOne;
 					break;
+				}
 			}
 
 
@@ -82,7 +71,17 @@ bool BattleMap::init(int cha, int rTheme)
 			hei = (rand() % 4) * 2 + 12;
 		}
 
-		Room* tempRoom = Room::create(wid, hei, 1, roomTheme, genPoint);
+		if (first)
+		{
+			first = false;
+		}
+		else
+		{
+			type = normalRoomEnum ;//´ýÐÞ¸Ä
+		}
+
+		Room* tempRoom = Room::create(wid, hei, type, roomTheme, genPoint);
+		first = false;
 		addChild(tempRoom);
 		tempRoom->setPosition(genPoint);
 		tempRoom->distance = abs(genPoint.x / offSet) + abs(genPoint.y / offSet);
@@ -90,6 +89,7 @@ bool BattleMap::init(int cha, int rTheme)
 			maxDistance = tempRoom->distance;
 		rooms.pushBack(tempRoom);
 	}
+
 
 	for (auto temp1 : rooms)
 	{
@@ -132,7 +132,7 @@ bool BattleMap::init(int cha, int rTheme)
 
 
 	Vec2 final = Vec2(0, 0);
-	for (auto temp : farRoom)
+	for (auto temp : farRoom)//Find endRoom
 	{
 		if (temp->doorNum == 1)
 		{
@@ -144,7 +144,7 @@ bool BattleMap::init(int cha, int rTheme)
 	if (oneDoorRoom.size() != 0)
 	{
 		endRoom = oneDoorRoom.front();
-		endRoom->roomType = 0;
+		endRoom->roomType = endRoomEnum;
 	}
 	else
 	{
@@ -176,17 +176,17 @@ bool BattleMap::init(int cha, int rTheme)
 		}
 		wid = (rand() % 4) * 2 + 10;
 		hei = (rand() % 4) * 2 + 10;
-		Room* tempRoom = Room::create(wid, hei, 0, roomTheme, farRoom.front()->roomPosition + final);
+		Room* tempRoom = Room::create(wid, hei,endRoomEnum, roomTheme, farRoom.front()->roomPosition + final);
 		tempRoom->doorUp = doorU;
 		tempRoom->doorDown = doorD;
 		tempRoom->doorLeft = doorL;
 		tempRoom->doorRight = doorR;
 		addChild(tempRoom);
 		tempRoom->setPosition(farRoom.front()->roomPosition + final);
-		tempRoom->UpdateDoor();
 		tempRoom->DrawPassage();
-		farRoom.front()->UpdateDoor();
+		tempRoom->UpdateDoor();
 		farRoom.front()->DrawPassage();
+		farRoom.front()->UpdateDoor();
 		rooms.pushBack(tempRoom);
 		endRoom = tempRoom;
 	}

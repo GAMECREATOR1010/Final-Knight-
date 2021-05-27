@@ -3,11 +3,8 @@
 #define __KNIGHT_H__
 
 #include "Actor.h"
-#include "Const.h"
 
 USING_NS_CC;
-
-
 
 class Knight :public Actor
 {
@@ -17,7 +14,7 @@ public:
 private:
     virtual bool init(int type=0, int rank=1);
     int energy;
-    
+    KnightState state;
 
 };
 

@@ -52,7 +52,7 @@ bool HelloWorld::init()
 	{
 		return false;
 	}
-
+	this->getPhysicsWorld()->setGravity(Vec2(0, 0));
 	srand((unsigned)time(NULL));
 	
 	auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -110,8 +110,9 @@ bool HelloWorld::init()
 			this->addChild(label, 1);
 		}*/
 
-	int theme = rand() % 5;
-	map = BattleMap::create(6, theme);
+	roomThemeEnum theme = roomThemeEnum( rand() % 5);
+	
+	map = BattleMap::create(1, theme);
 	change = Vec2(0, 0);
 	addChild(map, 0);
 
@@ -120,32 +121,44 @@ bool HelloWorld::init()
 	inPassage = false;
 	
 	sprite1 = Knight::create(0,1);
-	sprite1->_setLocalZOrder(2);
+	sprite1->setGlobalZOrder(shadeOrder);
 	
 	sprite1->setPosition(Vec2(origin.x + visibleSize.width / 2,
 		origin.y + visibleSize.height/2 ));
 	addChild(sprite1);
 
-	Sprite* weapon = Sprite::create("wea.png");
-	if (weapon == nullptr)
-	{
-		problemLoading("'test1.png'");
-	}
-	else
-	{
-		sprite1->addChild(weapon, 1);
-		weapon->setPosition(Vec2(-10,-20));
-		
-		weapon->setGlobalZOrder(2);
-	}
+	weapon =Weapon::create(0,KnightCate);
+
+	sprite1->bindWea(weapon);
+	weapon->setPosition(Vec2(-20, -20));
+	
+	
+	auto pinfo = AutoPolygon::generatePolygon("enemy.png");
+	auto ene = Sprite::create(pinfo);
+	map->addChild(ene);
+	ene->setGlobalZOrder(shadeOrder);
+	ene->setPosition(Vec2(1000, 800));
+	auto enebody = PhysicsBody::createBox(Size(65.0f, 80.0f), PhysicsMaterial(0.1f, 1.0f, 0.0f));
+	/*Vec2 verts[] = { Vec2(0, 55), Vec2(50, -30), Vec2(-50, -30) };
+	enebody->addShape(PhysicsShapePolygon::create(verts, 3));
+	enebody->setPositionOffset(Vec2(30, 0));*/
+	ene->addComponent(enebody);
+	SetBody(enebody, EnemyCate);
+	
+
 
 	auto listener = EventListenerKeyboard::create();
 	listener->onKeyPressed = CC_CALLBACK_2(HelloWorld::onKeyPressed, this);
 
 	listener->onKeyReleased = CC_CALLBACK_2(HelloWorld::onKeyReleased, this);
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
-	this->setScale(0.1f);
+	//this->setScale(0.1f);
 	this->scheduleUpdate();
+	schedule(SEL_SCHEDULE(&HelloWorld::myUpdate), 1.5f,-1,0);
+
+
+   
+
 	return true;
 }
 
@@ -171,12 +184,20 @@ bool HelloWorld::onKeyReleased(EventKeyboard::KeyCode keycode, Event* event)
 		if (change == Vec2(-1, 0))
 			change = Vec2(0, 0);
 	}
+	
 	return true;
 }
 
 
 bool HelloWorld::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 {
+	
+	if (keycode == EventKeyboard::KeyCode::KEY_A)
+	{
+		//rotateTo = RotateTo::create(0.5f, 40.0f);
+		//weapon->runAction(rotateTo);
+		sprite1->DeathEffect();
+	}
 	if (keycode == EventKeyboard::KeyCode::KEY_UP_ARROW)
 	{
 		change = Vec2(0, -1);
@@ -205,6 +226,16 @@ bool HelloWorld::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 	
 }
 
+void HelloWorld::myUpdate(float delta)
+{
+	if (!atRoom->playerEnter)
+	{
+		Vec2 roomPos = atRoom->roomPosition + map->getPosition();
+		atRoom->UpdatePlayerEnter(sprite1->getPosition() - roomPos);
+	}
+
+}
+
 void HelloWorld::update(float delta)
 {
 	atRoom = map->InRoom(sprite1->getPosition());
@@ -229,6 +260,8 @@ void HelloWorld::update(float delta)
 		map->setPosition(map->getPosition() + change * 20);
 	}
 }
+
+
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {

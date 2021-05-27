@@ -1,7 +1,7 @@
 #include "Room.h"
 USING_NS_CC;
 
-Room* Room::create(int  wid, int hei, int rType, int rTheme, Vec2 roomPos)
+Room* Room::create(int  wid, int hei, roomTypeEnum rType, roomThemeEnum rTheme, Vec2 roomPos)
 {
 	Room* room = new Room;
 	if (room != nullptr && room->init(wid, hei, rType, rTheme, roomPos))
@@ -16,7 +16,7 @@ Room* Room::create(int  wid, int hei, int rType, int rTheme, Vec2 roomPos)
 
 void Room::DrawRoom()
 {
-	for (float x = 15 - width / 2; x < 18 + width / 2; x++)
+	for (float x = 15- width / 2; x < 18 + width / 2; x++)
 	{
 		for (float y = 15 - height / 2; y < 18 + height / 2; y++)
 		{
@@ -193,7 +193,7 @@ void Room::DrawObstacles(float x, float y)
 
 void Room::UpdateObstacles()//添加障碍物，后期会更改丰富
 {
-	if (roomType == 1)
+	if (roomType == normalRoomEnum)
 	{
 		int i = rand() % 3;
 		if (i == 0)
@@ -226,10 +226,7 @@ void Room::UpdateObstacles()//添加障碍物，后期会更改丰富
 				}
 			}
 		}
-
 	}
-
-	
 }
 
 bool Room::Ifnear(Vec2 pos)
@@ -263,14 +260,24 @@ bool Room::Movable(Vec2 pos, unsigned int gid, bool flag)//判断是否可行走
 	return true;
 }
 
+void Room::UpdatePlayerEnter(Vec2 pos)
+{
+	if (pos.x >= offSet / 2 - width * 32 && pos.x <= offSet / 2 + width * 32
+		&& pos.y >= offSet / 2 - height * 32 && pos.y <= offSet / 2 + height * 32)
+	{
+		playerEnter = true;
+	}
+}
+
+
 //rType=0为起始房间/中止房间，rType=1为正常房，有敌人,
-bool Room::init(int wid, int hei, int rType, int rTheme, Vec2 roomPos)
+bool Room::init(int wid, int hei, roomTypeEnum rType, roomThemeEnum rTheme, Vec2 roomPos)
 {
 	roomType = rType;
 	roomTheme = rTheme;
 	width = wid;
 	height = hei;
-	if (rType == 1)
+	if (rType == normalRoomEnum)
 	{
 		enemyCount = rand() % 4 + 5;
 	}
@@ -289,7 +296,6 @@ bool Room::init(int wid, int hei, int rType, int rTheme, Vec2 roomPos)
 	wall->setGlobalZOrder(wallOrder);
 	obstacles = roomMap->getLayer("obstacles");
 	obstacles->setGlobalZOrder(obstaclesOrder);
-	endRoom = false;
 	DrawRoom();
 	addChild(roomMap);
 

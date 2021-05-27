@@ -15,7 +15,7 @@ Enemy* Enemy::create(int type,bool ifboss)
 
 bool Enemy::init(int type, bool ifboss)
 {
-	
+	this->setTag(enemyTag);
 	return true;
 }
 

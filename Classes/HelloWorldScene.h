@@ -39,8 +39,11 @@ public:
     BattleMap* map;
     Knight* sprite1;
     Sprite* sprite2;
+    Weapon* weapon;
+    Action* rotateTo;
     bool flag,inPassage;
     virtual bool init();
+    void myUpdate(float tmd);
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
    bool onKeyPressed(EventKeyboard::KeyCode keycode, Event* event);

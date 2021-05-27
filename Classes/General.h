@@ -9,9 +9,10 @@
 #include "BattleMap.h"
 #include "Actor.h"
 #include "Knight.h"
+#include "Enemy.h"
 #include "Bullet.h"
 #include "Const.h"
-Vec2 ChangeDir();
+#include "Weapon.h"
 
 
 #endif 
