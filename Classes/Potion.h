@@ -29,66 +29,73 @@ enum Type
 {
 	HEAL, MANA, FULL, BUFF
 };
+//buff种类
+enum BuffType
+{
+	RANDOM,
+	HEALTH_MAX_ADD,
+	MANA_MAX_ADD,
+	SHIELD_MAX_ADD,
+	ATTACK_DAMAGE_ADD,
 
+	//待开发
+	BUFF_COUNT	//计数用
+};
 class Potion : public Item
 {
 public:
-	CREATE_FUNC(Potion);
-	static Potion* create(Scale);
 	int GetScale();
 	int GetType();
-	virtual void Drink();
+	virtual void Drink(float multi = 1)=0;
+protected:
+	bool initWithScale(Scale scale);
 private:
 	Scale _scale;
 	Type _type;
 	//以_scale作为效果倍数，SMALL为1，LARGE为2
-	virtual bool init(Scale _scale=SMALL);
 };
 
-class HealPotion : public Potion
+class HealPotion : virtual public Potion
 {
 public:
+	static HealPotion* create(Scale);
 	virtual void Drink(float multi = 1);
 private:
 	int _baseHealValue;
-	virtual bool init(Scale _scale = SMALL);
+	virtual bool initWithScale(Scale _scale = SMALL);
 
 };
 
-class ManaPotion : public Potion
+class ManaPotion : virtual public Potion
 {
 public:
+	static ManaPotion* create(Scale);
 	virtual void Drink(float multi = 1);
 private:
 	int _baseHealValue;
-	virtual bool init(Scale _scale = SMALL);
+	virtual bool initWithScale(Scale _scale = SMALL);
 
 };
 
-class FullPotion :virtual public HealPotion, virtual public ManaPotion
+class FullPotion :public HealPotion,public ManaPotion
 {
 public:
-	virtual void Drink();
+	static FullPotion* create(Scale);
+	virtual void Drink(float multi = 1);
 private:
-	virtual bool init(Scale _scale = SMALL);
+	virtual bool initWithScale(Scale _scale = SMALL);
 
 };
 
 class BuffPotion : public Potion
 {
 public:
-	virtual void Drink();
+	static BuffPotion* create(BuffType buffType);
+	virtual void Drink(float multi = 1);
 private:
-	//buff种类
-	enum _buffType
-	{
-		HEALTH_MAX_ADD,
-		MANA_MAX_ADD,
-		SHIELD_MAX_ADD,
-		//待开发
-
-	};
+	BuffType _buffType;
 	virtual bool init();
+	virtual bool initWithBuffType(BuffType buffType);
 };
 
 
