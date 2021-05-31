@@ -54,10 +54,10 @@ bool Shop::SetPotion(Type type)
 				potion = ManaPotion::create(SMALL);
 				break;
 			case FULL:
-				potion = FullPotion::Potion::create(SMALL);
+				potion = FullPotion::create(SMALL);
 				break;
 			case BUFF:
-				potion = BuffPotion::create(SMALL);
+				potion = BuffPotion::create(RANDOM);
 				break;
 			default:
 				return false;
@@ -75,10 +75,10 @@ bool Shop::SetPotion(Type type)
 				potion = ManaPotion::create(LARGE);
 				break;
 			case FULL:
-				potion = FullPotion::Potion::create(LARGE);
+				potion = FullPotion::create(LARGE);
 				break;
 			case BUFF:
-				potion = BuffPotion::create(LARGE);
+				potion = BuffPotion::create(RANDOM);
 				break;
 			default:
 				return false;
@@ -86,7 +86,7 @@ bool Shop::SetPotion(Type type)
 		}
 	}
 	goods.item = potion;
-	goods.price = potion->GetValue() * THISLEVEL;
+	goods.price = potion->GetScale() * THISLEVEL;
 
 	/* 将药添加到货物内 */
 	if (_goodses.size() <MAX_GOODS)

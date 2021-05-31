@@ -18,7 +18,6 @@ NPC* NPC::create(int id)
 	{
 		delete pRet;
 		pRet = nullptr;
-		return nullptr;
 	}
 
 	return nullptr;
@@ -32,7 +31,5 @@ bool NPC::init(int id)
 		_id = id;
 		return true;
 	}
-
-
 	return false;
 }

@@ -22,12 +22,11 @@ USING_NS_CC;
 class NPC : public Sprite
 {
 public:
-	CREATE_FUNC(NPC);
 	static NPC* create(int id);
-
+protected:
+	virtual bool init(int id = 0);
 private:
 	int _id;
-	virtual bool init(int id=0);
 };
 
 

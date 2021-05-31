@@ -16,12 +16,12 @@ class Item :public Sprite
 {
 public:
 	CREATE_FUNC(Item);
-
+protected:
+	virtual bool init();
 private:
 	int _id;
 	int _value;
 	int _rarity;
 	const double _physicalRange = 80 ;
-	virtual bool init();
 };
 #endif // !__ITEMS_H__
