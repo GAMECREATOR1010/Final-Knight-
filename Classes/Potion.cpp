@@ -257,7 +257,7 @@ void BuffPotion::Drink(float multi = 1)
 bool BuffPotion::initWithBuffType(BuffType buffType)
 {
 	_buffType = buffType;
-	initWithFile("")
+	initWithFile("/potions/Buff.png");
 	return true;
 }
 

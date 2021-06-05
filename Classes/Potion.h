@@ -81,7 +81,7 @@ class FullPotion :public HealPotion,public ManaPotion
 {
 public:
 	static FullPotion* create(Scale);
-	virtual void Drink(float multi = 1);
+	virtual void Drink(float multi = 0.5);
 private:
 	virtual bool initWithScale(Scale _scale = SMALL);
 
@@ -94,7 +94,6 @@ public:
 	virtual void Drink(float multi = 1);
 private:
 	BuffType _buffType;
-	virtual bool init();
 	virtual bool initWithBuffType(BuffType buffType);
 };
 
