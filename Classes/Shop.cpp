@@ -91,7 +91,7 @@ bool Shop::SetPotion(Type type)
 	/* 将药添加到货物内 */
 	if (_goodses.size() <MAX_GOODS)
 	{
-		_goodses.pushBack(goods);
+		_goodses.push_back(goods);
 		return true;
 	}
 

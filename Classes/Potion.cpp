@@ -174,7 +174,7 @@ FullPotion* FullPotion::create(Scale scale)
 /// <summary>
 /// 使用药水
 /// </summary>
-void FullPotion::Drink(float multi = 0.5)
+void FullPotion::Drink(float multi)
 {
 	HealPotion::Drink(multi);
 	ManaPotion::Drink(multi);
@@ -229,7 +229,7 @@ BuffPotion* BuffPotion::create(BuffType buffType)
 /// 使用药水
 /// </summary>
 /// <param name="multi"></param>
-void BuffPotion::Drink(float multi = 1)
+void BuffPotion::Drink(float multi)
 {
 	int buff = _buffType;
 	if (buff == RANDOM)
