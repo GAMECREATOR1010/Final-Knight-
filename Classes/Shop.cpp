@@ -1,7 +1,6 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
- Code version 21w21a (2021-5-24)
  ****************************************************************************/
 
 #include "Shop.h"
@@ -104,3 +103,10 @@ bool Shop::SetWeapon()
 	return false;
 }
 
+bool Shop::SetShopKeeper()
+{
+	auto skp = NPC::create(SHOPKEEPER);
+	//需要添加到商店所在层
+
+	return false;
+}

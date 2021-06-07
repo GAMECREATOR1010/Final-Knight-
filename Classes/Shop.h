@@ -1,10 +1,7 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
- Code version 21w21b (2021-5-26)
-
  此部分尚未完成，请勿使用
-
 
  该部分为商店
 
@@ -21,6 +18,7 @@
 #include "Room.h"
 #include "Potion.h"
 #include "Weapon.h"
+#include "NPC.h"
 #include <vector>
 
 const int MAX_GOODS = 3;
@@ -39,7 +37,7 @@ private:
 	virtual bool init();
 	bool SetPotion(Type type);
 	bool SetWeapon();
-	bool SetNPC();
+	bool SetShopKeeper();
 };
 
 
