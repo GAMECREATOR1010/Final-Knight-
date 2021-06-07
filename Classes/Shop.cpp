@@ -106,11 +106,13 @@ bool Shop::SetWeapon()
 	return false;
 }
 
-bool Shop::SetShopKeeper()
+/// <summary>
+/// 初始化一个NPC对象
+/// </summary>
+/// <returns>指向商人的指针</returns>
+NPC* Shop::SetShopKeeper()
 {
 	auto skp = NPC::create(SHOPKEEPER);
-	//需要添加到商店所在层
-
-	return false;
+	return skp;
 }
 

@@ -37,7 +37,7 @@ private:
 	virtual bool init();
 	bool SetPotion(Type type);
 	bool SetWeapon();
-	bool SetShopKeeper();
+	NPC* SetShopKeeper();	//需要将改对象添加到商店所在层
 };
 
 
