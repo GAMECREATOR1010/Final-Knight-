@@ -6,7 +6,7 @@
 
 #include "NPC.h"
 
-NPC* NPC::create(int id)
+NPC* NPC::create(NpcId id)
 {
 	auto pRet = new(std::nothrow) NPC();
 	if (pRet && pRet->init(id))
@@ -23,13 +23,22 @@ NPC* NPC::create(int id)
 	return nullptr;
 }
 
-bool NPC::init(int id)
+bool NPC::init(NpcId id)
 {
-	/* 如果对应的NPC功能定义及图片存在 */
-	if (initWithFile(FileName))
+	if (id == NPCCOUNT)
 	{
-		_id = id;
-		return true;
+		return false;
 	}
-	return false;
+
+	_id = id;
+	switch (id)
+	{
+		case SHOPKEEPER:
+			initWithFile("/NPC/Shopkeeper.png");
+			break;
+		default:
+			return false;
+	}
+
+	return true;
 }

@@ -30,6 +30,8 @@ bool Shop::SetGoods()
 		}
 	}
 
+	/* 需要将货物添加到商店所在层 */
+
 	return false;
 }
 
@@ -101,6 +103,14 @@ bool Shop::SetPotion(Type type)
 bool Shop::SetWeapon()
 {
 	/* 类似 */
+	return false;
+}
+
+bool Shop::SetShopKeeper()
+{
+	auto skp = NPC::create(SHOPKEEPER);
+	//需要添加到商店所在层
+
 	return false;
 }
 

@@ -18,6 +18,7 @@
 #include "Room.h"
 #include "Potion.h"
 #include "Weapon.h"
+#include "NPC.h"
 #include <vector>
 
 const int MAX_GOODS = 3;
@@ -36,6 +37,7 @@ private:
 	virtual bool init();
 	bool SetPotion(Type type);
 	bool SetWeapon();
+	bool SetShopKeeper();
 };
 
 

@@ -10,11 +10,21 @@
  根据不同的id值创建不同的npc
  ****************************************************************************/
 
-
-
 #pragma once
+
 #ifndef __NPC_H__
 #define __NPC_H__
+
+enum NpcId
+{
+	SHOPKEEPER,
+
+
+
+
+	//待完善
+	NPCCOUNT
+};
 
 #include "cocos2d.h"
 USING_NS_CC;
@@ -22,11 +32,11 @@ USING_NS_CC;
 class NPC : public Sprite
 {
 public:
-	static NPC* create(int id);
+	static NPC* create(NpcId id);
 protected:
-	virtual bool init(int id = 0);
+	virtual bool init(NpcId);
 private:
-	int _id;
+	NpcId _id;
 };
 
 
