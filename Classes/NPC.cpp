@@ -25,11 +25,11 @@ NPC* NPC::create(int id)
 
 bool NPC::init(int id)
 {
-	/* 如果对应的NPC功能定义及图片存在 */
-	if (initWithFile(FileName))
-	{
-		_id = id;
-		return true;
-	}
+	///* 如果对应的NPC功能定义及图片存在 */
+	//if (initWithFile(FileName))
+	//{
+	//	_id = id;
+	//	return true;
+	//}
 	return false;
 }

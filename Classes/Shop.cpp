@@ -15,20 +15,20 @@ bool Shop::SetGoods()
 {
 	srand(time(0));
 	int ran = rand() % MAX_POTION_SCALE;
-	if (ran == 0)	//两种药
-	{
-		if (SetPotion(HEAL) && SetPotion(MANA) && SetWeapon( some type ))
-		{
-			return true;
-		}
-	}
-	else if (ran == 1)	//一种药
-	{
-		if (SetPotion(FULL) && SetWeapon(some type) && SetWeapon(some type))
-		{
-			return true;
-		}
-	}
+	//if (ran == 0)	//两种药
+	//{
+	//	if (SetPotion(HEAL) && SetPotion(MANA) && SetWeapon( some type ))
+	//	{
+	//		return true;
+	//	}
+	//}
+	//else if (ran == 1)	//一种药
+	//{
+	//	if (SetPotion(FULL) && SetWeapon(some type) && SetWeapon(some type))
+	//	{
+	//		return true;
+	//	}
+	//}
 
 	return false;
 }
@@ -86,12 +86,12 @@ bool Shop::SetPotion(Type type)
 		}
 	}
 	goods.item = potion;
-	goods.price = potion->GetScale() * THISLEVEL;
+	goods.price = potion->GetScale() /** THISLEVEL*/;
 
 	/* 将药添加到货物内 */
 	if (_goodses.size() <MAX_GOODS)
 	{
-		_goodses.pushBack(goods);
+		_goodses.push_back(goods);
 		return true;
 	}
 

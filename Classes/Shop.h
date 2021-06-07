@@ -21,7 +21,7 @@
 #include "Room.h"
 #include "Potion.h"
 #include "Weapon.h"
-#include "CCVector.h"
+#include <vector>
 
 const int MAX_GOODS = 3;
 
@@ -35,7 +35,7 @@ private:
 		Item* item;
 		int price;
 	}goods;
-	Vector<Goods> _goodses;
+	std::vector <Goods> _goodses;
 	virtual bool init();
 	bool SetPotion(Type type);
 	bool SetWeapon();

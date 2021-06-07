@@ -62,22 +62,21 @@ HealPotion* HealPotion::create(Scale scale)
 /// <param name="multi">附加倍率，大小瓶规模无需附加</param>
 void HealPotion::Drink(float multi)
 {
-	int heal = heal = _baseHealValue * GetScale() * multi;
-	/* 调用增加生命接口 */
-	if (curHP + heal >= maxHP)
-	{
-		curHP = maxHP;
-	}
-	else
-	{
-		curHP += heal;
-	}
-	return;
+	//int heal = heal = _baseHealValue * GetScale() * multi;
+	///* 调用增加生命接口 */
+	//if (curHP + heal >= maxHP)
+	//{
+	//	curHP = maxHP;
+	//}
+	//else
+	//{
+	//	curHP += heal;
+	//}
+	//return;
 }
 
 bool HealPotion::initWithScale(Scale scale)
 {
-	initWithScale(scale);
 	switch (scale)
 	{
 		case SMALL:
@@ -119,16 +118,16 @@ ManaPotion* ManaPotion::create(Scale scale)
 /// <param name="multi">附加倍率，大小瓶规模无需附加</param>
 void ManaPotion::Drink(float multi)
 {
-	int heal = _baseHealValue * GetScale() * multi;
-	/* 调用增加魔力接口 */
-	if (curMP + heal >= maxMP)
-	{
-		curMP = maxMP;
-	}
-	else
-	{
-		curMP += heal;
-	}
+	//int heal = _baseHealValue * GetScale() * multi;
+	///* 调用增加魔力接口 */
+	//if (curMP + heal >= maxMP)
+	//{
+	//	curMP = maxMP;
+	//}
+	//else
+	//{
+	//	curMP += heal;
+	//}
 
 	return;
 }
@@ -174,7 +173,7 @@ FullPotion* FullPotion::create(Scale scale)
 /// <summary>
 /// 使用药水
 /// </summary>
-void FullPotion::Drink(float multi = 0.5)
+void FullPotion::Drink(float multi)
 {
 	HealPotion::Drink(multi);
 	ManaPotion::Drink(multi);
@@ -229,7 +228,7 @@ BuffPotion* BuffPotion::create(BuffType buffType)
 /// 使用药水
 /// </summary>
 /// <param name="multi"></param>
-void BuffPotion::Drink(float multi = 1)
+void BuffPotion::Drink(float multi)
 {
 	int buff = _buffType;
 	if (buff == RANDOM)

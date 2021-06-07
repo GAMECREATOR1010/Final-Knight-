@@ -17,12 +17,12 @@ bool Weapon::init(int id, int cate)
 	bulletType = id;
 	if (id < 5)
 	{
-		attackMode = meleeEnum;
-		attackEffect = Sprite::create("effect_sword.png");
-		addChild(attackEffect);
-		attackEffect->setPosition(Vec2(50, 100));
-		attackEffect->setGlobalZOrder(wallOrder);
-		//attackEffect->setVisible(false);
+		//attackMode = meleeEnum;
+		//attackEffect = Sprite::create("effect_sword.png");
+		////addChild(attackEffect);
+		//attackEffect->setPosition(Vec2(50, 100));
+		//attackEffect->setGlobalZOrder(wallOrder);
+		////attackEffect->setVisible(false);
 	}
 	else
 		attackMode = gunEnum;
