@@ -8,17 +8,17 @@ USING_NS_CC;
 
 class Bullet :public Item
 {
+    friend class Weapon;
 public:
-    static Bullet* create(int bulletType );
-    
+    static Bullet* create(int bulletType, Vec2 dir,int cate = KnightCate, float range=1, float damage=1,float delayTime=1.0);
+    void ShowEffect();
 private:
-    virtual bool init(int bulletType);
+    virtual bool init(int bulletType, Vec2 dir,  int cate=KnightCate,  float range = 1,float damage=1, float delayTime = 1.0);
     float damage;
-    float speed;
-    //Vec2 movement;
+    float range;
+    int type;
     PhysicsBody* trigger;//Åö×²¼ì²â¹¥»÷
-    void ShowEffect(int bulletType);//×²»÷Ð§¹û
-    void RemoveBullet();
+   //×²»÷Ð§¹û
 };
 
 #endif 

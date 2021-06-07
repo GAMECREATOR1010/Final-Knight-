@@ -3,27 +3,47 @@
 #define __WEAPON_H__
 
 #include "Item.h"
+#include "Bullet.h"
 
 USING_NS_CC;
 class Weapon :public Item
 {
 public:
     static Weapon* create(int id = 0,int cate=KnightCate);
-    void GenerateBullet();
-    void MeleeStart();
-    void MeleeEnd();
-private:
-    virtual bool init(int id = 0,int cate= KnightCate);
-    Sequence* meleeAttack;
-    Sprite* attackEffect;
-    int bulletType;
+    void GenerateBullet(Vec2 faceDir);
+    void MeleeAttack(Vec2 faceDir);
+    void WeaponAttack(Vec2 faceDir);
+
+    void SetSpeedBuff(float speedBuff);
+    void SetRangeBuff(float rangeBuff);
+    void SetDamageBuff(float damageBuff);
+
+private: 
     attackModeEnum attackMode;
     int costEnergy;
+    int bulletType;
+    int belongCate;
+    int countPerTime=8;
+    //自带攻击速度，范围，伤害值
+    float speed;
+    float range=1;
+    float damege;
+    //玩家属性加成
+    float speedBuff=0;
+    float rangeBuff=0;
+    float damageBuff=0;
+
+    virtual bool init(int id = 0,int cate= KnightCate);
+
+    Sequence* meleeAttack;
+    Sprite* attackEffect;
+
     Vec2 bindPoint;
-    float firstRotation;
-    Point shotPoint;
+    Vec2 shotPoint;
+
+    Vec2 meleeFacDir;
+    float meleeStartRot;
     PhysicsBody* trigger;//捡起检测
-    PhysicsBody* meleeEffect;//近战攻击范围
 };
 
 #endif 
