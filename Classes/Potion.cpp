@@ -134,7 +134,6 @@ void ManaPotion::Drink(float multi)
 
 bool ManaPotion::initWithScale(Scale scale)
 {
-	initWithScale(scale);
 	switch (scale)
 	{
 		case SMALL:
@@ -183,7 +182,6 @@ void FullPotion::Drink(float multi)
 
 bool FullPotion::initWithScale(Scale scale)
 {
-	initWithScale(scale);
 	switch (scale)
 	{
 		case SMALL:

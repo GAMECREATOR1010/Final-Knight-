@@ -28,7 +28,10 @@ USING_NS_CC;
 
 Scene* HelloWorld::createScene()
 {
-	return HelloWorld::create();
+	auto scene = Scene::create();
+	auto layer = HelloWorld::create();
+	scene->addChild(layer);
+	return scene;
 }
 
 
@@ -43,13 +46,32 @@ static void problemLoading(const char* filename)
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-	//// 1. super init first
-	if (!Scene::init())
-	{
-		return false;
-	}
+	Layer::create();
+
+	//test potions
 	auto p = HealPotion::create(SMALL);
+	p->setPosition(200, 300);
 	addChild(p);
+	auto p1 = HealPotion::create(LARGE);
+	p1->setPosition(200, 350);
+	addChild(p1);
+	auto q = ManaPotion::create(SMALL);
+	q->setPosition(250, 300);
+	addChild(q);
+	auto q1 = ManaPotion::create(LARGE);
+	q1->setPosition(250, 350);
+	addChild(q1);
+	auto r = FullPotion::create(SMALL);
+	r->setPosition(300, 300);
+	addChild(r);
+	auto r1 = FullPotion::create(LARGE);
+	r1->setPosition(300, 350);
+	addChild(r1);
+	auto t = BuffPotion::create(RANDOM);
+	t->setPosition(350, 300);
+	addChild(t);
+
+
 	//if (!Scene::initWithPhysics())
 	//{
 	//	return false;

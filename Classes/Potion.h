@@ -25,10 +25,12 @@ enum Scale
 {
 	SMALL=1, LARGE
 };
+
 enum Type
 {
 	HEAL, MANA, FULL, BUFF
 };
+
 //buff种类
 enum BuffType
 {
@@ -41,6 +43,7 @@ enum BuffType
 	//待开发
 	BUFF_COUNT	//计数用
 };
+
 class Potion : public Item
 {
 public:

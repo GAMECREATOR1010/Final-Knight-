@@ -39,6 +39,7 @@ private:
 	virtual bool init();
 	bool SetPotion(Type type);
 	bool SetWeapon();
+	bool SetNPC();
 };
 
 
