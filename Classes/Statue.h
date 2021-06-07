@@ -1,36 +1,38 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
- Code version 21w22a (2021-5-31)
-
  该部分为雕像
+ 与原游戏不同
  ****************************************************************************/
+#pragma once
 #ifndef __STATUE_H__
 #define __STATUE_H__
 
 enum StatueType
 {
-	THIEF,
+	WEREWOLF,	//瞬间回血
+	PRIEST,		//瞬间回蓝
+	KNIGHT,		//瞬间回盾
+	THIEF,		//增加伤害
 	ELF,
 	SORCERER,
-	PRIEST,
 	ASSASSIN,
-	KNIGHT,
 	PALADIN,
 	ENGINEER,
-	BERSERKER,
-	WEREWOLF,
+	BERSERKER,	
 	/* 待完善 */
 
 	STATUECOUNT
 };
 
-#pragma once
+const double STATUE_TIME = 5.0;	//持续性状态持续时间
+
 #include "NPC.h"
 class Statue : public NPC
 {
 public:
 	static Statue* create(StatueType);
+	bool activeStatue(StatueType _type);	//按技能键时同时触发
 protected:
 	virtual bool init(StatueType);
 private:
