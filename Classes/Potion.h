@@ -19,6 +19,15 @@
 #include "Item.h"
 
 const int MAX_POTION_SCALE = 2;
+
+const char* HEALTH_SMALL_PATH = "/potions/HealthSmall.png";
+const char* HEALTH_LARGE_PATH = "/potions/HealthLarge.png";
+const char* MANA_SMALL_PATH = "/potions/ManaSmall.png";
+const char* MANA_LARGE_PATH = "/potions/ManaLarge.png";
+const char* FULL_SMALL_PATH = "/potions/FullSmall.png";
+const char* FULL_LARGE_PATH = "/potions/FullLarge.png";
+const char* BUFF_PATH = "/potions/Buff.png";
+
 enum Scale
 {
 	SMALL=1, LARGE
@@ -39,6 +48,7 @@ enum BuffType
 	//待开发
 	BUFF_COUNT	//计数用
 };
+
 class Potion : public Item
 {
 public:

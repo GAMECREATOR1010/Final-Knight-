@@ -4,7 +4,6 @@
  该部分为Potion药水类
  ****************************************************************************/
 #include "Potion.h"
-#include <stdexcept>
 
 #pragma region Potion
 
@@ -75,13 +74,14 @@ void HealPotion::Drink(float multi)
 
 bool HealPotion::initWithScale(Scale scale)
 {
+	Potion::initWithScale(scale);
 	switch (scale)
 	{
 		case SMALL:
-			initWithFile("/potions/HealthSmall.png");
+			initWithFile(HEALTH_SMALL_PATH);
 			break;
 		case LARGE:
-			initWithFile("/potions/HealthLarge.png");
+			initWithFile(HEALTH_LARGE_PATH);
 			break;
 		default:
 			return false;
@@ -132,13 +132,14 @@ void ManaPotion::Drink(float multi)
 
 bool ManaPotion::initWithScale(Scale scale)
 {
+	Potion::initWithScale(scale);
 	switch (scale)
 	{
 		case SMALL:
-			initWithFile("/potions/ManaSmall.png");
+			initWithFile(MANA_SMALL_PATH);
 			break;
 		case LARGE:
-			initWithFile("/potions/ManaLarge.png");
+			initWithFile(MANA_LARGE_PATH);
 			break;
 		default:
 			return false;
@@ -180,13 +181,14 @@ void FullPotion::Drink(float multi)
 
 bool FullPotion::initWithScale(Scale scale)
 {
+	Potion::initWithScale(scale);
 	switch (scale)
 	{
 		case SMALL:
-			initWithFile("/potions/FullSmall.png");
+			initWithFile(FULL_SMALL_PATH);
 			break;
 		case LARGE:
-			initWithFile("/potions/FullLarge.png");
+			initWithFile(FULL_LARGE_PATH);
 			break;
 		default:
 			return false;
@@ -251,8 +253,9 @@ void BuffPotion::Drink(float multi)
 
 bool BuffPotion::initWithBuffType(BuffType buffType)
 {
+	Potion::init();
 	_buffType = buffType;
-	initWithFile("/potions/Buff.png");
+	initWithFile(BUFF_PATH);
 	return true;
 }
 

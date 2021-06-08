@@ -34,7 +34,7 @@ bool NPC::init(NpcId id)
 	switch (id)
 	{
 		case SHOPKEEPER:
-			initWithFile("/NPC/Shopkeeper.png");
+			initWithFile(SHOPKEEPER_PATH);
 			break;
 		default:
 			return false;

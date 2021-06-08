@@ -10,6 +10,7 @@
 
 #include "cocos2d.h"
 #include "Const.h"
+
 USING_NS_CC;
 
 class Item :public Sprite
@@ -22,6 +23,6 @@ private:
 	int _id;
 	int _value;
 	int _rarity;
-	const double _physicalRange = 80 ;
+	static constexpr double _physicalRange = 80.0;
 };
 #endif // !__ITEMS_H__

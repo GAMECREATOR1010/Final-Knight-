@@ -26,6 +26,8 @@ enum NpcId
 	NPCCOUNT
 };
 
+const char * SHOPKEEPER_PATH = "/NPC/Shopkeeper.png";
+
 #include "cocos2d.h"
 USING_NS_CC;
 
