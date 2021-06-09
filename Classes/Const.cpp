@@ -47,6 +47,6 @@ void SetBody(PhysicsBody* body, int category)
 	else if (category == ItemCate)
 	{
 		body->setCategoryBitmask(0x00); //²»Åö×²,½ö´¥·¢
-		body->setCollisionBitmask(0x08); 
+		body->setCollisionBitmask(0x00); 
 	}
 }

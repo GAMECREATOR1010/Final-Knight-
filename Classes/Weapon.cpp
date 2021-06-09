@@ -32,6 +32,7 @@ bool Weapon::init(int id, int cate)
 		SetBody(attackEffect->getPhysicsBody(), cate);
 		attackEffect->setVisible(false);
 		attackEffect->getPhysicsBody()->setEnabled(false);
+
 		if (belongCate == KnightCate)
 			attackEffect->getPhysicsBody()->setTag(myAttack);
 		else
@@ -49,7 +50,7 @@ bool Weapon::init(int id, int cate)
 	{
 		this->initWithFile("weapon/gun_0.png");
 		this->setAnchorPoint(Vec2(0.25, 0.5));
-		bulletType = 0;
+		bulletType =4;
 	}
 
 	if (cate == KnightCate)//±ÜÃâµÐÈËÎäÆ÷±»Íæ¼Ò¼ñÆð
@@ -93,8 +94,6 @@ void Weapon::MeleeAttack(Vec2  faceDir)
 		meleeFacDir = Vec2(20,0);
 		meleeStartRot = -10.0f;
 	}
-
-
 	this->setScale(range+0.2+rangeBuff*0.2);
 	auto moveBy = MoveBy::create(0.01f, meleeFacDir);
 	auto rotateByOne = RotateBy::create(0.1f, meleeStartRot);
@@ -140,8 +139,6 @@ void Weapon::GenerateBullet(Vec2  faceDir)
 	auto bull = Bullet::create(bulletType, faceDir, belongCate, 1.0f + rangeBuff, damageBuff + 1.0f);
 	this->getParent()->getParent()->addChild(bull);
 	bull->setPosition(this->getParent()->getPosition());
-
-
 	if (countPerTime > 1)
 	{ 
 		float perAngle = 30;
@@ -160,11 +157,10 @@ void Weapon::GenerateBullet(Vec2  faceDir)
 		{
 			auto bull = Bullet::create(bulletType, Rotate(faceDir, perRradian*(i/2+1)), belongCate, 1.0f + rangeBuff, damageBuff + 1.0f);
 			this->getParent()->getParent()->addChild(bull);
-			//this->setRotation(angle);
+			bull->setRotation(-perAngle * (i / 2 + 1));
 			bull->setPosition(this->getParent()->getPosition());
 			perAngle = -1 * perAngle;
 			perRradian = -1 * perRradian;
-
 		}
 	}
 

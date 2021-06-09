@@ -23,7 +23,7 @@ private:
     int costEnergy;
     int bulletType;
     int belongCate;
-    int countPerTime=8;
+    int countPerTime=12;
     //自带攻击速度，范围，伤害值
     float speed;
     float range=1;

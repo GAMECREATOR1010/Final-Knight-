@@ -8,6 +8,8 @@
 #define shadeOrder 2
 #define wallOrder 3
 #define obstaclesOrder 4
+#define uiOrder 5 
+
 
 #define metaGid 41
 #define roomFloorGid 61//enemy可行动处
@@ -18,17 +20,23 @@
 #define offSet 2112
 
 
-#define knightTag 0
-#define enemyTag 1
-#define weaponTag 2
-#define meleeTag 3
-#define bulletTag 4
-#define itemTag 5
+#define knightTag 1
+#define enemyTag 2
+#define weaponTag 3
+#define myAttack 4
+#define enemyAttack 5
+#define itemTag 6
 
 #define KnightCate 1
 #define EnemyCate 2
 #define ObstaclesCate 3
 #define ItemCate 4
+
+#define faceRight 1
+#define faceLeft 2
+#define faceUp 3
+#define faceDown 4
+
 #include "cocos2d.h"
 
 
@@ -51,6 +59,12 @@ enum  KnightState
 {
     KnightIdle = 0/*行走*/, KnightAttack, KnightAttacked, KnightDeath
 };
+
+/*enum  WeaponState
+{
+    WeaponIdle = 0/*静止, WeaponUsing
+};*/
+
 
 enum  roomTypeEnum
 {

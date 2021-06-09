@@ -28,6 +28,7 @@ USING_NS_CC;
 
 Scene* HelloWorld::createScene()
 {
+
 	return HelloWorld::create();
 }
 
@@ -53,69 +54,23 @@ bool HelloWorld::init()
 		return false;
 	}
 	this->getPhysicsWorld()->setGravity(Vec2(0, 0));
+	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+
+	
 	srand((unsigned)time(NULL));
 	
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
 	auto spritecache = SpriteFrameCache::getInstance();
 	spritecache->addSpriteFramesWithFile("gate/gate.plist");
-
-	/*
-		/////////////////////////////
-		// 2. add a menu item with "X" image, which is clicked to quit the program
-		//    you may modify it.
-
-		// add a "close" icon to exit the progress. it's an autorelease object
-		auto closeItem = MenuItemImage::create(
-											   "CloseNormal.png",
-											   "CloseSelected.png",
-											   CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
-
-		if (closeItem == nullptr ||
-			closeItem->getContentSize().width <= 0 ||
-			closeItem->getContentSize().height <= 0)
-		{
-			problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-		}
-		else
-		{
-			float x = origin.x + visibleSize.width - closeItem->getContentSize().width/2;
-			float y = origin.y + closeItem->getContentSize().height/2;
-			closeItem->setPosition(Vec2(x,y));
-		}
-
-		// create menu, it's an autorelease object
-		auto menu = Menu::create(closeItem, NULL);
-		menu->setPosition(Vec2::ZERO);
-		this->addChild(menu, 1);
-
-		/////////////////////////////
-		// 3. add your codes below...
-
-		// add a label shows "Hello World"
-		// create and initialize a label
-
-		auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-		if (label == nullptr)
-		{
-			problemLoading("'fonts/Marker Felt.ttf'");
-		}
-		else
-		{
-			// position the label on the center of the screen
-			label->setPosition(Vec2(origin.x + visibleSize.width/2,
-									origin.y + visibleSize.height - label->getContentSize().height));
-
-			// add the label as a child to this layer
-			this->addChild(label, 1);
-		}*/
 
 	roomThemeEnum theme = roomThemeEnum( rand() % 5);
 	
 	map = BattleMap::create(1, theme);
 	change = Vec2(0, 0);
 	addChild(map, 0);
-
+	
 	
 	flag = false;//
 	inPassage = false;
@@ -127,23 +82,21 @@ bool HelloWorld::init()
 		origin.y + visibleSize.height/2 ));
 	addChild(sprite1);
 
-	weapon =Weapon::create(0,KnightCate);
+	weapon =Weapon::create(5,KnightCate);
 
-	sprite1->bindWea(weapon);
+	sprite1->BindWea(weapon);
 	weapon->setPosition(Vec2(-20, -20));
-	
 	
 	auto pinfo = AutoPolygon::generatePolygon("enemy.png");
 	auto ene = Sprite::create(pinfo);
 	map->addChild(ene);
+	ene->setPhysicsBody(PhysicsBody::createBox(ene->getContentSize()));
 	ene->setGlobalZOrder(shadeOrder);
 	ene->setPosition(Vec2(1000, 800));
-	auto enebody = PhysicsBody::createBox(Size(65.0f, 80.0f), PhysicsMaterial(0.1f, 1.0f, 0.0f));
-	/*Vec2 verts[] = { Vec2(0, 55), Vec2(50, -30), Vec2(-50, -30) };
-	enebody->addShape(PhysicsShapePolygon::create(verts, 3));
-	enebody->setPositionOffset(Vec2(30, 0));*/
-	ene->addComponent(enebody);
-	SetBody(enebody, EnemyCate);
+	ene->getPhysicsBody()->setRotationEnable(false);
+	//auto enebody = PhysicsBody::createBox(Size(65.0f, 80.0f), PhysicsMaterial(0.1f, 1.0f, 0.0f));
+	//ene->addComponent(enebody);
+	SetBody(ene->getPhysicsBody(), EnemyCate);
 	
 
 
@@ -152,12 +105,11 @@ bool HelloWorld::init()
 
 	listener->onKeyReleased = CC_CALLBACK_2(HelloWorld::onKeyReleased, this);
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
-	//this->setScale(0.1f);
+	//this->setScale(0.2f);
+	map->setVisible(false);
 	this->scheduleUpdate();
 	schedule(SEL_SCHEDULE(&HelloWorld::myUpdate), 1.5f,-1,0);
-
-
-   
+	
 
 	return true;
 }
@@ -194,29 +146,36 @@ bool HelloWorld::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 	
 	if (keycode == EventKeyboard::KeyCode::KEY_A)
 	{
-		//rotateTo = RotateTo::create(0.5f, 40.0f);
-		//weapon->runAction(rotateTo);
-		sprite1->DeathEffect();
+		
+		sprite1->MyAttack();
 	}
 	if (keycode == EventKeyboard::KeyCode::KEY_UP_ARROW)
 	{
+		sprite1->faceDir = Vec2(0,1);
+		sprite1->GetWea()->setRotation(-90.0f);
 		change = Vec2(0, -1);
 		//return true;
 	}
 	else if (keycode == EventKeyboard::KeyCode::KEY_LEFT_ARROW)
 	{
-		sprite1->setScaleX(-1);
+		sprite1->faceDir = Vec2(-1, 0);
+		sprite1->setScaleX(-1.0f);
+		sprite1->GetWea()->setRotation(0.0f);
 		change = Vec2(1, 0);
 		//return true;
 	}
 	else if (keycode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW)
 	{
-		sprite1->setScaleX(1);
+		sprite1->faceDir = Vec2(1, 0);
+		sprite1->setScaleX(1.0f);
+		sprite1->GetWea()->setRotation(0.0f);
 		change = Vec2(-1, 0);
 		//return true;
 	}
 	else if (keycode == EventKeyboard::KeyCode::KEY_DOWN_ARROW)
 	{
+		sprite1->faceDir = Vec2(0, -1);
+		sprite1->GetWea()->setRotation(90.0f);
 		change = Vec2(0, 1);
 		//return true;
 	}
@@ -228,11 +187,11 @@ bool HelloWorld::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 
 void HelloWorld::myUpdate(float delta)
 {
-	if (!atRoom->playerEnter)
+	/*if (!atRoom->playerEnter)
 	{
 		Vec2 roomPos = atRoom->roomPosition + map->getPosition();
 		atRoom->UpdatePlayerEnter(sprite1->getPosition() - roomPos);
-	}
+	}*/
 
 }
 
@@ -257,7 +216,11 @@ void HelloWorld::update(float delta)
 	
 	if (flag)
 	{
-		map->setPosition(map->getPosition() + change * 20);
+		if ((sprite1->getPosition() - change * 60).x <= 1800 && (sprite1->getPosition() - change * 60).x >= 600
+			&& (sprite1->getPosition() - change * 60).y <= 1200 && (sprite1->getPosition() - change * 60).y >= 500)
+			sprite1->setPosition(sprite1->getPosition() - change* 10);
+		else
+			map->setPosition(map->getPosition() + change * 10);
 	}
 }
 
