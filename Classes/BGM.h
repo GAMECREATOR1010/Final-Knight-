@@ -3,7 +3,7 @@
 
  Code version 21w20a (2021-5-26)
 
- Annotation:BGM及音效
+ Annotation:BGM及音效（SE）
  ****************************************************************************/
 #pragma once
 
@@ -15,21 +15,34 @@
 class BGM :public cocos2d::AudioEngine
 {
 private:
-	bool _ifonBGM;
-	bool _ifonSE;
+	static bool _ifonBGM;
 public:
-	int _audioIDBGM;
-	int _audioIDSE;
+	int _audioID;
 
 	BGM();
+	int getIfon();
 
-	int play2dBGM(const std::string& filePath, bool loop = true);
+	virtual int play2d(const std::string& filePath, bool loop = true);
 
-	int play2dSE(const std::string& filePath, bool loop = false);
-
-	void stopBGM();
-
-	void stopSE();
+	void change();
 };
+
+class SE :public BGM
+{
+private:
+	static bool _ifonSE;
+public:
+	int _audioID;
+
+	int getIfon();
+
+	virtual int play2d(const std::string& filePath, bool loop = false);
+
+	void change();
+};
+
+
+extern BGM bgm;
+extern SE se;
 
 #endif  __BGM_H_H__

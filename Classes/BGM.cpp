@@ -7,16 +7,19 @@
  ****************************************************************************/
 #include "BGM.h"
 
+BGM bgm;
+SE se;
 
 BGM::BGM()
 {
-	_audioIDBGM = AudioEngine::INVALID_AUDIO_ID;
-	_audioIDSE = AudioEngine::INVALID_AUDIO_ID;
-	_ifonBGM = true;
-	_ifonSE = true;
+	_audioID = AudioEngine::INVALID_AUDIO_ID;
 }
+bool BGM::_ifonBGM = true;
+bool SE::_ifonSE = true;
 
-int BGM::play2dBGM(const std::string& filePath, bool loop )
+
+
+int BGM::play2d(const std::string& filePath, bool loop)
 {
 	if (true == _ifonBGM)
 		return AudioEngine::play2d(filePath, loop);
@@ -24,7 +27,28 @@ int BGM::play2dBGM(const std::string& filePath, bool loop )
 		return AudioEngine::INVALID_AUDIO_ID;
 }
 
-int BGM::play2dSE(const std::string& filePath, bool loop )
+
+int BGM::getIfon()
+{
+	return _ifonBGM;
+}
+
+
+void BGM::change()
+{
+	if (false == _ifonBGM)
+	{
+		_ifonBGM = true;
+	}
+	else
+	{
+		_ifonBGM = false;
+	}
+
+}
+
+
+int SE::play2d(const std::string& filePath, bool loop)
 {
 	if (true == _ifonSE)
 		return AudioEngine::play2d(filePath, loop);
@@ -32,14 +56,20 @@ int BGM::play2dSE(const std::string& filePath, bool loop )
 		return AudioEngine::INVALID_AUDIO_ID;
 }
 
-void BGM::stopBGM()
+int SE::getIfon()
 {
-	if (true == _ifonBGM)
-		AudioEngine::stop(_audioIDBGM);
+	return _ifonSE;
 }
 
-void  BGM::stopSE()
+
+void SE::change()
 {
-	if (true == _ifonSE)
-		AudioEngine::stop(_audioIDSE);
+	if (false == _ifonSE)
+	{
+		_ifonSE = true;
+	}
+	else
+	{
+		_ifonSE = false;
+	}
 }
