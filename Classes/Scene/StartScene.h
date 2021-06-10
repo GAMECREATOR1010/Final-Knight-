@@ -14,8 +14,7 @@
 #include "cocos2d.h"
 #include "audio/include/AudioEngine.h"
 #include "HelloWorldScene.h"
-#include "Layer/StopLayer.h"
-#include "Layer/SetupLayer.h"
+#include "Layer/BGMButtonsLayer.h"
 #include "source.h" 
 
 class StartScene :public cocos2d::Scene
