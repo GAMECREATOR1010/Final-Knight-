@@ -100,9 +100,30 @@ bool Shop::SetPotion(Type type)
 	return false;
 }
 
+/// <summary>
+/// 添加武器，并同时设置价格
+/// </summary>
+/// <returns></returns>
 bool Shop::SetWeapon()
 {
-	/* 类似 */
+	Goods goods = { 0 };
+	auto wp = RandomWeaponCreate();
+	if (_goodses.size() < MAX_GOODS)
+	{
+		_goodses.push_back(goods);
+		return true;
+	}
+
+	goods.item = wp;
+	goods.price = wp->GetRarity() * THISLEVEL;
+
+	/* 将药添加到货物内 */
+	if (_goodses.size() < MAX_GOODS)
+	{
+		_goodses.push_back(goods);
+		return true;
+	}
+
 	return false;
 }
 

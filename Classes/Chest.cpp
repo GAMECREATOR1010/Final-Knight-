@@ -35,6 +35,10 @@ WhiteChest* WhiteChest::create()
 	return nullptr;
 }
 
+/// <summary>
+/// 打开宝箱，生成物品/金币能量
+/// </summary>
+/// <returns>生成的物品对象指针，生成金币能量返回空</returns>
 Item * WhiteChest::open()
 {
 	/* 动画效果（待定） */
@@ -46,8 +50,7 @@ Item * WhiteChest::open()
 	switch (type)
 	{
 		case 1:	//生成金币和能量
-			goldMoney->ChangeBalance(2);
-			mand-> + 2;
+			
 			return nullptr;
 		case 2:	//生成HP药水
 			auto hp=HealPotion::create(SMALL);
@@ -56,7 +59,8 @@ Item * WhiteChest::open()
 			auto mp = ManaPotion::create(SMALL);
 			return mp;
 		case 4:	//生成武器
-			
+			auto wp = RandomWeaponCreate();
+			return wp;
 		default:
 			throw("No such type in chest");
 			break;
