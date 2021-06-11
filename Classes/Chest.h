@@ -12,6 +12,7 @@
 #include "Const.h"
 #include "Money.h"
 #include "Potion.h"
+#include "Weapon.h"
 
 USING_NS_CC;
 
@@ -49,6 +50,7 @@ private:
 
 
 };
+
 #endif // !__CHEST_H__
 
 

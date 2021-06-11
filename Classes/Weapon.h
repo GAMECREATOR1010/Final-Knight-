@@ -6,6 +6,10 @@
 #include "Bullet.h"
 
 USING_NS_CC;
+
+/* 随机生成一件武器的对象 */
+Weapon* RandomWeaponCreate();
+
 class Weapon :public Item
 {
 public:
