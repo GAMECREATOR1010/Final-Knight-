@@ -7,17 +7,17 @@
 #include "Shop.h"
 #include <ctime>
 
-/// <summary>
-/// 设置商店货物
-/// </summary>
-/// <returns></returns>
+ /// <summary>
+ /// 设置商店货物
+ /// </summary>
+ /// <returns></returns>
 bool Shop::SetGoods()
 {
 	srand(time(0));
 	int ran = rand() % MAX_POTION_SCALE;
 	if (ran == 0)	//两种药
 	{
-		if (SetPotion(HEAL) && SetPotion(MANA) && SetWeapon( some type ))
+		if (SetPotion(HEAL) && SetPotion(MANA) && SetWeapon(some type))
 		{
 			return true;
 		}
@@ -91,7 +91,7 @@ bool Shop::SetPotion(Type type)
 	goods.price = potion->GetScale() * THISLEVEL;
 
 	/* 将药添加到货物内 */
-	if (_goodses.size() <MAX_GOODS)
+	if (_goodses.size() < MAX_GOODS)
 	{
 		_goodses.push_back(goods);
 		return true;
@@ -136,4 +136,3 @@ NPC* Shop::SetShopKeeper()
 	auto skp = NPC::create(SHOPKEEPER);
 	return skp;
 }
-

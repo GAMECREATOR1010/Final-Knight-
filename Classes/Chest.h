@@ -32,25 +32,20 @@ enum ChestType
 class Chest : public Sprite
 {
 public:
-	virtual Item * open() = 0;
+	virtual Item* open() = 0;
 protected:
 	virtual bool init();
 private:
 	static constexpr double _physicalRange = 80.0;
-
 };
 
 class WhiteChest : public Chest
 {
 public:
 	static WhiteChest* create();
-	virtual Item * open();
+	virtual Item* open();
 private:
 	virtual bool init();
-
-
 };
 
 #endif // !__CHEST_H__
-
-

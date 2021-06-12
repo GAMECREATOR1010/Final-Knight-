@@ -95,7 +95,6 @@ bool BlueMoney::init(int value)
 
 #pragma endregion
 
-
 void test()
 {
 	auto m = GoldMoney::create();

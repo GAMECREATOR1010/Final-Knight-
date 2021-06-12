@@ -13,10 +13,9 @@ Room* Room::create(int  wid, int hei, roomTypeEnum rType, roomThemeEnum rTheme, 
 	return nullptr;
 }
 
-
 void Room::DrawRoom()
 {
-	for (float x = 15- width / 2; x < 18 + width / 2; x++)
+	for (float x = 15 - width / 2; x < 18 + width / 2; x++)
 	{
 		for (float y = 15 - height / 2; y < 18 + height / 2; y++)
 		{
@@ -36,7 +35,6 @@ void Room::DrawRoom()
 			}
 		}
 	}
-
 }
 
 void Room::DrawFloor(float x, float y, bool flag)
@@ -141,11 +139,10 @@ void Room::DrawDoor(float x, float y)
 	}
 	else
 	{
-		shade->setTileGID(doorCloseGid+10, Vec2(x, y + 1));
+		shade->setTileGID(doorCloseGid + 10, Vec2(x, y + 1));
 		meta->setTileGID(metaGid, Vec2(x, y + 1));
 		wall->setTileGID(doorCloseGid, Vec2(x, y));
 	}
-
 }
 
 void Room::UpdateDoor()
@@ -189,7 +186,6 @@ void Room::DrawObstacles(float x, float y)
 	meta->setTileGID(41, Vec2(x, y));
 	shade->setTileGID(56, Vec2(x, y + 1));
 }
-
 
 void Room::UpdateObstacles()//添加障碍物，后期会更改丰富
 {
@@ -269,7 +265,6 @@ void Room::UpdatePlayerEnter(Vec2 pos)
 	}
 }
 
-
 //rType=0为起始房间/中止房间，rType=1为正常房，有敌人,
 bool Room::init(int wid, int hei, roomTypeEnum rType, roomThemeEnum rTheme, Vec2 roomPos)
 {
@@ -301,4 +296,3 @@ bool Room::init(int wid, int hei, roomTypeEnum rType, roomThemeEnum rTheme, Vec2
 
 	return true;
 }
-

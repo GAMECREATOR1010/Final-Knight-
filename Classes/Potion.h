@@ -30,7 +30,7 @@ const char* BUFF_PATH = "/potions/Buff.png";
 
 enum Scale
 {
-	SMALL=1, LARGE
+	SMALL = 1, LARGE
 };
 enum Type
 {
@@ -54,7 +54,7 @@ class Potion : public Item
 public:
 	int GetScale();
 	int GetType();
-	virtual void Drink(float multi = 1)=0;
+	virtual void Drink(float multi = 1) = 0;
 protected:
 	bool initWithScale(Scale scale);
 private:
@@ -71,7 +71,6 @@ public:
 private:
 	int _baseHealValue;
 	virtual bool initWithScale(Scale _scale = SMALL);
-
 };
 
 class ManaPotion : virtual public Potion
@@ -82,17 +81,15 @@ public:
 private:
 	int _baseHealValue;
 	virtual bool initWithScale(Scale _scale = SMALL);
-
 };
 
-class FullPotion :public HealPotion,public ManaPotion
+class FullPotion :public HealPotion, public ManaPotion
 {
 public:
 	static FullPotion* create(Scale);
 	virtual void Drink(float multi = 0.5);
 private:
 	virtual bool initWithScale(Scale _scale = SMALL);
-
 };
 
 class BuffPotion : public Potion
@@ -105,6 +102,4 @@ private:
 	virtual bool initWithBuffType(BuffType buffType);
 };
 
-
 #endif // !__POTION_H__
-

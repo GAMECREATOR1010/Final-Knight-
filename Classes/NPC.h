@@ -19,14 +19,11 @@ enum NpcId
 {
 	SHOPKEEPER,
 
-
-
-
 	//´ýÍêÉÆ
 	NPCCOUNT
 };
 
-const char * SHOPKEEPER_PATH = "/NPC/Shopkeeper.png";
+const char* SHOPKEEPER_PATH = "/NPC/Shopkeeper.png";
 
 #include "cocos2d.h"
 USING_NS_CC;
@@ -41,8 +38,4 @@ private:
 	NpcId _id;
 };
 
-
 #endif // !__NPC_H__
-
-
-

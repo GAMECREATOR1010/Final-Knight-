@@ -17,9 +17,7 @@ static void problemLoading(const char* filename)
 
 void ChangePosition()
 {
-
 }
-
 
 bool Gaming::init()
 {
@@ -30,8 +28,7 @@ bool Gaming::init()
 	srand(time(nullptr));
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	
-	
+
 	/*int xOffSet, yOffSet;
 	int roomNumber=10;
 	Vec2 start = (0, 0);
@@ -48,7 +45,6 @@ bool Gaming::init()
 		int direction = rand() % 4;
 		if (direction = 0)
 		{
-			
 		}
 		i++;
 	} while (i < roomNumber);
@@ -57,8 +53,5 @@ bool Gaming::init()
 
 	tempRoom->setPosition(Vec2(100,200));*/
 
-
-
 	return true;
 }
-

@@ -34,7 +34,7 @@ Weapon* RandomWeaponCreate()
 Weapon* Weapon::create(int id, int cate)
 {
 	Weapon* wea = new Weapon;
-	if (wea != nullptr && wea->init(id,cate))
+	if (wea != nullptr && wea->init(id, cate))
 	{
 		wea->autorelease();
 		return wea;
@@ -47,7 +47,7 @@ bool Weapon::init(int id, int cate)
 {
 	belongCate = cate;
 	bulletType = id;
-	
+
 	if (id < 5)
 	{
 		attackMode = meleeEnum;
@@ -57,9 +57,9 @@ bool Weapon::init(int id, int cate)
 		attackEffectbody->addShape(PhysicsShapeEdgePolygon::create(verts, 6));
 		attackEffect->addComponent(attackEffectbody);
 		addChild(attackEffect);
-		attackEffect->setPosition(Vec2(30,60));
+		attackEffect->setPosition(Vec2(30, 60));
 		attackEffect->setGlobalZOrder(wallOrder);
-		
+
 		SetBody(attackEffect->getPhysicsBody(), cate);
 		attackEffect->setVisible(false);
 		attackEffect->getPhysicsBody()->setEnabled(false);
@@ -81,7 +81,7 @@ bool Weapon::init(int id, int cate)
 	{
 		this->initWithFile("weapon/gun_0.png");
 		this->setAnchorPoint(Vec2(0.25, 0.5));
-		bulletType =4;
+		bulletType = 4;
 	}
 
 	if (cate == KnightCate)//±ÜÃâµÐÈËÎäÆ÷±»Íæ¼Ò¼ñÆð
@@ -100,9 +100,9 @@ void Weapon::WeaponAttack(Vec2  faceDir)
 {
 	if (attackMode == meleeEnum)
 	{
-		MeleeAttack( faceDir);
+		MeleeAttack(faceDir);
 	}
-	else if(attackMode==gunEnum)
+	else if (attackMode == gunEnum)
 	{
 		GenerateBullet(faceDir);
 	}
@@ -110,7 +110,7 @@ void Weapon::WeaponAttack(Vec2  faceDir)
 
 void Weapon::MeleeAttack(Vec2  faceDir)
 {
-	if (faceDir == Vec2(1,0) || faceDir == Vec2(-1, 0))
+	if (faceDir == Vec2(1, 0) || faceDir == Vec2(-1, 0))
 	{
 		meleeFacDir = Vec2(20, 0);
 		meleeStartRot = -60.0f;
@@ -122,17 +122,16 @@ void Weapon::MeleeAttack(Vec2  faceDir)
 	}
 	else if (faceDir == Vec2(0, -1))
 	{
-		meleeFacDir = Vec2(20,0);
+		meleeFacDir = Vec2(20, 0);
 		meleeStartRot = -10.0f;
 	}
-	this->setScale(range+0.2+rangeBuff*0.2);
+	this->setScale(range + 0.2 + rangeBuff * 0.2);
 	auto moveBy = MoveBy::create(0.01f, meleeFacDir);
 	auto rotateByOne = RotateBy::create(0.1f, meleeStartRot);
 	auto rotateByTwo = RotateBy::create(0.2f, 35.0f);
 	auto rotateByThird = RotateBy::create(0.2f, 100.0f);
 	auto rotateByForth = RotateBy::create(0.1f, -135.0f - meleeStartRot);
 	//auto delay = DelayTime::create(0.2f);
-
 
 	auto meleeStart = CallFunc::create([&]() {
 		attackEffect->setVisible(true);
@@ -145,17 +144,16 @@ void Weapon::MeleeAttack(Vec2  faceDir)
 		attackEffect->setVisible(false);
 		attackEffect->getPhysicsBody()->setEnabled(false);
 		});
-	
+
 	auto recovery = CallFunc::create([&]() {
 		this->setScale(1.0f);
 		attackEffect->setScale(1.0f);
 		});
 
 	meleeAttack = Sequence::create(moveBy, rotateByOne, rotateByTwo, meleeStart, rotateByThird,
-		meleeEnd, rotateByForth, recovery,moveBy->reverse(), nullptr);
-	
+		meleeEnd, rotateByForth, recovery, moveBy->reverse(), nullptr);
+
 	this->runAction(meleeAttack);
-	
 }
 
 Vec2 Rotate(Vec2 faceDir, float angle)
@@ -164,14 +162,13 @@ Vec2 Rotate(Vec2 faceDir, float angle)
 	return temp;
 }
 
-
 void Weapon::GenerateBullet(Vec2  faceDir)
 {
 	auto bull = Bullet::create(bulletType, faceDir, belongCate, 1.0f + rangeBuff, damageBuff + 1.0f);
 	this->getParent()->getParent()->addChild(bull);
 	bull->setPosition(this->getParent()->getPosition());
 	if (countPerTime > 1)
-	{ 
+	{
 		float perAngle = 30;
 		float perRradian = 0.523;
 		if (countPerTime == 4)
@@ -184,9 +181,9 @@ void Weapon::GenerateBullet(Vec2  faceDir)
 			perAngle = 45;
 			perRradian = 0.785;
 		}
-		for (int i = 0; i < countPerTime ; ++i)
+		for (int i = 0; i < countPerTime; ++i)
 		{
-			auto bull = Bullet::create(bulletType, Rotate(faceDir, perRradian*(i/2+1)), belongCate, 1.0f + rangeBuff, damageBuff + 1.0f);
+			auto bull = Bullet::create(bulletType, Rotate(faceDir, perRradian * (i / 2 + 1)), belongCate, 1.0f + rangeBuff, damageBuff + 1.0f);
 			this->getParent()->getParent()->addChild(bull);
 			bull->setRotation(-perAngle * (i / 2 + 1));
 			bull->setPosition(this->getParent()->getPosition());
@@ -194,7 +191,4 @@ void Weapon::GenerateBullet(Vec2  faceDir)
 			perRradian = -1 * perRradian;
 		}
 	}
-
 }
-
-

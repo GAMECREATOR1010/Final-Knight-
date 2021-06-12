@@ -5,10 +5,10 @@
  ****************************************************************************/
 #include "Chest.h"
 
-/// <summary>
-/// 仅添加物理碰撞
-/// </summary>
-/// <returns></returns>
+ /// <summary>
+ /// 仅添加物理碰撞
+ /// </summary>
+ /// <returns></returns>
 bool Chest::init()
 {
 	/* 添加碰撞范围 */
@@ -39,7 +39,7 @@ WhiteChest* WhiteChest::create()
 /// 打开宝箱，生成物品/金币能量
 /// </summary>
 /// <returns>生成的物品对象指针，生成金币能量返回空</returns>
-Item * WhiteChest::open()
+Item* WhiteChest::open()
 {
 	/* 动画效果（待定） */
 
@@ -50,10 +50,10 @@ Item * WhiteChest::open()
 	switch (type)
 	{
 		case 1:	//生成金币和能量
-			
+
 			return nullptr;
 		case 2:	//生成HP药水
-			auto hp=HealPotion::create(SMALL);
+			auto hp = HealPotion::create(SMALL);
 			return hp;
 		case 3:	//生成MP药水
 			auto mp = ManaPotion::create(SMALL);

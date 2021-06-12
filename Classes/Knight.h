@@ -9,13 +9,12 @@ USING_NS_CC;
 class Knight :public Actor
 {
 public:
-    static Knight* create(int type=0,int rank=1);
-    
-private:
-    virtual bool init(int type=0, int rank=1);
-    int energy;
-    KnightState state;
+	static Knight* create(int type = 0, int rank = 1);
 
+private:
+	virtual bool init(int type = 0, int rank = 1);
+	int energy;
+	KnightState state;
 };
 
-#endif 
+#endif

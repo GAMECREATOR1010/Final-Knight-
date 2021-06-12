@@ -5,7 +5,6 @@
 
  该部分为Money货币类，派生出局内金币，局外蓝币
 
-
  需要外部接口
 
  需要外部全局宏定义
@@ -59,6 +58,4 @@ private:
 	virtual bool init(int);
 };
 
-
 #endif // !__MONEY_H__
-

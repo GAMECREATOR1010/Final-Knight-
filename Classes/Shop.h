@@ -40,10 +40,4 @@ private:
 	NPC* SetShopKeeper();	//需要将改对象添加到商店所在层
 };
 
-
-
-
 #endif // !__SHOP_H__
-
-
-

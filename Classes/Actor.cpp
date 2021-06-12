@@ -35,7 +35,6 @@ bool Actor::init()
 	return true;
 }
 
-
 void Actor::DeathEffect()
 {
 	auto ActorFall = CallFunc::create([&]() {
@@ -58,12 +57,12 @@ void Actor::DeathEffect()
 		ghost->setGlobalZOrder(wallOrder);
 		ghost->setPosition(Vec2(-30, 50));
 		auto fadeOut = FadeOut::create(1.5f);
-		auto move = MoveBy::create(1.0f, Vec2(-40,0));
-		auto move_ease_out = EaseOut::create(move->clone(),1.0f);
-		auto mySpawn = Spawn::create(move_ease_out, fadeOut,nullptr);
+		auto move = MoveBy::create(1.0f, Vec2(-40, 0));
+		auto move_ease_out = EaseOut::create(move->clone(), 1.0f);
+		auto mySpawn = Spawn::create(move_ease_out, fadeOut, nullptr);
 		ghost->runAction(mySpawn);
 		});
-	
+
 	auto delay = DelayTime::create(1.0f);
 	auto seq = Sequence::create(ActorFall, delay, ghostAppear, nullptr);
 	this->runAction(seq);

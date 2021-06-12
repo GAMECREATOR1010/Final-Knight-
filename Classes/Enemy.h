@@ -8,17 +8,16 @@ USING_NS_CC;
 class Enemy :public Actor
 {
 public:
-    static Enemy* create(int type = 0,bool ifBoss=true);
+	static Enemy* create(int type = 0, bool ifBoss = true);
 
 private:
-    virtual bool init(int type = 0, bool ifBoss = true);
-    float chaseDistance;
-    float attackDistance;
-    float attackDelayTime;/*攻击时间间隔*/
-    float touchDamage;
-    Room* inRoom;
-    EnemyState state;
+	virtual bool init(int type = 0, bool ifBoss = true);
+	float chaseDistance;
+	float attackDistance;
+	float attackDelayTime;/*攻击时间间隔*/
+	float touchDamage;
+	Room* inRoom;
+	EnemyState state;
 };
 
-#endif 
-
+#endif

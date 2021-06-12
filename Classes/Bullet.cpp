@@ -1,9 +1,9 @@
 #include "Bullet.h"
 
-Bullet* Bullet::create(int bulletType, Vec2 dir,int cate,  float range,float damage, float delayTime)
+Bullet* Bullet::create(int bulletType, Vec2 dir, int cate, float range, float damage, float delayTime)
 {
 	Bullet* bullet = new Bullet;
-	if (bullet != nullptr && bullet->init(bulletType, dir,cate,  range, delayTime))
+	if (bullet != nullptr && bullet->init(bulletType, dir, cate, range, delayTime))
 	{
 		bullet->autorelease();
 		return bullet;
@@ -12,10 +12,10 @@ Bullet* Bullet::create(int bulletType, Vec2 dir,int cate,  float range,float dam
 	return nullptr;
 }
 
-bool Bullet::init(int bulletType, Vec2 dir,int cate,  float range, float damage, float delayTime)
+bool Bullet::init(int bulletType, Vec2 dir, int cate, float range, float damage, float delayTime)
 {
 	type = bulletType;
-	trigger=  PhysicsBody::create();
+	trigger = PhysicsBody::create();
 	if (bulletType == 0)
 	{
 		this->initWithFile("bullet/roundBullet1.png");
@@ -24,7 +24,7 @@ bool Bullet::init(int bulletType, Vec2 dir,int cate,  float range, float damage,
 	else if (bulletType == 1)
 	{
 		this->initWithFile("bullet/triangleBullet.png");
-		Vec2 verts[] = { Vec2(-30, -3), Vec2(30,-3), Vec2(0, 40)};
+		Vec2 verts[] = { Vec2(-30, -3), Vec2(30,-3), Vec2(0, 40) };
 		trigger->addShape(PhysicsShapeEdgePolygon::create(verts, 3));
 	}
 	else if (bulletType == 2)
@@ -63,19 +63,18 @@ bool Bullet::init(int bulletType, Vec2 dir,int cate,  float range, float damage,
 	auto bulletDis = CallFunc::create([&]() {
 		this->removeFromParent();
 		});
-	auto mySeq = Sequence::create(moveBy, bulletEffect,bulletDis, nullptr);
+	auto mySeq = Sequence::create(moveBy, bulletEffect, bulletDis, nullptr);
 	this->runAction(mySeq);
 	return true;
 }
 
 void Bullet::ShowEffect()
 {
-	std::string  effect= "bulletParticle/shot";
+	std::string  effect = "bulletParticle/shot";
 	std::string count = StringUtils::toString(type);
 	std::string filename = effect + count + ".plist";
 	auto particleSystem = ParticleSystemQuad::create(filename);
 	this->getParent()->addChild(particleSystem);
 	particleSystem->setGlobalZOrder(wallOrder);
 	particleSystem->setPosition(this->getPosition());
-	
 }

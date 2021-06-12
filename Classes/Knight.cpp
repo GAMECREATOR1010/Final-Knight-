@@ -4,7 +4,7 @@ USING_NS_CC;
 Knight* Knight::create(int type, int rank)
 {
 	Knight* knight = new Knight;
-	if (knight != nullptr && knight->init( type, rank))
+	if (knight != nullptr && knight->init(type, rank))
 	{
 		knight->autorelease();
 		return knight;
@@ -33,20 +33,17 @@ bool Knight::init(int type, int rank)
 		pic->setGlobalZOrder(shadeOrder);
 		pic->setAnchorPoint(Vec2(0.7f, 0.6f));
 		attackMode = gunEnum;
-		
-	
+
 		Animation* animation = Animation::create();
 		animation->addSpriteFrameWithFile("Knight1.png");
 		animation->addSpriteFrameWithFile("Knight2.png");
 		animation->setDelayPerUnit(0.5);
 		Animate* Aniaction = Animate::create(animation);
 		pic->runAction(RepeatForever::create(Aniaction));
-		
-		AddShade( Vec2(-5,-40));
-   }
-		body->setDynamic(false);
+
+		AddShade(Vec2(-5, -40));
+	}
+	body->setDynamic(false);
 	SetBody(body, KnightCate);
 	return true;
 }
-
-

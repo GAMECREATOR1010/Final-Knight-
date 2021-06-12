@@ -19,7 +19,7 @@ enum StatueType
 	ASSASSIN,
 	PALADIN,
 	ENGINEER,
-	BERSERKER,	
+	BERSERKER,
 	/* ´ýÍêÉÆ */
 
 	STATUECOUNT

@@ -10,7 +10,7 @@ USING_NS_CC;
 class Actor :public Node
 {
 public:
-    static Actor* create();
+	static Actor* create();
 	void DeathEffect();
 	void bindWea(Weapon*);
 	~Actor();
@@ -26,17 +26,16 @@ protected:
 	void AddShade(const Vec2);
 	float damage;
 	float defence;
-	float HP , maxHP ;
+	float HP, maxHP;
 	attackModeEnum attackMode;
-	int weaponId ;
-	float attackSpeed ; 
-	float moveSpeed; 
+	int weaponId;
+	float attackSpeed;
+	float moveSpeed;
 	bool death = false;
 	Vec2 movement;
 	Vec2 weaponPos;
 	PhysicsBody* body;
 	Action* fallDown;
-	
 };
 
-#endif 
+#endif

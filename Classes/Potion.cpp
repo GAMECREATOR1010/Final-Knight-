@@ -7,10 +7,10 @@
 
 #pragma region Potion
 
-/// <summary>
-/// 获取药水规模
-/// </summary>
-/// <returns></returns>
+ /// <summary>
+ /// 获取药水规模
+ /// </summary>
+ /// <returns></returns>
 int Potion::GetScale()
 {
 	return _scale;
@@ -260,5 +260,3 @@ bool BuffPotion::initWithBuffType(BuffType buffType)
 }
 
 #pragma endregion
-
-

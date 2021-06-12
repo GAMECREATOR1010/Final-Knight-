@@ -6,10 +6,10 @@
 
 #include "Item.h"
 
-/// <summary>
-/// 随机返回一个稀有度（不创建对象）
-/// </summary>
-/// <returns>enum 物品稀有度概率</returns>
+ /// <summary>
+ /// 随机返回一个稀有度（不创建对象）
+ /// </summary>
+ /// <returns>enum 物品稀有度概率</returns>
 ItemProbability RandomItemRarity()
 {
 	if (rand() % 100 <= LEGENDARY)
@@ -56,4 +56,3 @@ bool Item::init()
 
 	return true;
 }
-
