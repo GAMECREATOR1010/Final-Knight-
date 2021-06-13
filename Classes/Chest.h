@@ -17,7 +17,7 @@
 USING_NS_CC;
 
 const char* WHITE_CHEST_PATH = "/chests/WhiteChest.png";
-const char* BLUE_CHEST_PATH = "/chests/BlueChest.png";
+const char* BLUE_CHEST_PATH  = "/chests/BlueChest.png";
 const char* BROWN_CHEST_PATH = "/chests/BrownChest.png";
 
 enum ChestType
@@ -39,13 +39,17 @@ private:
 	static constexpr double _physicalRange = 80.0;
 };
 
+/* 白色宝箱，关卡结束、宝箱房间 */
 class WhiteChest : public Chest
 {
 public:
+	/* 生成一个宝箱 */
 	static WhiteChest* create();
+	/* 打开宝箱 */
 	virtual Item* open();
 private:
 	virtual bool init();
 };
 
 #endif // !__CHEST_H__
+

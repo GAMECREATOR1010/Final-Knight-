@@ -1,8 +1,6 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
- 此部分尚未完成，请勿使用
-
  该部分为商店
 
  商店内有NPC
@@ -19,20 +17,29 @@
 #include "Potion.h"
 #include "Weapon.h"
 #include "NPC.h"
+#include "Money.h"
 #include <vector>
+#include <memory>
 
+using std::shared_ptr;
 const int MAX_GOODS = 3;
+
+class Goods
+{
+public:
+	bool Buy();
+	void SetGoods(shared_ptr <Item>);
+	void SetPrice(int);
+private:
+	shared_ptr <Item> _pGoods;
+	int _price;
+};
 
 class Shop : public Room
 {
 public:
-	bool SetGoods();
+	bool InitGoods();
 private:
-	struct Goods
-	{
-		Item* item;
-		int price;
-	}goods;
 	std::vector <Goods> _goodses;
 	virtual bool init();
 	bool SetPotion(Type type);

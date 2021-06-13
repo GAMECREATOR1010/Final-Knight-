@@ -31,6 +31,7 @@ USING_NS_CC;
 class NPC : public Sprite
 {
 public:
+	/* 创建一个NPC对象 */
 	static NPC* create(NpcId id);
 protected:
 	virtual bool init(NpcId);

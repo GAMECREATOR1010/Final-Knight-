@@ -36,7 +36,7 @@ WhiteChest* WhiteChest::create()
 }
 
 /// <summary>
-/// 打开宝箱，生成物品/金币能量
+/// 打开宝箱，生成物品/金币能量，生成物品后需要将该对象加入层
 /// </summary>
 /// <returns>生成的物品对象指针，生成金币能量返回空</returns>
 Item* WhiteChest::open()

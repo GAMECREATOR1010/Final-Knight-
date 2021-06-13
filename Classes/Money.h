@@ -1,8 +1,6 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
- Code version 21w21a (2021-5-24)
-
  该部分为Money货币类，派生出局内金币，局外蓝币
 
  需要外部接口
@@ -28,13 +26,13 @@ class Money :public Sprite
 {
 public:
 	//获取金额
-	int GetBalance();
+	static int GetBalance();
 	//设置余额
-	void SetBalance(int setValue);
+	static void SetBalance(int setValue);
 	//改变余额
-	bool ChangeBalance(int changeValue);
+	static bool ChangeBalance(int changeValue);
 private:
-	int _balance;
+	static int _balance;
 	virtual bool init() = 0;
 };
 

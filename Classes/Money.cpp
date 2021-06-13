@@ -1,8 +1,6 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
- Code version 21w21a (2021-5-24)
-
  该部分为Money货币类，派生出局内金币，局外蓝币
  ****************************************************************************/
 
@@ -29,6 +27,7 @@ void Money::SetBalance(int setValue)
 
 	return;
 }
+
 /// <summary>
 /// 改变余额
 /// </summary>
@@ -55,8 +54,11 @@ bool Money::ChangeBalance(int changeValue)
 /// <returns></returns>
 bool GoldMoney::init()
 {
+	SetBalance(0);
+
 	return true;
 }
+
 /// <summary>
 /// 初始化并设置金币
 /// </summary>
@@ -79,8 +81,11 @@ bool GoldMoney::init(int value)
 /// <returns></returns>
 bool BlueMoney::init()
 {
+	SetBalance(0);
+
 	return true;
 }
+
 /// <summary>
 /// 初始化并设置金币
 /// </summary>
@@ -94,11 +99,3 @@ bool BlueMoney::init(int value)
 }
 
 #pragma endregion
-
-void test()
-{
-	auto m = GoldMoney::create();
-	m->ChangeBalance(0);
-
-	return;
-}

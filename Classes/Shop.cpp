@@ -5,13 +5,46 @@
  ****************************************************************************/
 
 #include "Shop.h"
-#include <ctime>
 
- /// <summary>
- /// 设置商店货物
- /// </summary>
- /// <returns></returns>
-bool Shop::SetGoods()
+#pragma region Goods
+bool Goods::Buy()
+{
+	/* 检测是否有足够的钱 */
+	if (GoldMoney::ChangeBalance(-_price))
+	{
+		/* 替换武器 */
+
+		/* 删除该对象 */
+		//参考墙体消失的代码
+	}
+	else
+	{
+		/* 提示没有足够的钱 */
+	}
+
+	return false;
+}
+
+void Goods::SetGoods(shared_ptr <Item> item)
+{
+	_pGoods = item;
+	return;
+}
+
+void Goods::SetPrice(int price)
+{
+	_price = price;
+	return;
+}
+#pragma endregion
+
+#pragma region Shop
+
+/// <summary>
+/// 设置商店货物
+/// </summary>
+/// <returns></returns>
+bool Shop::InitGoods()
 {
 	srand(time(0));
 	int ran = rand() % MAX_POTION_SCALE;
@@ -42,7 +75,6 @@ bool Shop::SetGoods()
 /// <returns></returns>
 bool Shop::SetPotion(Type type)
 {
-	Goods goods = { 0 };
 	Potion* potion;
 	int ran = rand() % MAX_POTION_SCALE;
 	if (ran == 0)	//小药
@@ -87,13 +119,14 @@ bool Shop::SetPotion(Type type)
 				break;
 		}
 	}
-	goods.item = potion;
-	goods.price = potion->GetScale() * THISLEVEL;
+	Goods gd;
+	gd.SetGoods(static_cast <shared_ptr <Item>> (potion));
+	gd.SetPrice(potion->GetScale() * THISLEVEL);
 
 	/* 将药添加到货物内 */
 	if (_goodses.size() < MAX_GOODS)
 	{
-		_goodses.push_back(goods);
+		_goodses.push_back(gd);
 		return true;
 	}
 
@@ -106,21 +139,16 @@ bool Shop::SetPotion(Type type)
 /// <returns></returns>
 bool Shop::SetWeapon()
 {
-	Goods goods = { 0 };
-	auto wp = RandomWeaponCreate();
-	if (_goodses.size() < MAX_GOODS)
-	{
-		_goodses.push_back(goods);
-		return true;
-	}
+	Goods gd;
+	auto wp = static_cast<shared_ptr <Weapon>> (RandomWeaponCreate());
 
-	goods.item = wp;
-	goods.price = wp->GetRarity() * THISLEVEL;
+	gd.SetGoods(wp);
+	gd.SetPrice(wp->GetRarity() * THISLEVEL);
 
 	/* 将药添加到货物内 */
 	if (_goodses.size() < MAX_GOODS)
 	{
-		_goodses.push_back(goods);
+		_goodses.push_back(gd);
 		return true;
 	}
 
@@ -136,3 +164,5 @@ NPC* Shop::SetShopKeeper()
 	auto skp = NPC::create(SHOPKEEPER);
 	return skp;
 }
+
+#pragma endregion
