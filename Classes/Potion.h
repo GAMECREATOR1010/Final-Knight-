@@ -1,14 +1,16 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
- 此部分尚未完成，请勿使用
-
  该部分为Potion药水类
  包括：
  · 生命药水 HP 2
  · 魔力药水 MP 80
  · 恢复药水 HP 1 MP 40
- · Buff药水(需要开发）
+ · Buff药水
+
+ 接口：
+	virtual void Drink(float multi = 1) = 0;	//使用药水
+
  调用接口：
  · 英雄HP、MP相关（需要接口/将Drink设为友元函数）
  ****************************************************************************/
@@ -54,7 +56,7 @@ class Potion : public Item
 public:
 	int GetScale() const;
 	int GetType() const;
-	virtual void Drink(float multi = 1) = 0;
+	virtual void Drink(float multi = 1) = 0;	//使用药水
 protected:
 	bool initWithScale(Scale scale);
 private:

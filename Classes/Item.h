@@ -1,7 +1,10 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
- 该部分为Item道具类基类头文件（暂定）
+ 接口：
+	int GetRarity() const;	//获取品质
+
+ 该部分为Item道具类基类
  ****************************************************************************/
 #pragma once
 
@@ -33,7 +36,7 @@ class Item :public Sprite
 {
 public:
 	CREATE_FUNC(Item);
-	int GetRarity() const;
+	int GetRarity() const;	//获取品质
 protected:
 	virtual bool init();
 private:

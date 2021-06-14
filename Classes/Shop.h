@@ -3,8 +3,15 @@
 
  该部分为商店
 
- 商店内有NPC
- 小商店：一种健康药水，一种能量药水和一种武器，或者一瓶恢复药水和两件武器
+ 接口：
+ Goods
+	bool Buy();	//购买商品
+ Shop
+	bool InitGoods();	//初始化商品
+	std::vector <Goods>& GetGoodses();	//返回所有商品，用于显示
+	NPC* SetShopKeeper();	//返回一个商人
+
+ 一种健康药水，一种能量药水和一种武器，或者一瓶恢复药水和两件武器
  物品的价格或随层数上升上涨
  电视广告（待定）
  ****************************************************************************/
@@ -27,7 +34,7 @@ const int MAX_GOODS = 3;
 class Goods
 {
 public:
-	bool Buy();
+	bool Buy();	//购买商品
 	void SetGoods(Item*);
 	void SetPrice(int);
 	Item* GetGoods() const;
@@ -39,14 +46,14 @@ private:
 class Shop : public Room
 {
 public:
-	bool InitGoods();
-	std::vector <Goods>& GetGoodses();
+	bool InitGoods();	//初始化商品
+	std::vector <Goods>& GetGoodses();	//返回所有商品，用于显示
+	NPC* SetShopKeeper();	//返回一个商人
 private:
 	std::vector <Goods> _goodses;
 	virtual bool init();
 	bool SetPotion(Type type);
 	bool SetWeapon();
-	NPC* SetShopKeeper();	//需要将改对象添加到商店所在层
 };
 
 #endif // !__SHOP_H__

@@ -3,7 +3,11 @@
 
  该部分为Money货币类，派生出局内金币，局外蓝币
 
- 需要外部接口
+ 接口:
+ Money
+	static int GetBalance();					//获取金额
+	static void SetBalance(int setValue);		//设置余额
+	static bool ChangeBalance(int changeValue);	//改变余额
 
  需要外部全局宏定义
  * 存档路径PATH
@@ -25,12 +29,9 @@ USING_NS_CC;
 class Money :public Sprite
 {
 public:
-	//获取金额
-	static int GetBalance();
-	//设置余额
-	static void SetBalance(int setValue);
-	//改变余额
-	static bool ChangeBalance(int changeValue);
+	static int GetBalance();					//获取金额
+	static void SetBalance(int setValue);		//设置余额
+	static bool ChangeBalance(int changeValue);	//改变余额
 private:
 	static int _balance;
 	virtual bool init() = 0;

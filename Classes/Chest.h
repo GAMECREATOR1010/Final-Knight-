@@ -1,6 +1,11 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
+ 接口：
+ WhiteChest
+	static WhiteChest* create();	//生成一个宝箱
+	virtual Item* open();			//打开宝箱
+
  该部分为宝箱类
  ****************************************************************************/
 #pragma once
@@ -43,10 +48,8 @@ private:
 class WhiteChest : public Chest
 {
 public:
-	/* 生成一个宝箱 */
-	static WhiteChest* create();
-	/* 打开宝箱 */
-	virtual Item* open();
+	static WhiteChest* create();	//生成一个宝箱
+	virtual Item* open();			//打开宝箱
 private:
 	virtual bool init();
 };

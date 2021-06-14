@@ -1,9 +1,10 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
+ 接口：
+	static NPC* create(NpcId id);	//创建一个NPC对象
+
  该部分为NPC
- 不同的NPC有不同的功能
- 根据不同的id值创建不同的npc
  ****************************************************************************/
 
 #pragma once
@@ -27,8 +28,7 @@ enum NpcId
 class NPC : public Sprite
 {
 public:
-	/* 创建一个NPC对象 */
-	static NPC* create(NpcId id);
+	static NPC* create(NpcId id);	//创建一个NPC对象
 protected:
 	virtual bool init(NpcId);
 private:

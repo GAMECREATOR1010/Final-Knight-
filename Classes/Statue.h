@@ -1,8 +1,11 @@
 /****************************************************************************
  Copyright (c) 2021 Final-Knight- Group.
 
+ 接口：
+	static Statue* create(StatueType);		//创建雕像
+	bool ActiveStatue(StatueType _type);	//按技能键时同时触发技能
+
  该部分为雕像
- 与原游戏不同
  ****************************************************************************/
 #pragma once
 #ifndef __STATUE_H__
@@ -31,8 +34,8 @@ const double STATUE_TIME = 5.0;	//持续性状态持续时间
 class Statue : public NPC
 {
 public:
-	static Statue* create(StatueType);
-	bool ActiveStatue(StatueType _type);	//按技能键时同时触发
+	static Statue* create(StatueType);		//创建雕像
+	bool ActiveStatue(StatueType _type);	//按技能键时同时触发技能
 protected:
 	virtual bool init(StatueType);
 private:
