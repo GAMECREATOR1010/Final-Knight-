@@ -13,9 +13,10 @@ Room* Room::create(int  wid, int hei, roomTypeEnum rType, roomThemeEnum rTheme, 
 	return nullptr;
 }
 
+
 void Room::DrawRoom()
 {
-	for (float x = 15 - width / 2; x < 18 + width / 2; x++)
+	for (float x = 15- width / 2; x < 18 + width / 2; x++)
 	{
 		for (float y = 15 - height / 2; y < 18 + height / 2; y++)
 		{
@@ -35,6 +36,7 @@ void Room::DrawRoom()
 			}
 		}
 	}
+
 }
 
 void Room::DrawFloor(float x, float y, bool flag)
@@ -139,10 +141,11 @@ void Room::DrawDoor(float x, float y)
 	}
 	else
 	{
-		shade->setTileGID(doorCloseGid + 10, Vec2(x, y + 1));
+		shade->setTileGID(doorCloseGid+10, Vec2(x, y + 1));
 		meta->setTileGID(metaGid, Vec2(x, y + 1));
 		wall->setTileGID(doorCloseGid, Vec2(x, y));
 	}
+
 }
 
 void Room::UpdateDoor()
@@ -180,11 +183,27 @@ void Room::UpdateDoor()
 	}
 }
 
-void Room::DrawObstacles(float x, float y)
+void Room::DrawObstacles(float x, float y,bool removable)
 {
-	wall->setTileGID(55, Vec2(x, y));
-	meta->setTileGID(41, Vec2(x, y));
+	obstacles->setTileGID(55, Vec2(x, y));
+    meta->setTileGID(41, Vec2(x, y));
+	auto obstaclesbox = PhysicsBody::createBox(Size(64.0f, 64.0f));
+	obstaclesbox->setDynamic(false);
+	SetBody(obstaclesbox, ObstaclesCate);
+	obstacles->getTileAt(Vec2(x, y))->addComponent(obstaclesbox);
+	if(removable)
+		obstacles->getTileAt(Vec2(x, y))->setTag(obstaclesRemovableTag);
+	else
+		obstacles->getTileAt(Vec2(x, y))->setTag(obstaclesNormTag);
 	shade->setTileGID(56, Vec2(x, y + 1));
+}
+
+void Room::DeleteObstacles(float x, float y)
+{
+	meta->setTileGID(roomFloorGid, Vec2(x, y));
+	obstacles->setTileGID(roomFloorGid, Vec2(x, y));
+	shade->setTileGID(roomFloorGid, Vec2(x, y + 1));
+	obstacles->getTileAt(Vec2(x, y))->setTag(emptyTag);
 }
 
 void Room::UpdateObstacles()//添加障碍物，后期会更改丰富
@@ -198,13 +217,12 @@ void Room::UpdateObstacles()//添加障碍物，后期会更改丰富
 			int hei = height - 3 - rand() % 3;
 			for (float y = 16 - height / 2; y < 16 - height / 2 + hei; y++)
 			{
-				DrawObstacles(x, y);
+				DrawObstacles(x, y,true);
 			}
-
 			x = rand() % 2 + 19;
 			for (float y = 17 + height / 2 - hei; y < 17 + height / 2; y++)
 			{
-				DrawObstacles(x, y);
+				DrawObstacles(x, y, true);
 			}
 		}
 		else if (i == 1)
@@ -217,7 +235,7 @@ void Room::UpdateObstacles()//添加障碍物，后期会更改丰富
 				{
 					for (int n = 0; n < 2; n++)
 					{
-						DrawObstacles(x + m, y + n);
+						DrawObstacles(x + m, y + n, true);
 					}
 				}
 			}
@@ -291,8 +309,10 @@ bool Room::init(int wid, int hei, roomTypeEnum rType, roomThemeEnum rTheme, Vec2
 	wall->setGlobalZOrder(wallOrder);
 	obstacles = roomMap->getLayer("obstacles");
 	obstacles->setGlobalZOrder(obstaclesOrder);
+	enemyPos= roomMap->getLayer("enemyPos");
 	DrawRoom();
 	addChild(roomMap);
 
 	return true;
 }
+
