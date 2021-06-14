@@ -52,8 +52,8 @@ enum BuffType
 class Potion : public Item
 {
 public:
-	int GetScale();
-	int GetType();
+	int GetScale() const;
+	int GetType() const;
 	virtual void Drink(float multi = 1) = 0;
 protected:
 	bool initWithScale(Scale scale);

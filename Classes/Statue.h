@@ -32,7 +32,7 @@ class Statue : public NPC
 {
 public:
 	static Statue* create(StatueType);
-	bool activeStatue(StatueType _type);	//按技能键时同时触发
+	bool ActiveStatue(StatueType _type);	//按技能键时同时触发
 protected:
 	virtual bool init(StatueType);
 private:

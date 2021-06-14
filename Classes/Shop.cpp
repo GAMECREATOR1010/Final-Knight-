@@ -25,7 +25,7 @@ bool Goods::Buy()
 	return false;
 }
 
-void Goods::SetGoods(shared_ptr <Item> item)
+void Goods::SetGoods(Item* item)
 {
 	_pGoods = item;
 	return;
@@ -36,12 +36,16 @@ void Goods::SetPrice(int price)
 	_price = price;
 	return;
 }
+Item* Goods::GetGoods() const
+{
+	return _pGoods;
+}
 #pragma endregion
 
 #pragma region Shop
 
 /// <summary>
-/// 设置商店货物
+/// 设置商店货物，然后需要调用GetGoodses语句来获得所有货物并添加到层内
 /// </summary>
 /// <returns></returns>
 bool Shop::InitGoods()
@@ -50,22 +54,29 @@ bool Shop::InitGoods()
 	int ran = rand() % MAX_POTION_SCALE;
 	if (ran == 0)	//两种药
 	{
-		if (SetPotion(HEAL) && SetPotion(MANA) && SetWeapon(some type))
+		if (SetPotion(HEAL) && SetPotion(MANA) && SetWeapon())
 		{
 			return true;
 		}
 	}
 	else if (ran == 1)	//一种药
 	{
-		if (SetPotion(FULL) && SetWeapon(some type) && SetWeapon(some type))
+		if (SetPotion(FULL) && SetWeapon() && SetWeapon())
 		{
 			return true;
 		}
 	}
 
-	/* 需要将货物添加到商店所在层 */
-
 	return false;
+}
+
+/// <summary>
+/// 获得商品，Goods内的Item*指针为商品对象指针
+/// </summary>
+/// <returns></returns>
+std::vector<Goods>& Shop::GetGoodses()
+{
+	return _goodses;
 }
 
 /// <summary>
@@ -120,7 +131,7 @@ bool Shop::SetPotion(Type type)
 		}
 	}
 	Goods gd;
-	gd.SetGoods(static_cast <shared_ptr <Item>> (potion));
+	gd.SetGoods(static_cast <Item*> (potion));
 	gd.SetPrice(potion->GetScale() * THISLEVEL);
 
 	/* 将药添加到货物内 */
@@ -140,7 +151,7 @@ bool Shop::SetPotion(Type type)
 bool Shop::SetWeapon()
 {
 	Goods gd;
-	auto wp = static_cast<shared_ptr <Weapon>> (RandomWeaponCreate());
+	auto wp = static_cast <Item*> (RandomWeaponCreate());
 
 	gd.SetGoods(wp);
 	gd.SetPrice(wp->GetRarity() * THISLEVEL);

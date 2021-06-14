@@ -24,7 +24,7 @@ enum ChestType
 {
 	WHITE_CHEST,
 	BLUE_CHEST,
-	BROWNCHEST,
+	BROWN_CHEST,
 
 	CHEST_COUNT
 };

@@ -28,10 +28,11 @@ class Goods
 {
 public:
 	bool Buy();
-	void SetGoods(shared_ptr <Item>);
+	void SetGoods(Item*);
 	void SetPrice(int);
+	Item* GetGoods() const;
 private:
-	shared_ptr <Item> _pGoods;
+	Item* _pGoods;
 	int _price;
 };
 
@@ -39,6 +40,7 @@ class Shop : public Room
 {
 public:
 	bool InitGoods();
+	std::vector <Goods>& GetGoodses();
 private:
 	std::vector <Goods> _goodses;
 	virtual bool init();

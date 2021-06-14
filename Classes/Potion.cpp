@@ -11,12 +11,12 @@
  /// 获取药水规模
  /// </summary>
  /// <returns></returns>
-int Potion::GetScale()
+int Potion::GetScale() const
 {
 	return _scale;
 }
 
-int Potion::GetType()
+int Potion::GetType() const
 {
 	return _type;
 }

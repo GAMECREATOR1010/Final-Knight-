@@ -13,21 +13,6 @@
 
 USING_NS_CC;
 
-//#pragma region Item_Probability
-///* 
-//   此处为各品质物品出现概率 
-//   概率计算应当按照从稀有到普通依次计算
-//   每个概率并非为出现的概率，而是在单次计算中生成的概率
-//   也就是说，uncommon的将会计算5次
-//*/
-//const int COMMON_PROBABILITY = 100;		//必定获得
-//const int UNCOMMON_PROBABILITY = 50;
-//const int RARE_PROBABILITY = 30;
-//const int VERYRARE_PROBABILITY = 20;
-//const int EPIC_PROBABILITY = 10;
-//const int LEGENDARY_PROBABILITY = 0;	//无法通过开宝箱/商店获得
-//#pragma endregion
-
 //各品质物品出现概率
 //概率计算应当按照从稀有到普通依次计算
 //每个概率并非为出现的概率，而是在单次计算中生成的概率
@@ -48,7 +33,7 @@ class Item :public Sprite
 {
 public:
 	CREATE_FUNC(Item);
-	int GetRarity();
+	int GetRarity() const;
 protected:
 	virtual bool init();
 private:

@@ -42,7 +42,7 @@ ItemProbability RandomItemRarity()
 	}
 }
 
-int Item::GetRarity()
+int Item::GetRarity() const
 {
 	return _rarity;
 }
