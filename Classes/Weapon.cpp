@@ -1,5 +1,38 @@
 #include "Weapon.h"
 
+/// <summary>
+/// 随机创建武器
+/// </summary>
+/// <returns>武器对象指针</returns>
+Weapon* RandomWeaponCreate()
+{
+	auto rarity = RandomItemRarity();
+	switch (rarity)
+	{
+	case LEGENDARY:
+		return nullptr;
+	case EPIC:
+		int rId = 9;
+		return Weapon::create(rId, 1);
+	case VERYRARE:
+		int rId = 8;
+		return Weapon::create(rId, 1);
+	case RARE:
+		int rId = 7;
+		return Weapon::create(rId, 1);
+	case UNCOMMON:
+		int rId = 6;
+		return Weapon::create(rId, 1);
+	case COMMON:
+		int rId = random(0, 5);
+		return Weapon::create(rId, 1);
+	default:
+		throw("Weapon random create failed! In func: RandomWeaponCreate");
+	}
+	
+}
+
+
 Weapon* Weapon::create(int id, int cate)
 {
 	Weapon* wea = new Weapon;
