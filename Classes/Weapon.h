@@ -6,6 +6,9 @@
 #include "Bullet.h"
 
 USING_NS_CC;
+
+Weapon* RandomWeaponCreate()；
+
 class Weapon :public Item
 {
     friend class Enemy;
@@ -23,7 +26,8 @@ public:
     void SetSpeedBuff(float sBuff);
     void SetRangeBuff(float rBuff);
     void SetDamageBuff(float dBuff);
-    void AddBullet(float addBullet);
+
+    void LevelUp(float addBullet);
     float GetDamage();
     
     
@@ -38,17 +42,14 @@ private:
     float speed=1;
     float range=1;
     float damage=1;
-    float distance = 1;
     //玩家属性加成
     float speedBuff=0;
     float rangeBuff=0;
     float damageBuff=0;
-    float distanceBuff = 0;
 
     Vec2 bindPoint;
    
-    int ID=0;
-    float perTime = 0.5f;
+    int ID;
     Sequence* meleeAttack;
     Sprite* attackEffect;
 

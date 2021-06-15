@@ -1,5 +1,37 @@
 #include "Weapon.h"
 
+/// <summary>
+/// 随机创建武器
+/// </summary>
+/// <returns>武器对象指针</returns>
+Weapon * RandomWeaponCreate()
+{
+	auto rarity = RandomItemRarity();
+	switch (rarity)
+	{
+		case LEGENDARY:
+			return nullptr;
+		case EPIC:
+			int rId = 9;
+			return Weapon::create(rId, 1);
+		case VERYRARE:
+			int rId = 8;
+			return Weapon::create(rId, 1);
+		case RARE:
+			int rId = 7;
+			return Weapon::create(rId, 1);
+		case UNCOMMON:
+			int rId = 6;
+			return Weapon::create(rId, 1);
+		case COMMON:
+			int rId = random(0, 5);
+			return Weapon::create(rId, 1);
+		default:
+			throw("Weapon random create failed! In func: RandomWeaponCreate");
+	}
+}
+
+
 Weapon* Weapon::create(int id, int cate)
 {
 	Weapon* wea = new Weapon;
@@ -29,8 +61,7 @@ bool Weapon::init(int id, int cate)
 		addChild(attackEffect);
 		attackEffect->setPosition(Vec2(30,60));
 		attackEffect->setGlobalZOrder(wallOrder);
-		
-		
+
 		SetBody(attackEffect->getPhysicsBody(), cate);
 		attackEffect->setVisible(false);
 		attackEffect->getPhysicsBody()->setEnabled(false);
@@ -40,9 +71,8 @@ bool Weapon::init(int id, int cate)
 		else
 			attackEffect->setTag(enemyAttackTag);
 	}
-	else 
+	else
 	{
-		perTime = 0.2f;
 		std::string  name = "weapon/gun_";
 		std::string  number = StringUtils::toString(id-5);
 		bulletType = id-5;
@@ -55,43 +85,12 @@ bool Weapon::init(int id, int cate)
 		attackMode = gunEnum;
 		initWithFile(gunFilename);
 	}
+
 	if (id == 0)
 	{
-		initWithFile("weapon/sword_0.png");
+		initWithFile("weapon/bow_0.png");
 		setAnchorPoint(Vec2(0.2f, 0.5f));
 		damage = 1;
-	}
-	else if (id == 1)
-	{
-		initWithFile("weapon/axe_0.png");
-		costEnergy = 1;
-		damage = 2;
-		range = 2; 
-	}
-	else if (id == 2)
-	{
-		initWithFile("weapon/sword_1.png");
-		costEnergy = 2;
-		damage = 3;
-		range = 1.5;
-		speed = 2;
-	}
-	else if (id == 3)
-	{
-		initWithFile("weapon/sword_2.png");
-		costEnergy = 2;
-		damage = 2;
-		range = 2;
-		speed = 2;
-	}
-	else if (id == 4)
-	{
-		initWithFile("weapon/knife_0.png");
-		bindPoint = Vec2(0, -20);
-		costEnergy = 3;
-		damage = 3;
-		range = 2;
-		speed = 3;
 	}
 	else if (id == 5)
 	{
@@ -103,35 +102,24 @@ bool Weapon::init(int id, int cate)
 		setAnchorPoint(Vec2(0.3f, 0.5f));
 		damage = 6;
 		countPerTime = 3;
-		speed = 2;
-		costEnergy = 2;
 	}
 	else if (id == 7)
 	{
 		setAnchorPoint(Vec2(0.3f, 0.5f));
 		damage = 7;
 		countPerTime = 4;
-		speed = 2;
-		distance = 2;
-		costEnergy = 3;
 	}
 	else if (id == 8)
 	{
 		setAnchorPoint(Vec2(0.3f, 0.5f));
 		damage = 7;
 		countPerTime =8;
-		speed = 3;
-		distance = 3;
-		costEnergy = 4;
 	}
 	else if (id == 9)
 	{
 		setAnchorPoint(Vec2(0.3f, 0.5f));
 		damage = 7;
 		countPerTime = 12;
-		speed = 3;
-		distance = 4;
-		costEnergy = 10;
 	}
 
 	if (cate == KnightCate)//避免敌人武器被玩家捡起
@@ -141,7 +129,7 @@ bool Weapon::init(int id, int cate)
 		addComponent(trigger);
 	}
 
-	setGlobalZOrder(shadeOrder);
+	setGlobalZOrder(wallOrder);
 	setTag(weaponTag);
 	return true;
 }
@@ -157,8 +145,8 @@ void Weapon::SetSpeedBuff(float sBuff)
 }
 
 void Weapon::SetRangeBuff(float rBuff)
-{ 
-	rangeBuff=rBuff; 
+{
+	rangeBuff=rBuff;
 }
 
 void Weapon::SetDamageBuff(float dBuff)
@@ -166,7 +154,7 @@ void Weapon::SetDamageBuff(float dBuff)
 	damageBuff = dBuff;
 }
 
-void Weapon::AddBullet(float addBullet)
+void Weapon::LevelUp(float addBullet)
 {
 	if (attackMode == gunEnum)
 	{
@@ -208,31 +196,25 @@ void Weapon::MeleeAttack(Vec2  faceDir)
 	}
 	setScale(range+0.2f+rangeBuff*0.2f);
 	auto moveBy = MoveBy::create(0.01f, meleeFacDir);
-	auto rotateByOne = RotateBy::create(0.1f - speed * 0.01, meleeStartRot);
-	auto rotateByTwo = RotateBy::create(0.2f - speed * 0.05, 35.0f);
-	auto rotateByThird = RotateBy::create(0.2f - speed * 0.05, 100.0f);
+	auto rotateByOne = RotateBy::create(0.1f, meleeStartRot);
+	auto rotateByTwo = RotateBy::create(0.2f, 35.0f);
+	auto rotateByThird = RotateBy::create(0.2f, 100.0f);
 	auto rotateByForth = RotateBy::create(0.1f, -135.0f - meleeStartRot);
-	
+	//auto delay = DelayTime::create(0.2f);
+
 
 	auto meleeStart = CallFunc::create([&]() {
-
-		if (ID >0)
-		{
-			int i =random(0,5-ID);
-			if (i == 0)
-				attackEffect->setScale(range);
-		}
 		attackEffect->setVisible(true);
 		attackEffect->getPhysicsBody()->setEnabled(true);
-		auto scaleTo = ScaleTo::create(0.2f, 0.5f);
-		attackEffect->runAction(scaleTo);
+		auto scaleBy = ScaleTo::create(0.2f, 0.5f);
+		attackEffect->runAction(scaleBy);
 		});
 
 	auto meleeEnd = CallFunc::create([&]() {
 		attackEffect->setVisible(false);
 		attackEffect->getPhysicsBody()->setEnabled(false);
 		});
-	
+
 	auto recovery = CallFunc::create([&]() {
 		setScale(1.0f);
 		attackEffect->setScale(1.0f);
@@ -240,21 +222,25 @@ void Weapon::MeleeAttack(Vec2  faceDir)
 
 	meleeAttack = Sequence::create(moveBy, rotateByOne, rotateByTwo, meleeStart, rotateByThird,
 		meleeEnd, rotateByForth, recovery,moveBy->reverse(), nullptr);
-	
+
 	runAction(meleeAttack);
-	
+
 }
 
+Vec2 Rotate(Vec2 faceDir, float angle)
+{
+	Vec2 temp = Vec2(faceDir.x * cosf(angle) - faceDir.y * sinf(angle), faceDir.x * sinf(angle) + faceDir.y * cosf(angle));
+	return temp;
+}
 
 void Weapon::GenerateBullet(Vec2  faceDir)
 {
-	auto bull = Bullet::create(bulletType, faceDir, belongCate, 
-		range + rangeBuff, damageBuff + damage,speed+speedBuff,distance+distanceBuff);
+	auto bull = Bullet::create(bulletType, faceDir, belongCate, range + rangeBuff, damageBuff + damage);
 	getParent()->getParent()->addChild(bull);
 	bull->setPosition(getParent()->getPosition());
 
 	if (countPerTime > 1)
-	{ 
+	{
 		float perAngle = 30;
 		float perRradian = 0.523;
 		if (countPerTime == 4)
@@ -267,10 +253,9 @@ void Weapon::GenerateBullet(Vec2  faceDir)
 			perAngle = 45.0f;
 			perRradian = 0.785f;
 		}
-		for (int i = 0; i < countPerTime-1 ; ++i)
+		for (int i = 0; i < countPerTime ; ++i)
 		{
-			auto bull = Bullet::create(bulletType, Rotate(faceDir, perRradian*(i/2+1)), belongCate, 
-				range + rangeBuff, damageBuff + damage, speed + speedBuff, distance + distanceBuff);
+			auto bull = Bullet::create(bulletType, Rotate(faceDir, perRradian*(i/2+1)), belongCate, range + rangeBuff, damageBuff + damage);
 			getParent()->getParent()->addChild(bull);
 			bull->setRotation(-perAngle * (i / 2 + 1));
 			bull->setPosition(getParent()->getPosition());
