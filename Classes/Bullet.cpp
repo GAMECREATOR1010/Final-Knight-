@@ -1,9 +1,9 @@
 #include "Bullet.h"
 
-Bullet* Bullet::create(int bulletType, Vec2 dir, int cate, float range, float damage, float delayTime)
+Bullet* Bullet::create(int bulletType, Vec2 dir,int cate,  float range,float damage, float speed,float distance)
 {
 	Bullet* bullet = new Bullet;
-	if (bullet != nullptr && bullet->init(bulletType, dir, cate, range, delayTime))
+	if (bullet != nullptr && bullet->init(bulletType, dir,cate,  range, speed,distance))
 	{
 		bullet->autorelease();
 		return bullet;
@@ -12,69 +12,93 @@ Bullet* Bullet::create(int bulletType, Vec2 dir, int cate, float range, float da
 	return nullptr;
 }
 
-bool Bullet::init(int bulletType, Vec2 dir, int cate, float range, float damage, float delayTime)
+bool Bullet::init(int bulletType, Vec2 dir,int cate,  float rangeW, float damageW, float speed,float distance)
 {
+	std::string  path = "bullet/";
+	std::string count = StringUtils::toString(cate);
+	std::string filename = path + count ;
+
 	type = bulletType;
-	trigger = PhysicsBody::create();
+	damage = damageW;
+	trigger=  PhysicsBody::create();
 	if (bulletType == 0)
 	{
-		this->initWithFile("bullet/roundBullet1.png");
+		filename += "roundBullet1.png";
+		this->initWithFile(filename);
 		trigger->addShape(PhysicsShapeCircle::create(20.0f));
 	}
 	else if (bulletType == 1)
 	{
-		this->initWithFile("bullet/triangleBullet.png");
-		Vec2 verts[] = { Vec2(-30, -3), Vec2(30,-3), Vec2(0, 40) };
+		filename += "triangleBullet.png";
+		this->initWithFile(filename);
+		Vec2 verts[] = { Vec2(-30, -3), Vec2(30,-3), Vec2(0, 40)};
 		trigger->addShape(PhysicsShapeEdgePolygon::create(verts, 3));
 	}
 	else if (bulletType == 2)
 	{
-		this->initWithFile("bullet/triangleBullet1.png");
+		filename += "triangleBullet1.png";
+		this->initWithFile(filename);
 		Vec2 verts[] = { Vec2(-17, -17), Vec2(17,-17), Vec2(0, 27) };
 		trigger->addShape(PhysicsShapeEdgePolygon::create(verts, 3));
 	}
 	else if (bulletType == 3)
 	{
-		this->initWithFile("bullet/lightEffect01.png");
-		Vec2 verts[] = { Vec2(-15, -144), Vec2(-15,144), Vec2(15, 144),Vec2(15, -144) };
-		trigger->addShape(PhysicsShapeEdgePolygon::create(verts, 4));
+		filename += "crossBullet.png";
+		this->initWithFile(filename);
+		Vec2 verts[] = { Vec2(-25, -7), Vec2(-25,7), Vec2(-5, 7),Vec2(-5, 25),Vec2(5,25),Vec2(5,7)
+		, Vec2(25,7),Vec2(25, -7),Vec2(5,-7),Vec2(5, -25), Vec2(-5, -25), Vec2(-5,-7), };
+		trigger->addShape(PhysicsShapeEdgePolygon::create(verts, 12));
 	}
 	else if (bulletType == 4)
 	{
-		this->initWithFile("bullet/crossBullet.png");
+		filename += "lightEffect.png";
+		this->initWithFile(filename);
 		Vec2 verts[] = { Vec2(-15, -144), Vec2(-15,144), Vec2(15, 144),Vec2(15, -144) };
 		trigger->addShape(PhysicsShapeEdgePolygon::create(verts, 4));
 	}
 
 	SetBody(trigger, ItemCate);
 	this->addComponent(trigger);
+
 	if (cate == KnightCate)
 	{
-		this->setTag(myAttack);
+		this->setTag(myBulletTag);
 	}
 	else
-		this->setTag(enemyAttack);
+		this->setTag(enemyBulletTag);
+	
 
-	//this->setGlobalZOrder(wallOrder);
-	auto moveBy = MoveBy::create(2.0f, dir * 300);
+
+	this->setScale(rangeW);
+	this->setGlobalZOrder(wallOrder);
+	auto moveBy = MoveBy::create(1.5f-speed*0.2f, dir * (250+distance*50));
 	auto bulletEffect = CallFunc::create([&]() {
 		this->ShowEffect();
 		});
-	auto bulletDis = CallFunc::create([&]() {
-		this->removeFromParent();
-		});
-	auto mySeq = Sequence::create(moveBy, bulletEffect, bulletDis, nullptr);
+	
+	auto mySeq = Sequence::create(moveBy, bulletEffect,nullptr);
 	this->runAction(mySeq);
 	return true;
+}
+
+void Bullet::BulletDis()
+{
+	this->removeFromParentAndCleanup(true);
 }
 
 void Bullet::ShowEffect()
 {
 	std::string  effect = "bulletParticle/shot";
-	std::string count = StringUtils::toString(type);
-	std::string filename = effect + count + ".plist";
-	auto particleSystem = ParticleSystemQuad::create(filename);
+	std::string countEffect = StringUtils::toString(type);
+	std::string filenameEffect = effect + countEffect + ".plist";
+	auto particleSystem = ParticleSystemQuad::create(filenameEffect);
 	this->getParent()->addChild(particleSystem);
 	particleSystem->setGlobalZOrder(wallOrder);
 	particleSystem->setPosition(this->getPosition());
+	auto bulletDis = CallFunc::create([&]() {
+		this->BulletDis();
+		});
+	auto delay = DelayTime::create(0.05f);
+	auto mySeq = Sequence::create(delay, bulletDis, nullptr);
+	this->runAction(mySeq);
 }
