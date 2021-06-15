@@ -27,12 +27,19 @@ Vec2 ChangeDir()
 		return Vec2(0, -1);
 }
 
+Vec2 Rotate(Vec2 faceDir, float angle)
+{
+	Vec2 temp = Vec2(faceDir.x * cosf(angle) - faceDir.y * sinf(angle), faceDir.x * sinf(angle) + faceDir.y * cosf(angle));
+	return temp;
+}
+
 void SetBody(PhysicsBody* body, int category)
 {
 	if (category == KnightCate)
 	{
 		body->setCategoryBitmask(0x01); //1
 		body->setCollisionBitmask(0x06); //110
+		
 	}
 	else if (category == EnemyCate)
 	{
@@ -43,10 +50,12 @@ void SetBody(PhysicsBody* body, int category)
 	{
 		body->setCategoryBitmask(0x03); //11
 		body->setCollisionBitmask(0x04); //100
+		//body->setContactTestBitmask(0xff);
 	}
 	else if (category == ItemCate)
 	{
-		body->setCategoryBitmask(0x00); //不碰撞,仅触发
-		body->setCollisionBitmask(0x00);
+		body->setCategoryBitmask(0x04); //不碰撞,仅触发
+		body->setCollisionBitmask(0x00); 
 	}
+	body->setContactTestBitmask(0xff);
 }
