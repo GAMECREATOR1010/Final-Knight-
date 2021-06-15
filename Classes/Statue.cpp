@@ -23,12 +23,83 @@ Statue* Statue::create(StatueType type)
 	return nullptr;
 }
 
-bool Statue::init(StatueType type)
+bool Statue::ActiveStatue(Knight* activer)
 {
-	if (initWithFile(FILENAME))
+	if (GoldMoney::ChangeBalance(-STATUE_COST));
 	{
-		_type = type;
+		switch (_type)
+		{
+			case WEREWOLF:
+				activer->AddMoveSpeed(SPEED_BUFF);
+				break;
+			case PRIEST:
+				break;
+			case KNIGHT:
+				activer->AddDefence(DEFENCE_BUFF);
+				break;
+			case THIEF:
+				auto curWp = activer->GetWea();
+				curWp->SetDamageBuff(DAMAGE_BUFF);
+				break;
+			case ELF:
+				break;
+			case SORCERER:
+				break;
+			case ASSASSIN:
+				break;
+			case PALADIN:
+				break;
+			case ENGINEER:
+				break;
+			case BERSERKER:
+				break;
+			case STATUECOUNT:
+				break;
+			default:
+				break;
+		}
 		return true;
 	}
+
 	return false;
+}
+
+bool Statue::init(StatueType type)
+{
+	switch (type)
+	{
+		case WEREWOLF:
+			initWithFile(WEREWOLF_PATH);
+			break;
+		case PRIEST:
+			initWithFile(PRIEST_PATH);
+			break;
+		case KNIGHT:
+			initWithFile(KNIGHT_PATH);
+			break;
+		case THIEF:
+			initWithFile(THIEF_PATH);
+			break;
+		case ELF:
+			initWithFile(ELF_PATH);
+			break;
+			//case SORCERER:
+			//	break;
+			//case ASSASSIN:
+			//	break;
+			//case PALADIN:
+			//	break;
+			//case ENGINEER:
+			//	break;
+			//case BERSERKER:
+			//	break;
+			//case STATUECOUNT:
+			//	break;
+		default:
+			throw("Statue create failed");
+			return false;
+	}
+	_type = type;
+
+	return true;
 }

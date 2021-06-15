@@ -24,6 +24,7 @@
 #define myAttack 4
 #define enemyAttack 5
 #define itemTag 6
+#define statueTag 21
 
 #define KnightCate 1
 #define EnemyCate 2
@@ -72,4 +73,4 @@ enum roomThemeEnum
 	iceTheme = 0, darkTheme = 1, techTheme = 2, forestTheme = 3, sandTheme = 4
 };
 
-#endif 
+#endif

@@ -12,5 +12,6 @@
 #include "Bullet.h"
 #include "Const.h"
 #include "Weapon.h"
+#include "Statue.h"
 
 #endif 

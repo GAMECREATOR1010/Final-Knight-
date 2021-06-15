@@ -28,10 +28,8 @@ USING_NS_CC;
 
 Scene* HelloWorld::createScene()
 {
-
 	return HelloWorld::create();
 }
-
 
 // Print useful error message instead of segfaulting when files are not there.
 static void problemLoading(const char* filename)
@@ -39,7 +37,6 @@ static void problemLoading(const char* filename)
 	printf("Error while loading: %s\n", filename);
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
-
 
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
@@ -56,7 +53,6 @@ bool HelloWorld::init()
 	this->getPhysicsWorld()->setGravity(Vec2(0, 0));
 	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
-
 	srand((unsigned)time(NULL));
 
 	auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -71,7 +67,6 @@ bool HelloWorld::init()
 	change = Vec2(0, 0);
 	addChild(map, 0);
 
-
 	flag = false;//
 	inPassage = false;
 
@@ -82,7 +77,6 @@ bool HelloWorld::init()
 		origin.y + visibleSize.height / 2));
 	addChild(myKnight);
 
-	
 	auto keyListener = EventListenerKeyboard::create();
 	keyListener->onKeyPressed = CC_CALLBACK_2(HelloWorld::onKeyPressed, this);
 	keyListener->onKeyReleased = CC_CALLBACK_2(HelloWorld::onKeyReleased, this);
@@ -91,8 +85,6 @@ bool HelloWorld::init()
 	auto contactListener = EventListenerPhysicsContact::create();
 	contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegin, this);
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
-
-
 
 	//this->setScale(0.2f);
 	//map->setVisible(false);
@@ -171,12 +163,19 @@ bool HelloWorld::onContactBegin(const PhysicsContact& contact)
 			else if (nodeB->getTag() == obstaclesNormTag || nodeB->getTag() == obstaclesRemovableTag)
 				bullet->ShowEffect();
 		}
+
+		/* 触发雕像 */
+		if (nodeA->getTag() == knightTag && nodeB->getTag() == statueTag)
+		{
+			auto activer = static_cast <Knight*> (nodeA);
+			auto statue = static_cast <Statue*> (nodeB);
+			statue->ActiveStatue(activer);
+		}
 	}
 
 	log("onContactBegin");
 	return true;
 }
-
 
 bool HelloWorld::onKeyReleased(EventKeyboard::KeyCode keycode, Event* event)
 {
@@ -203,7 +202,6 @@ bool HelloWorld::onKeyReleased(EventKeyboard::KeyCode keycode, Event* event)
 	return true;
 }
 
-
 bool HelloWorld::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 {
 	if (!myKnight->death)
@@ -212,7 +210,6 @@ bool HelloWorld::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 		{
 			//myKnight->DeathEffect();
 			myKnight->MyAttack();
-
 		}
 		if (keycode == EventKeyboard::KeyCode::KEY_UP_ARROW)
 		{
@@ -240,10 +237,8 @@ bool HelloWorld::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 			myKnight->GetWea()->setRotation(90.0f);
 			change = Vec2(0, 1);
 		}
-		
 	}
 	return true;
-
 }
 
 void HelloWorld::myUpdate(float delta)
@@ -285,18 +280,14 @@ void HelloWorld::update(float delta)
 				map->setPosition(map->getPosition() + change * 10);
 		}
 	}
-	else if (!endGame&& myKnight->death)/*转换场景*/
+	else if (!endGame && myKnight->death)/*转换场景*/
 	{
-		
 		endGame = true;
 	}
 }
 
-
-
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {
-
 	Director::getInstance()->end();
 
 	/*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
@@ -304,4 +295,3 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 	//EventCustom customEndEvent("game_scene_close_event");
 	//_eventDispatcher->dispatchEvent(&customEndEvent);
 }
-
