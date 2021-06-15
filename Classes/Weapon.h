@@ -6,6 +6,9 @@
 #include "Bullet.h"
 
 USING_NS_CC;
+
+Weapon* RandomWeaponCreate();
+
 class Weapon :public Item
 {
     friend class Enemy;
@@ -16,9 +19,6 @@ public:
     void GenerateBullet(Vec2 faceDir);
     void MeleeAttack(Vec2 faceDir);
     void WeaponAttack(Vec2 faceDir);
-
-
-
 
     void SetSpeedBuff(float sBuff);
     void SetRangeBuff(float rBuff);
