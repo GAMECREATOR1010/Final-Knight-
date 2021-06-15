@@ -1,10 +1,10 @@
 #include "BattleMap.h"
 USING_NS_CC;
 
-BattleMap* BattleMap::create(int chapter, roomThemeEnum rTheme)
+BattleMap* BattleMap::create(int chapter, roomThemeEnum rTheme,  Knight* target)
 {
 	BattleMap* battleMap = new BattleMap;
-	if (battleMap != nullptr && battleMap->init(chapter, rTheme))
+	if (battleMap != nullptr && battleMap->init(chapter, rTheme,target))
 	{
 		battleMap->autorelease();
 		return battleMap;
@@ -13,8 +13,9 @@ BattleMap* BattleMap::create(int chapter, roomThemeEnum rTheme)
 	return nullptr;
 }
 
-bool BattleMap::init(int cha, roomThemeEnum rTheme)
+bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 {
+	targetKnight = target;
 	roomTheme = rTheme;
 	chapter = cha;
 	if (chapter <= 4)
@@ -30,7 +31,7 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme)
 	int wid = 12, hei = 12;
 	maxDistance = 0;
 	roomTypeEnum type = startRoomEnum;
-	for (int i = 0; i < roomNumber; i++)
+	for (int i = 0; i < roomNumber; i++)/*生成房间*/
 	{
 		if (!first)
 		{
@@ -90,7 +91,7 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme)
 	}
 
 
-	for (auto temp1 : rooms)
+	for (auto temp1 : rooms)/*连接各房间，找到距离较远的房间*/
 	{
 		Vec2 pos = temp1->getPosition();
 		for (auto temp2 : rooms)
@@ -173,9 +174,19 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme)
 			final = Vec2(offSet, 0);
 			farRoom.front()->doorRight = true;
 		}
-		wid = (rand() % 4) * 2 + 10;
-		hei = (rand() % 4) * 2 + 10;
+		if (chapter % 3 == 0)
+		{
+			wid = (rand() % 4) * 2 + 14;
+			hei = (rand() % 4) * 2 + 14;
+		}
+		else
+		{
+			wid = (rand() % 4) * 2 + 10;
+			hei = (rand() % 4) * 2 + 10;
+		}
+		
 		Room* tempRoom = Room::create(wid, hei,endRoomEnum, roomTheme, farRoom.front()->roomPosition + final);
+		
 		tempRoom->doorUp = doorU;
 		tempRoom->doorDown = doorD;
 		tempRoom->doorLeft = doorL;
@@ -186,27 +197,23 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme)
 		tempRoom->UpdateDoor();
 		farRoom.front()->DrawPassage();
 		farRoom.front()->UpdateDoor();
+		tempRoom->roomType = endRoomEnum;
 		rooms.pushBack(tempRoom);
 		endRoom = tempRoom;
 	}
 
-	auto frames = GetAnim("gate%02d.png", 8);
-	auto transDoor = Sprite::createWithSpriteFrame(frames.front());
-	transDoor->setGlobalZOrder(shadeOrder);
-	endRoom->addChild(transDoor);
-	transDoor->setPosition(offSet/2, offSet / 2);
-	auto animation = Animation::createWithSpriteFrames(frames, 1.0f / 8);
-	transDoor->runAction(RepeatForever::create(Animate::create(animation)));
-	auto particleSystem = ParticleSystemQuad::create("gate/door.plist");
-	endRoom->addChild(particleSystem);
-	particleSystem->setGlobalZOrder(wallOrder);
-	particleSystem->setPosition(transDoor->getPosition());
+	if (chapter % 3 == 0)/*boss房放置*/
+	{
+		if (endRoom->width > 14 && endRoom->height > 14)
+			endRoom->roomType = bossRoomEnum;
+	}
 
 	for (auto temp : rooms)
 	{
 		temp->UpdateObstacles();
 		AddThings(temp);
 	}
+
 	return true;
 }
 
@@ -214,22 +221,44 @@ void BattleMap::AddThings(Room* inRoom)
 {
 	if (inRoom->roomType == startRoomEnum)
 	{
-		auto enemy1 = Enemy::create(0);
+		auto enemy1 = Enemy::create(2);
+		enemy1->target = targetKnight;
 		addChild(enemy1);
 		enemy1->setPosition(Vec2(offSet / 2, offSet / 2));
 		enemy1->BindRoom(inRoom);
+		inRoom->enemyCount = 1;
 	}
 	else if(inRoom->roomType == normalRoomEnum)
 	{
 		int i = rand() % 6;
+		//inRoom->enemyCount = i;
 		for (int j = 0; j < i; ++j)
 		{
+			int x = rand() % (inRoom->width);
 
 		}
 	}
+	else if(inRoom->roomType == endRoomEnum)
+	{
+		AddTransDoor(endRoom);
+	}
 }
 
+void BattleMap::AddTransDoor(Room* inRoom)
+{
+	auto frames = GetAnim("gate%02d.png", 8);
+	auto transDoor = Sprite::createWithSpriteFrame(frames.front());
+	transDoor->setGlobalZOrder(shadeOrder);
+	inRoom->addChild(transDoor);
+	transDoor->setPosition(offSet / 2, offSet / 2);
+	auto animation = Animation::createWithSpriteFrames(frames, 1.0f / 8);
+	transDoor->runAction(RepeatForever::create(Animate::create(animation)));
 
+	auto particleSystem = ParticleSystemQuad::create("gate/door.plist");
+	inRoom->addChild(particleSystem);
+	particleSystem->setGlobalZOrder(wallOrder);
+	particleSystem->setPosition(transDoor->getPosition());
+}
 
 Room* BattleMap::InRoom(Vec2 pos)
 {
