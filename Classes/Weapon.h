@@ -6,6 +6,9 @@
 #include "Bullet.h"
 
 USING_NS_CC;
+
+Weapon* RandomWeaponCreate()£»
+
 class Weapon :public Item
 {
     friend class Enemy;

@@ -1,5 +1,37 @@
 #include "Weapon.h"
 
+/// <summary>
+/// 随机创建武器
+/// </summary>
+/// <returns>武器对象指针</returns>
+Weapon * RandomWeaponCreate()
+{
+	auto rarity = RandomItemRarity();
+	switch (rarity)
+	{
+		case LEGENDARY:
+			return nullptr;
+		case EPIC:
+			int rId = 9;
+			return Weapon::create(rId, 1);
+		case VERYRARE:
+			int rId = 8;
+			return Weapon::create(rId, 1);
+		case RARE:
+			int rId = 7;
+			return Weapon::create(rId, 1);
+		case UNCOMMON:
+			int rId = 6;
+			return Weapon::create(rId, 1);
+		case COMMON:
+			int rId = random(0, 5);
+			return Weapon::create(rId, 1);
+		default:
+			throw("Weapon random create failed! In func: RandomWeaponCreate");
+	}
+}
+
+
 Weapon* Weapon::create(int id, int cate)
 {
 	Weapon* wea = new Weapon;
@@ -29,7 +61,7 @@ bool Weapon::init(int id, int cate)
 		addChild(attackEffect);
 		attackEffect->setPosition(Vec2(30,60));
 		attackEffect->setGlobalZOrder(wallOrder);
-		
+
 		SetBody(attackEffect->getPhysicsBody(), cate);
 		attackEffect->setVisible(false);
 		attackEffect->getPhysicsBody()->setEnabled(false);
@@ -39,7 +71,7 @@ bool Weapon::init(int id, int cate)
 		else
 			attackEffect->setTag(enemyAttackTag);
 	}
-	else 
+	else
 	{
 		std::string  name = "weapon/gun_";
 		std::string  number = StringUtils::toString(id-5);
@@ -113,8 +145,8 @@ void Weapon::SetSpeedBuff(float sBuff)
 }
 
 void Weapon::SetRangeBuff(float rBuff)
-{ 
-	rangeBuff=rBuff; 
+{
+	rangeBuff=rBuff;
 }
 
 void Weapon::SetDamageBuff(float dBuff)
@@ -182,7 +214,7 @@ void Weapon::MeleeAttack(Vec2  faceDir)
 		attackEffect->setVisible(false);
 		attackEffect->getPhysicsBody()->setEnabled(false);
 		});
-	
+
 	auto recovery = CallFunc::create([&]() {
 		setScale(1.0f);
 		attackEffect->setScale(1.0f);
@@ -190,9 +222,9 @@ void Weapon::MeleeAttack(Vec2  faceDir)
 
 	meleeAttack = Sequence::create(moveBy, rotateByOne, rotateByTwo, meleeStart, rotateByThird,
 		meleeEnd, rotateByForth, recovery,moveBy->reverse(), nullptr);
-	
+
 	runAction(meleeAttack);
-	
+
 }
 
 Vec2 Rotate(Vec2 faceDir, float angle)
@@ -208,7 +240,7 @@ void Weapon::GenerateBullet(Vec2  faceDir)
 	bull->setPosition(getParent()->getPosition());
 
 	if (countPerTime > 1)
-	{ 
+	{
 		float perAngle = 30;
 		float perRradian = 0.523;
 		if (countPerTime == 4)
