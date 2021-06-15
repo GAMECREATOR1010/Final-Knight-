@@ -133,19 +133,18 @@ void Room::DrawDoor(float x, float y)
 {
 	wall->setTileGID(passageFloorGid, Vec2(x, y));
 	shade->setTileGID(passageFloorGid, Vec2(x, y + 1));
+	meta->setTileGID(passageFloorGid, Vec2(x, y));
 	if (doorOpen)
 	{
-		floor->setTileGID(doorOpenGid, Vec2(x, y));
-		shade->setTileGID(passageFloorGid, Vec2(x, y));
-		meta->setTileGID(passageFloorGid, Vec2(x, y));
+		shade->setTileGID(doorOpenGid, Vec2(x, y));
+		wall->setTileGID(passageFloorGid, Vec2(x, y - 1));
 	}
 	else
 	{
-		shade->setTileGID(doorCloseGid+10, Vec2(x, y + 1));
-		meta->setTileGID(metaGid, Vec2(x, y + 1));
-		wall->setTileGID(doorCloseGid, Vec2(x, y));
+		shade->setTileGID(doorCloseGid+10, Vec2(x, y ));
+		meta->setTileGID(metaGid, Vec2(x, y ));
+		wall->setTileGID(doorCloseGid, Vec2(x, y-1));
 	}
-
 }
 
 void Room::UpdateDoor()
@@ -183,10 +182,21 @@ void Room::UpdateDoor()
 	}
 }
 
+void Room::AddThing(float x,float y,float hei,float wid)
+{
+	for (float i = x; i < x + wid; ++i)
+	{
+		for (float j = y; j < y + hei; ++j)
+		{
+			meta->setTileGID(metaGid, Vec2(i, j));
+		}
+	}
+}
+
 void Room::DrawObstacles(float x, float y,bool removable)
 {
 	obstacles->setTileGID(55, Vec2(x, y));
-    meta->setTileGID(41, Vec2(x, y));
+    meta->setTileGID(metaGid, Vec2(x, y));
 	auto obstaclesbox = PhysicsBody::createBox(Size(64.0f, 64.0f));
 	obstaclesbox->setDynamic(false);
 	SetBody(obstaclesbox, ObstaclesCate);
@@ -280,6 +290,7 @@ void Room::UpdatePlayerEnter(Vec2 pos)
 		&& pos.y >= offSet / 2 - height * 32 && pos.y <= offSet / 2 + height * 32)
 	{
 		playerEnter = true;
+		UpdateDoor();
 	}
 }
 

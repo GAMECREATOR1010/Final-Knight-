@@ -20,6 +20,7 @@ public:
     void DrawFloor(float, float, bool = true);
     void DrawWall(float, float, bool = true, bool = true);
     void DrawObstacles(float, float,bool);
+    void AddThing(float, float,float, float);
     void DeleteObstacles(float, float);
     void UpdateObstacles();
     void UpdateDoor();
