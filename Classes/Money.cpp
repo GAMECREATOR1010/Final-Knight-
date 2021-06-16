@@ -44,58 +44,39 @@ bool Money::ChangeBalance(int changeValue)
 	return false;
 }
 
+bool Money::create(int initValue)
+{
+	_balance = initValue;
+	return true;
+}
+
 #pragma endregion
 
 #pragma region GoldMoney
-
 /// <summary>
-/// 默认初始化，金币设置为0
+/// 怪物死时概率加金币，精英怪必加
 /// </summary>
-/// <returns></returns>
-bool GoldMoney::init()
+/// <param name="roomLevel">当前层数</param>
+/// <param name="enemyLevel">敌人等级</param>
+/// <param name="difficult">难度系数</param>
+/// <param name="isElite">是否为精英怪</param>
+void GoldMoney::ChangeBalanceWhileEnemyDied(int roomLevel, int enemyLevel, int difficult, bool isElite)
 {
-	SetBalance(0);
-
-	return true;
+	if (!isElite)
+	{
+		if (random(1, 5) != 1)	//1/5几率掉
+		{
+			return;
+		}
+	}
+	ChangeBalance(MONEY_EVERY_ENEMY * roomLevel * enemyLevel * difficult * (isElite ? 3 : 1));
+	return;
 }
 
-/// <summary>
-/// 初始化并设置金币
-/// </summary>
-/// <param name="value">金币</param>
-/// <returns></returns>
-bool GoldMoney::init(int value)
-{
-	this->SetBalance(value);
-
-	return true;
-}
 
 #pragma endregion
 
 #pragma region BlueMoney
 
-/// <summary>
-/// 默认初始化，金币设置为0
-/// </summary>
-/// <returns></returns>
-bool BlueMoney::init()
-{
-	SetBalance(0);
-
-	return true;
-}
-
-/// <summary>
-/// 初始化并设置金币
-/// </summary>
-/// <param name="value">金币</param>
-/// <returns></returns>
-bool BlueMoney::init(int value)
-{
-	this->SetBalance(value);
-
-	return true;
-}
-
 #pragma endregion
+

@@ -10,12 +10,17 @@
 
  接口：
 	virtual void Drink(float multi = 1) = 0;	//使用药水
+
+todo
+喝药水的效果
  ****************************************************************************/
 #pragma once
 #ifndef __POTION_H__
 #define __POTION_H__
 
 #include "Item.h"
+#include "Knight.h"
+#include "Buff.h"
 
 const int MAX_POTION_SCALE = 2;
 
@@ -42,7 +47,7 @@ enum BuffType
 	HEALTH_MAX_ADD,
 	MANA_MAX_ADD,
 	SHIELD_MAX_ADD,
-	ATTACK_DAMAGE_ADD,
+	SPEED_ADD,
 
 	//待开发
 	BUFF_COUNT	//计数用
@@ -53,7 +58,7 @@ class Potion : public Item
 public:
 	int GetScale() const;
 	int GetType() const;
-	virtual void Drink(float multi = 1) = 0;	//使用药水
+	virtual void Drink(Knight* drinker,float multi = 1) = 0;	//使用药水
 protected:
 	bool initWithScale(Scale scale);
 private:
@@ -66,7 +71,7 @@ class HealPotion : virtual public Potion
 {
 public:
 	static HealPotion* create(Scale);
-	virtual void Drink(float multi = 1);
+	virtual void Drink(Knight* drinker, float multi = 1);
 private:
 	int _baseHealValue;
 	virtual bool initWithScale(Scale _scale = SMALL);
@@ -76,7 +81,7 @@ class ManaPotion : virtual public Potion
 {
 public:
 	static ManaPotion* create(Scale);
-	virtual void Drink(float multi = 1);
+	virtual void Drink(Knight* drinker, float multi = 1);
 private:
 	int _baseHealValue;
 	virtual bool initWithScale(Scale _scale = SMALL);
@@ -86,7 +91,7 @@ class FullPotion :public HealPotion, public ManaPotion
 {
 public:
 	static FullPotion* create(Scale);
-	virtual void Drink(float multi = 0.5);
+	virtual void Drink(Knight* drinker,float multi = 0.5);
 private:
 	virtual bool initWithScale(Scale _scale = SMALL);
 };
@@ -95,7 +100,7 @@ class BuffPotion : public Potion
 {
 public:
 	static BuffPotion* create(BuffType buffType);
-	virtual void Drink(float multi = 1);
+	virtual void Drink(Knight* drinker, float multi = 1);
 private:
 	BuffType _buffType;
 	virtual bool initWithBuffType(BuffType buffType);

@@ -33,6 +33,7 @@ bool Statue::ActiveStatue(Knight* activer)
 				activer->AddMoveSpeed(SPEED_BUFF);
 				break;
 			case PRIEST:
+				activer->EnergyMaxChange(MANA_MAXADD_BUFF);
 				break;
 			case KNIGHT:
 				activer->AddDefence(DEFENCE_BUFF);
@@ -42,21 +43,23 @@ bool Statue::ActiveStatue(Knight* activer)
 				curWp->SetDamageBuff(DAMAGE_BUFF);
 				break;
 			case ELF:
+				activer->HPMaxChange(HEALTH_MAXADD_BUFF);
 				break;
-			case SORCERER:
-				break;
-			case ASSASSIN:
-				break;
-			case PALADIN:
-				break;
-			case ENGINEER:
-				break;
-			case BERSERKER:
-				break;
-			case STATUECOUNT:
-				break;
+			//case SORCERER:
+			//	break;
+			//case ASSASSIN:
+			//	break;
+			//case PALADIN:
+			//	break;
+			//case ENGINEER:
+			//	break;
+			//case BERSERKER:
+			//	break;
+			//case STATUECOUNT:
+			//	break;
 			default:
-				break;
+				throw("Statue::ActiveStatue failed");
+				return false;
 		}
 		return true;
 	}

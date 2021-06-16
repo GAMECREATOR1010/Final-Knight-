@@ -8,7 +8,7 @@
 #define shadeOrder 2
 #define wallOrder 3
 #define obstaclesOrder 4
-#define uiOrder 5 
+#define uiOrder 5
 
 
 #define metaGid 41
@@ -32,6 +32,7 @@
 #define obstaclesRemovableTag 10
 #define emptyTag 11
 #define statueTag 21
+#define goodsTag 22
 
 #define KnightCate 1
 #define EnemyCate 2
@@ -42,6 +43,12 @@
 #define faceLeft 2
 #define faceUp 3
 #define faceDown 4
+
+const int MONEY_EVERY_ENEMY = 2;
+const int MONEY_EVERY_ROOM = 5;
+const double MONEY_LEVEL_MUTI = 1.4;    //每层倍率
+const int MANA_EVERY_ROOM = 20;
+const double MANA_LEVEL_MUTI = 1.1;    //每层倍率
 
 #include "cocos2d.h"
 
@@ -77,4 +84,4 @@ enum roomThemeEnum
     iceTheme = 0, darkTheme=1, techTheme=2,forestTheme=3,sandTheme =4
 };
 
-#endif 
+#endif

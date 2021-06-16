@@ -57,18 +57,12 @@ HealPotion* HealPotion::create(Scale scale)
 /// 使用药水
 /// </summary>
 /// <param name="multi">附加倍率，大小瓶规模无需附加</param>
-void HealPotion::Drink(float multi)
+void HealPotion::Drink(Knight* drinker,float multi)
 {
 	int heal = heal = _baseHealValue * GetScale() * multi;
 	/* 调用增加生命接口 */
-	if (curHP + heal >= maxHP)
-	{
-		curHP = maxHP;
-	}
-	else
-	{
-		curHP += heal;
-	}
+	drinker->HPNowChange(heal);
+
 	return;
 }
 
@@ -114,18 +108,11 @@ ManaPotion* ManaPotion::create(Scale scale)
 /// 使用药水
 /// </summary>
 /// <param name="multi">附加倍率，大小瓶规模无需附加</param>
-void ManaPotion::Drink(float multi)
+void ManaPotion::Drink(Knight* drinker, float multi)
 {
 	int heal = _baseHealValue * GetScale() * multi;
 	/* 调用增加魔力接口 */
-	if (curMP + heal >= maxMP)
-	{
-		curMP = maxMP;
-	}
-	else
-	{
-		curMP += heal;
-	}
+	drinker->EnergyNowChange(heal);
 
 	return;
 }
@@ -171,10 +158,10 @@ FullPotion* FullPotion::create(Scale scale)
 /// <summary>
 /// 使用药水
 /// </summary>
-void FullPotion::Drink(float multi)
+void FullPotion::Drink(Knight* drinker, float multi)
 {
-	HealPotion::Drink(multi);
-	ManaPotion::Drink(multi);
+	HealPotion::Drink(drinker, multi);
+	ManaPotion::Drink(drinker, multi);
 
 	return;
 }
@@ -226,7 +213,7 @@ BuffPotion* BuffPotion::create(BuffType buffType)
 /// 使用药水
 /// </summary>
 /// <param name="multi"></param>
-void BuffPotion::Drink(float multi)
+void BuffPotion::Drink(Knight* drinker, float multi)
 {
 	int buff = _buffType;
 	if (buff == RANDOM)
@@ -236,17 +223,20 @@ void BuffPotion::Drink(float multi)
 	switch (buff)
 	{
 		case HEALTH_MAX_ADD:
+			drinker->HPMaxChange(HEALTH_MAXADD_BUFF);
 			break;
 		case MANA_MAX_ADD:
+			drinker->EnergyMaxChange(MANA_MAXADD_BUFF);
 			break;
 		case SHIELD_MAX_ADD:
+			drinker->AddDefence(DEFENCE_BUFF);
 			break;
-		case ATTACK_DAMAGE_ADD:
+		case SPEED_ADD:
+			drinker->AddMoveSpeed(SPEED_BUFF);
 			break;
 		case BUFF_COUNT:
-			throw(ERROR_DOMAIN_LIMIT_EXCEEDED);
-			break;
 		default:
+			throw(ERROR_DOMAIN_LIMIT_EXCEEDED);
 			break;
 	}
 }

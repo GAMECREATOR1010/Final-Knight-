@@ -11,8 +11,8 @@
 	std::vector <Goods>& GetGoodses();	//返回所有商品，用于显示
 	NPC* SetShopKeeper();	//返回一个商人
 
- 一种健康药水，一种能量药水和一种武器，或者一瓶恢复药水和两件武器
- 物品的价格或随层数上升上涨
+	todo
+	展示设置商店和物品
  电视广告（待定）
  ****************************************************************************/
 
@@ -51,7 +51,6 @@ public:
 	NPC* SetShopKeeper();	//返回一个商人
 private:
 	std::vector <Goods> _goodses;
-	virtual bool init();
 	bool SetPotion(Type type);
 	bool SetWeapon();
 };

@@ -50,7 +50,8 @@ Item* WhiteChest::open()
 	switch (type)
 	{
 		case 1:	//生成金币和能量
-
+			GoldMoney::ChangeBalance(MONEY_EVERY_ROOM * MONEY_LEVEL_MUTI);
+			manachange
 			return nullptr;
 		case 2:	//生成HP药水
 			auto hp = HealPotion::create(SMALL);
