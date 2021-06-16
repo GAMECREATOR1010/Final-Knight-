@@ -13,5 +13,6 @@
 #include "Const.h"
 #include "Weapon.h"
 #include "Statue.h"
-
-#endif 
+#include "Shop.h"
+#include "Potion.h"
+#endif

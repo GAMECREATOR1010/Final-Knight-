@@ -39,7 +39,7 @@ WhiteChest* WhiteChest::create()
 /// 打开宝箱，生成物品/金币能量，生成物品后需要将该对象加入层
 /// </summary>
 /// <returns>生成的物品对象指针，生成金币能量返回空</returns>
-Item* WhiteChest::open()
+Item* WhiteChest::open(Knight* activer)
 {
 	/* 动画效果（待定） */
 
@@ -51,16 +51,19 @@ Item* WhiteChest::open()
 	{
 		case 1:	//生成金币和能量
 			GoldMoney::ChangeBalance(MONEY_EVERY_ROOM * MONEY_LEVEL_MUTI);
-			manachange
+			activer->EnergyNowChange(MANA_EVERY_ROOM * MANA_LEVEL_MUTI);
 			return nullptr;
 		case 2:	//生成HP药水
 			auto hp = HealPotion::create(SMALL);
+			hp->setTag(potionChestTag);
 			return hp;
 		case 3:	//生成MP药水
 			auto mp = ManaPotion::create(SMALL);
+			mp->setTag(potionChestTag);
 			return mp;
 		case 4:	//生成武器
 			auto wp = RandomWeaponCreate();
+			wp->setTag(weaponTag);
 			return wp;
 		default:
 			throw("No such type in chest");

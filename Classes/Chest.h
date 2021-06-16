@@ -40,7 +40,7 @@ enum ChestType
 class Chest : public Sprite
 {
 public:
-	virtual Item* open() = 0;
+	virtual Item* open(Knight * activer) = 0;
 protected:
 	virtual bool init();
 private:
@@ -52,7 +52,7 @@ class WhiteChest : public Chest
 {
 public:
 	static WhiteChest* create();	//生成一个宝箱
-	virtual Item* open();			//打开宝箱
+	virtual Item* open(Knight* activer);//打开宝箱
 private:
 	virtual bool init();
 };

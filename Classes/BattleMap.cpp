@@ -1,10 +1,10 @@
 #include "BattleMap.h"
 USING_NS_CC;
 
-BattleMap* BattleMap::create(int chapter, roomThemeEnum rTheme,  Knight* target)
+BattleMap* BattleMap::create(int chapter, roomThemeEnum rTheme, Knight* target)
 {
 	BattleMap* battleMap = new BattleMap;
-	if (battleMap != nullptr && battleMap->init(chapter, rTheme,target))
+	if (battleMap != nullptr && battleMap->init(chapter, rTheme, target))
 	{
 		battleMap->autorelease();
 		return battleMap;
@@ -20,7 +20,7 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 	chapter = cha;
 	if (chapter <= 4)
 	{
-		roomNumber =  7;
+		roomNumber = 7;
 	}
 	else
 		roomNumber = rand() % 3 + 8;
@@ -77,7 +77,7 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 		}
 		else
 		{
-			type = normalRoomEnum ;//´ýÐÞ¸Ä
+			type = normalRoomEnum;//´ýÐÞ¸Ä
 		}
 
 		Room* tempRoom = Room::create(wid, hei, type, roomTheme, genPoint);
@@ -127,7 +127,7 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 			farRoom.pushBack(temp1);
 		temp1->DrawPassage();
 		temp1->UpdateDoor();
-		
+
 	}
 
 
@@ -184,9 +184,9 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 			wid = (rand() % 4) * 2 + 10;
 			hei = (rand() % 4) * 2 + 10;
 		}
-		
-		Room* tempRoom = Room::create(wid, hei,endRoomEnum, roomTheme, farRoom.front()->roomPosition + final);
-		
+
+		Room* tempRoom = Room::create(wid, hei, endRoomEnum, roomTheme, farRoom.front()->roomPosition + final);
+
 		tempRoom->doorUp = doorU;
 		tempRoom->doorDown = doorD;
 		tempRoom->doorLeft = doorL;
@@ -228,7 +228,7 @@ void BattleMap::AddThings(Room* inRoom)
 		enemy1->BindRoom(inRoom);
 		inRoom->enemyCount = 1;
 	}
-	else if(inRoom->roomType == normalRoomEnum)
+	else if (inRoom->roomType == normalRoomEnum)
 	{
 		int i = rand() % 6;
 		//inRoom->enemyCount = i;
@@ -238,7 +238,7 @@ void BattleMap::AddThings(Room* inRoom)
 
 		}
 	}
-	else if(inRoom->roomType == endRoomEnum)
+	else if (inRoom->roomType == endRoomEnum)
 	{
 		AddTransDoor(endRoom);
 	}
@@ -258,6 +258,11 @@ void BattleMap::AddTransDoor(Room* inRoom)
 	inRoom->addChild(particleSystem);
 	particleSystem->setGlobalZOrder(wallOrder);
 	particleSystem->setPosition(transDoor->getPosition());
+}
+
+int BattleMap::GetLevel() const
+{
+	return chapter;
 }
 
 Room* BattleMap::InRoom(Vec2 pos)
