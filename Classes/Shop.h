@@ -13,6 +13,7 @@
 
 	todo
 	展示设置商店和物品
+	购买后删除对象
  电视广告（待定）
  ****************************************************************************/
 
@@ -25,13 +26,15 @@
 #include "Weapon.h"
 #include "NPC.h"
 #include "Money.h"
+#include "BattleMap.h"
 #include <vector>
 #include <memory>
+#include <typeinfo>
 
 using std::shared_ptr;
 const int MAX_GOODS = 3;
 
-class Goods
+class Goods: public Sprite
 {
 public:
 	bool Buy();	//购买商品
@@ -46,13 +49,13 @@ private:
 class Shop : public Room
 {
 public:
-	bool InitGoods();	//初始化商品
+	bool InitGoods(int curLevel);	//初始化商品
 	std::vector <Goods>& GetGoodses();	//返回所有商品，用于显示
 	NPC* SetShopKeeper();	//返回一个商人
 private:
 	std::vector <Goods> _goodses;
-	bool SetPotion(Type type);
-	bool SetWeapon();
+	bool SetPotion(Type type, int curLevel);
+	bool SetWeapon(int curLevel = 1);
 };
 
 #endif // !__SHOP_H__

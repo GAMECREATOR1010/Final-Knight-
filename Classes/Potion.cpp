@@ -54,7 +54,7 @@ HealPotion* HealPotion::create(Scale scale)
 }
 
 /// <summary>
-/// 使用药水
+/// 使用药水，使用之后记得删除对象
 /// </summary>
 /// <param name="multi">附加倍率，大小瓶规模无需附加</param>
 void HealPotion::Drink(Knight* drinker,float multi)
@@ -105,7 +105,7 @@ ManaPotion* ManaPotion::create(Scale scale)
 }
 
 /// <summary>
-/// 使用药水
+/// 使用药水，使用之后记得删除对象
 /// </summary>
 /// <param name="multi">附加倍率，大小瓶规模无需附加</param>
 void ManaPotion::Drink(Knight* drinker, float multi)
@@ -156,7 +156,7 @@ FullPotion* FullPotion::create(Scale scale)
 }
 
 /// <summary>
-/// 使用药水
+/// 使用药水，使用之后记得删除对象
 /// </summary>
 void FullPotion::Drink(Knight* drinker, float multi)
 {
@@ -210,7 +210,7 @@ BuffPotion* BuffPotion::create(BuffType buffType)
 }
 
 /// <summary>
-/// 使用药水
+/// 使用药水，使用之后记得删除对象
 /// </summary>
 /// <param name="multi"></param>
 void BuffPotion::Drink(Knight* drinker, float multi)

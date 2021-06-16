@@ -103,6 +103,7 @@ bool Statue::init(StatueType type)
 			return false;
 	}
 	_type = type;
+	this->setTag(statueTag);
 
 	return true;
 }

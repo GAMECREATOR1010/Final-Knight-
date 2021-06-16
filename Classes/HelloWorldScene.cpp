@@ -164,27 +164,6 @@ bool HelloWorld::onContactBegin(const PhysicsContact& contact)
 				bullet->ShowEffect();
 		}
 
-		/* 触发雕像 */
-		if (nodeA->getTag() == knightTag && nodeB->getTag() == statueTag)
-		{
-			auto activer = static_cast <Knight*> (nodeA);
-			auto statue = static_cast <Statue*> (nodeB);
-			statue->ActiveStatue(activer);
-		}
-
-		/* 掉落物品交互 */
-		if (nodeA->getTag() == knightTag && nodeB->getTag() == itemTag)
-		{
-
-		}
-
-		/* 商店物品交互 */
-		if (nodeA->getTag() == knightTag && nodeB->getTag() == goodsTag)
-		{
-
-		}
-
-
 	}
 
 

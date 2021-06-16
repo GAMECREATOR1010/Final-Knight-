@@ -7,19 +7,29 @@
 #include "Shop.h"
 
 #pragma region Goods
+
 bool Goods::Buy()
 {
 	/* 检测是否有足够的钱 */
 	if (GoldMoney::ChangeBalance(-_price))
 	{
-		/* 替换武器 */
-
-		/* 删除该对象 */
+		/* 删除该对象，贴图？设置bool判断？ */
+		/* 该对象作为普通对象交互，这样就不会重复购买了 */
+		if (typeid(this) == typeid(Potion*))
+		{
+			this->setTag(potionChestTag);
+		}
+		else if (typeid(this) == typeid(Weapon*))
+		{
+			this->setTag(weaponChestTag);
+		}
 		//参考墙体消失的代码
+		return true;
 	}
 	else
 	{
-		/* 提示没有足够的钱 */
+		/* 没有足够的钱 */
+		return false;
 	}
 
 	return false;
@@ -28,6 +38,18 @@ bool Goods::Buy()
 void Goods::SetGoods(Item* item)
 {
 	_pGoods = item;
+	if (typeid(item) == typeid(Potion*))
+	{
+		this->setTag(potionGoodsTag);
+	}
+	else if (typeid(item) == typeid(Weapon*))
+	{
+		this->setTag(weaponGoodsTag);
+	}
+	else
+	{
+		throw("Goods::SetGoods set item failed");
+	}
 	return;
 }
 
@@ -48,20 +70,20 @@ Item* Goods::GetGoods() const
 /// 设置商店货物，然后需要调用GetGoodses语句来获得所有货物并添加到层内
 /// </summary>
 /// <returns></returns>
-bool Shop::InitGoods()
+bool Shop::InitGoods(int curLevel)
 {
 	srand(time(0));
 	int ran = rand() % MAX_POTION_SCALE;
 	if (ran == 0)	//两种药
 	{
-		if (SetPotion(HEAL) && SetPotion(MANA) && SetWeapon())
+		if (SetPotion(HEAL,curLevel) && SetPotion(MANA, curLevel) && SetWeapon(curLevel))
 		{
 			return true;
 		}
 	}
 	else if (ran == 1)	//一种药
 	{
-		if (SetPotion(FULL) && SetWeapon() && SetWeapon())
+		if (SetPotion(FULL, curLevel) && SetWeapon(curLevel) && SetWeapon(curLevel))
 		{
 			return true;
 		}
@@ -84,7 +106,7 @@ std::vector<Goods>& Shop::GetGoodses()
 /// </summary>
 /// <param name="type">药水类型</param>
 /// <returns></returns>
-bool Shop::SetPotion(Type type)
+bool Shop::SetPotion(Type type, int curLevel = 1)
 {
 	Potion* potion;
 	int ran = rand() % MAX_POTION_SCALE;
@@ -132,7 +154,7 @@ bool Shop::SetPotion(Type type)
 	}
 	Goods gd;
 	gd.SetGoods(static_cast <Item*> (potion));
-	gd.SetPrice(potion->GetScale() * THISLEVEL);
+	gd.SetPrice(potion->GetScale() * curLevel);
 
 	/* 将药添加到货物内 */
 	if (_goodses.size() < MAX_GOODS)
@@ -148,13 +170,13 @@ bool Shop::SetPotion(Type type)
 /// 添加武器，并同时设置价格
 /// </summary>
 /// <returns></returns>
-bool Shop::SetWeapon()
+bool Shop::SetWeapon(int curLevel = 1)
 {
 	Goods gd;
 	auto wp = static_cast <Item*> (RandomWeaponCreate());
 
 	gd.SetGoods(wp);
-	gd.SetPrice(wp->GetRarity() * THISLEVEL);
+	gd.SetPrice(wp->GetRarity() * curLevel);
 
 	/* 将药添加到货物内 */
 	if (_goodses.size() < MAX_GOODS)

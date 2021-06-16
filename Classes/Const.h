@@ -31,8 +31,11 @@
 #define obstaclesNormTag 9
 #define obstaclesRemovableTag 10
 #define emptyTag 11
-#define statueTag 21
-#define goodsTag 22
+#define statueTag 20
+const int potionChestTag = 21;
+const int potionGoodsTag = 22;
+const int weaponChestTag = 23;
+const int weaponGoodsTag = 24;
 
 #define KnightCate 1
 #define EnemyCate 2
