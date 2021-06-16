@@ -1,6 +1,8 @@
+  
 #include "AppDelegate.h"
 #include "Scene/StartScene.h"
 #include "Gaming.h"
+#include "General.h"
 
 // #define USE_AUDIO_ENGINE 1
 
@@ -86,9 +88,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 	// create a scene. it's an autorelease object
 
-	auto scene = StartScene::createScene();
-	// run
-	director->runWithScene(scene);
+	 auto knight = Knight::create(0,1);
+    // create a scene. it's an autorelease object
+    auto scene =Gaming::createScene(knight,1);
+    
+    // run
+    director->runWithScene(scene);
+
 
 	return true;
 }
