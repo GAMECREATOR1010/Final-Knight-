@@ -1,10 +1,9 @@
 #include "Gaming.h"
-USING_NS_CC;
 
-Scene* Gaming::createScene(Knight* myknight, int chapter)
+Scene* Gaming::createScene(Knight* myknight, int Chapter)
 {
 	Gaming* gaming = new Gaming;
-	if (gaming != nullptr && gaming->init(myknight, chapter))
+	if (gaming != nullptr && gaming->init(myknight, Chapter))
 	{
 		gaming->autorelease();
 		return gaming;
@@ -13,7 +12,7 @@ Scene* Gaming::createScene(Knight* myknight, int chapter)
 	return nullptr;
 }
 
-bool Gaming::init(Knight* myknight, int chapter)
+bool Gaming::init(Knight* myknight, int Chapter)
 {
 	if (!Scene::init())
 	{
@@ -39,18 +38,19 @@ bool Gaming::init(Knight* myknight, int chapter)
 	spritecache->addSpriteFramesWithFile("enemy/enemy_3.plist");
 
 	myKnight = myknight;
+	chapter = Chapter;
 	roomThemeEnum theme = roomThemeEnum(rand() % 5);
-	map = BattleMap::create(chapter, theme, myKnight);
+	auto battlemap = BattleMap::create(Chapter, theme, myKnight);
 	change = Vec2(0, 0);
-	addChild(map);
+	addChild(battlemap);
+	map = battlemap;
 
 	myKnight->setPosition(Vec2(origin.x + visibleSize.width / 2,
 		origin.y + visibleSize.height / 2));
 	addChild(myKnight);
-	myKnight->setGlobalZOrder(shadeOrder);
-
 	flag = false;//
 	inPassage = false;
+	transing = false;
 
 	auto keyListener = EventListenerKeyboard::create();
 	keyListener->onKeyPressed = CC_CALLBACK_2(Gaming::onKeyPressed, this);
@@ -68,6 +68,13 @@ bool Gaming::init(Knight* myknight, int chapter)
 
 	return true;
 }
+void Gaming::Test()
+{
+	auto sprit = Sprite::create("tileSet.png");
+	sprit->setGlobalZOrder(uiOrder);
+	addChild(sprit);
+	sprit->setPosition(Vec2(1500, 800));
+}
 
 bool Gaming::onContactBegin(const PhysicsContact& contact)
 {
@@ -78,10 +85,10 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 	{
 		if (nodeA->getTag() == myAttackTag)
 		{
-			auto attack = (Weapon*)nodeA->getParent();
+			auto attack = static_cast<Weapon*>(nodeA->getParent());
 			if (nodeB->getTag() == enemyTag)
 			{
-				auto enemy = (Enemy*)nodeB;
+				auto enemy = static_cast<Enemy*>(nodeB);
 				myKnight->AddEXP(enemy->GetEXP());
 				enemy->Behit(attack->GetDamage());
 			}
@@ -89,10 +96,10 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 
 		if (nodeA->getTag() == enemyAttackTag)
 		{
-			auto attack = (Weapon*)nodeA->getParent();
+			auto attack = static_cast<Weapon*>(nodeA->getParent());
 			if (nodeB->getTag() == knightTag)
 			{
-				auto knight = (Knight*)nodeB;
+				auto knight = static_cast<Knight*>(nodeB);
 				knight->Behit(attack->GetDamage());
 			}
 		}
@@ -101,18 +108,18 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 		{
 			if (nodeA->getTag() == knightTag)
 			{
-				auto knight = (Knight*)nodeA;
-				auto enemy = (Enemy*)nodeB;
+				auto knight = static_cast<Knight*>(nodeA);
+				auto enemy = static_cast<Enemy*>(nodeB);
 				knight->Behit(enemy->GetDamage());
 			}
 		}
 
 		if (nodeA->getTag() == myBulletTag)
 		{
-			auto bullet = (Bullet*)nodeA;
+			auto bullet = static_cast<Bullet*>(nodeA);
 			if (nodeB->getTag() == enemyTag)
 			{
-				auto enemy = (Enemy*)nodeB;
+				auto enemy = static_cast<Enemy*>(nodeB);
 				enemy->Behit(bullet->damage);
 				myKnight->AddEXP(enemy->GetEXP());
 				bullet->ShowEffect();
@@ -122,7 +129,7 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 			else if (nodeB->getTag() == obstaclesRemovableTag)
 			{
 				bullet->ShowEffect();
-				auto room = (Room*)nodeB->getParent()->getParent()->getParent();
+				auto room = static_cast<Room*>(nodeB->getParent()->getParent()->getParent());
 				room->DeleteObstacles(nodeB->getPosition().x / 64, 32 - nodeB->getPosition().y / 64);
 				nodeB->removeAllComponents();
 			}
@@ -130,10 +137,10 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 
 		if (nodeA->getTag() == enemyBulletTag)
 		{
-			auto bullet = (Bullet*)nodeA;
+			auto bullet = static_cast<Bullet*>(nodeA);;
 			if (nodeB->getTag() == knightTag)
 			{
-				auto knight = (Knight*)nodeB;
+				auto knight = static_cast<Knight*>(nodeB);
 				knight->Behit(bullet->damage);
 				bullet->ShowEffect();
 			}
@@ -147,9 +154,11 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 			{
 				log("onContactBegin");
 				transing = true;
-				auto director = Director::getInstance();
-				auto scene = Gaming::createScene(myKnight, chapter++);
-				director->runWithScene(scene);
+				chapter += 1;
+				myKnight->retain();
+				myKnight->removeFromParentAndCleanup(false);
+				myKnightForever = myKnight;
+				nodeA->removeAllComponents();
 			}
 		}
 
@@ -304,5 +313,17 @@ void Gaming::update(float delta)
 	else if (!endGame && myKnight->death)/*×ª»»³¡¾°*/
 	{
 		endGame = true;
+	}
+	if (transing)
+	{
+		transing = false;
+		endGame = true;
+		auto startNewChapter = CallFunc::create([&]() {
+			auto scene = Gaming::createScene(myKnightForever, chapter);
+			Director::getInstance()->replaceScene(scene);
+			});
+
+		runAction(startNewChapter);
+		unscheduleUpdate();
 	}
 }

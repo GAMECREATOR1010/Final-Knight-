@@ -3,7 +3,7 @@
 Bullet* Bullet::create(int bulletType, Vec2 dir,int cate,  float range,float damage, float speed,float distance)
 {
 	Bullet* bullet = new Bullet;
-	if (bullet != nullptr && bullet->init(bulletType, dir,cate,  range, speed,distance))
+	if (bullet != nullptr && bullet->init(bulletType, dir,cate,  range, damage,speed,distance))
 	{
 		bullet->autorelease();
 		return bullet;
@@ -70,8 +70,8 @@ bool Bullet::init(int bulletType, Vec2 dir,int cate,  float rangeW, float damage
 
 
 	this->setScale(rangeW);
-	this->setGlobalZOrder(wallOrder);
-	auto moveBy = MoveBy::create(1.5f-speed*0.2f, dir * (250+distance*50));
+	this->setGlobalZOrder(uiOrder);
+	auto moveBy = MoveBy::create(1.0f-speed*0.1f, dir * (400+distance*70));
 	auto bulletEffect = CallFunc::create([&]() {
 		this->ShowEffect();
 		});

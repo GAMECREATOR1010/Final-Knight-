@@ -15,7 +15,7 @@
 #include "cocos2d.h"
 USING_NS_CC;
 
-const char* SHOPKEEPER_PATH = "/NPC/Shopkeeper.png";
+static const char* SHOPKEEPER_PATH = "/NPC/Shopkeeper.png";
 
 enum NpcId
 {

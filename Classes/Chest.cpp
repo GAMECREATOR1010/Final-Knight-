@@ -50,21 +50,27 @@ Item* WhiteChest::open(Knight* activer)
 	switch (type)
 	{
 		case 1:	//生成金币和能量
-			GoldMoney::ChangeBalance(MONEY_EVERY_ROOM * MONEY_LEVEL_MUTI);
+			goldMoney.ChangeBalance(MONEY_EVERY_ROOM * MONEY_LEVEL_MUTI);
 			activer->EnergyNowChange(MANA_EVERY_ROOM * MANA_LEVEL_MUTI);
 			return nullptr;
 		case 2:	//生成HP药水
+		{
 			auto hp = HealPotion::create(SMALL);
 			hp->setTag(potionChestTag);
 			return hp;
+		}
 		case 3:	//生成MP药水
+		{
 			auto mp = ManaPotion::create(SMALL);
 			mp->setTag(potionChestTag);
 			return mp;
+		}
 		case 4:	//生成武器
+		{
 			auto wp = RandomWeaponCreate();
 			wp->setTag(weaponTag);
 			return wp;
+		}
 		default:
 			throw("No such type in chest");
 			break;
