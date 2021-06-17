@@ -24,9 +24,9 @@
 
 USING_NS_CC;
 
-const char* WHITE_CHEST_PATH = "/chests/WhiteChest.png";
-const char* BLUE_CHEST_PATH  = "/chests/BlueChest.png";
-const char* BROWN_CHEST_PATH = "/chests/BrownChest.png";
+static const char* WHITE_CHEST_PATH = "/chests/WhiteChest.png";
+static const char* BLUE_CHEST_PATH  = "/chests/BlueChest.png";
+static const char* BROWN_CHEST_PATH = "/chests/BrownChest.png";
 
 enum ChestType
 {
@@ -43,6 +43,7 @@ public:
 	virtual Item* open(Knight * activer) = 0;
 protected:
 	virtual bool init();
+	bool _isOpened = false;
 private:
 	static constexpr double _physicalRange = 80.0;
 };

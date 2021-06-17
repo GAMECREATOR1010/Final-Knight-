@@ -14,4 +14,5 @@
 #include "Statue.h"
 #include "Shop.h"
 #include "Potion.h"
+#include "Chest.h"
 #endif
