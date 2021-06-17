@@ -47,6 +47,22 @@ const int weaponGoodsTag = 24;
 #define faceUp 3
 #define faceDown 4
 
+//UI stuff
+#define stopButtonTag 800
+#define stopLayerTag  850
+#define stopLayerStuffTag  900
+#define infoLayerTag       950
+#define infoLayerStuffTag  999
+
+#define StopFramePre     0.45f
+
+#define ButtonPre    0.075f
+#define ButtonWidthGap   40
+#define ButtonHeightGap  30
+#define ButtonWidthGapInStop   10
+#define ButtonHeightGapInStop  90
+//UI stuff end
+
 const int MONEY_EVERY_ENEMY = 2;
 const int MONEY_EVERY_ROOM = 5;
 const double MONEY_LEVEL_MUTI = 1.4;    //Ã¿²ã±¶ÂÊ
