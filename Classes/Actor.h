@@ -16,12 +16,33 @@ public:
 	void Behit(float otherDam);
 	void DeathEffect();
 	void AddShade(const Vec2);
-	void BindWea(Weapon*);
-	void ChangeWea();
+	
+	float GetHP();
+	float GetHPMax();
+
 	float GetDamage();
+	float GetDamageMax();
+
+	float GetDefence();
+	float GetDefenceMax();
+
 	float GetMoveSpeed();
+	float GetMoveSpeedMax();
+
+	float GetAttackRange();
+	float GetAttackRangeMax();
+
+	float GetAttackSpeed();
+	float GetAttackSpeedMax();
+
+	float GetAttackDistance();
+	float GetAttackDistanceMax();
+
 	void BindRoom(Room* );
 	Room* GetRoom();
+
+	void BindWea(Weapon*);
+	void ChangeWea();
 	Weapon* GetWea();
 	Vec2 faceDir=Vec2(0,1);
 	bool death = false;
@@ -38,13 +59,20 @@ protected:
 
 	virtual bool init();
 	attackModeEnum attackMode=gunEnum;
-	float attackSpeed=3;
+	float attackSpeed=1;
+	float attackSpeedMax = 1;
 	float moveSpeed=20;
+	float moveSpeedMax = 20;
 	float attackRange=1;
+	float attackRangeMax = 1;
+	float attackDistance = 1;
+	float attackDistanceMax = 1;
 
 	float damage=2;//Ω”¥•…À∫¶
+	float damageMax = 2;
 	float defence=1;
-	float HP=5 , maxHP=5 ;
+	float defenceMax=1;
+	float HP=5 , HPMax=5 ;
 	
 	PhysicsBody* body;
 

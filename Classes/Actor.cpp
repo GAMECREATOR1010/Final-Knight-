@@ -1,5 +1,4 @@
 #include "Actor.h"
-#include "Chest.h"
 USING_NS_CC;
 
 Actor* Actor::create()
@@ -17,6 +16,81 @@ Actor* Actor::create()
 Actor::~Actor() {}
 Actor::Actor() {}
 
+float Actor::GetDamage()
+{
+	return damage;
+}
+
+float Actor::GetDamageMax()
+{
+	return damageMax;
+}
+
+
+float Actor::GetMoveSpeed()
+{
+	return moveSpeed;
+}
+
+float Actor::GetMoveSpeedMax()
+{
+	return moveSpeedMax;
+}
+
+
+float Actor::GetHP()
+{
+	return HP;
+}
+
+float Actor::GetHPMax()
+{
+	return HPMax;
+}
+
+
+float Actor::GetDefence()
+{
+	return defence;
+}
+
+float Actor::GetDefenceMax()
+{
+	return defenceMax;
+}
+
+
+float Actor::GetAttackRange()
+{
+	return attackRange;
+}
+
+float Actor::GetAttackRangeMax()
+{
+	return attackRangeMax;
+}
+
+
+float Actor::GetAttackSpeed()
+{
+	return attackSpeed;
+}
+
+float Actor::GetAttackSpeedMax()
+{
+	return attackSpeedMax;
+}
+
+
+float  Actor::GetAttackDistance()
+{
+	return attackDistance;
+}
+float  Actor::GetAttackDistanceMax()
+{
+	return attackDistanceMax;
+}
+
 void Actor::AddShade(const Vec2 test)
 {
 	shade = Sprite::create("shade.png");
@@ -25,11 +99,16 @@ void Actor::AddShade(const Vec2 test)
 	shade->setGlobalZOrder(floorOrder);
 }
 
-void Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
+
+void  Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
 {
 
-	if ((myWea->costEnergy == 0 && wea->costEnergy == 0)||
-		(myWea->costEnergy >0 && wea->costEnergy > 0))
+	myWea->SetDamageBuff(damage);
+	myWea->SetRangeBuff(attackRange);
+	myWea->SetSpeedBuff(attackSpeed);
+	myWea->SetDistanceBuff(attackDistance);
+	if ((myWea->costEnergy == 0 && wea->costEnergy == 0) ||
+		(myWea->costEnergy > 0 && wea->costEnergy > 0))
 	{
 		Weapon* temp = wea;
 		wea = myWea;
@@ -42,14 +121,19 @@ void Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
 		wea1 = myWea;
 		myWea = temp;
 	}
+
 }
 
-void Actor::ChangeWea()
+void  Actor::ChangeWea()
 {
 	if (wea1 != nullptr)
 	{
 		Weapon* temp = wea;
 		wea = wea1;
+		wea->SetDamageBuff(damage);
+		wea->SetRangeBuff(attackRange);
+		wea->SetSpeedBuff(attackSpeed);
+		wea->SetDistanceBuff(attackDistance);
 		wea1 = temp;
 	}
 }
@@ -90,16 +174,6 @@ void Actor::Behit(float otherDam)/*¹¥»÷Ð§¹û*/
 }
 
 
-float Actor::GetDamage()
-{
-	return damage;
-}
-
-float Actor::GetMoveSpeed()
-{
-	return moveSpeed;
-}
-
 void Actor::DeathEffect()/*ËÀÍöÐ§¹û*/
 {
 	death = true;
@@ -108,13 +182,13 @@ void Actor::DeathEffect()/*ËÀÍöÐ§¹û*/
 		pic->stopAllActions();
 		if (getTag() == enemyTag)
 		{
-			if (DEBUG_CHEST_MODE)
+			/*if (DEBUG_CHEST_MODE)
 			{
 				auto enemyDiePos = getPosition();
-				auto wChe=WhiteChest::create();
+				auto wChe = WhiteChest::create();
 				wChe->setPosition(enemyDiePos);
 				this->getParent()->addChild(wChe);
-			}
+			}*/
 			inRoom->enemyCount -= 1;
 			if (inRoom->enemyCount <= 0)
 			{
@@ -149,7 +223,7 @@ void Actor::DeathEffect()/*ËÀÍöÐ§¹û*/
 		auto ghostSeq= Sequence::create(mySpawn, ghostDis, nullptr);
 		ghost->runAction(ghostSeq);
 		});
-
+	
 	auto ActorDis= CallFunc::create([&]() {
 		this -> removeFromParentAndCleanup(true);
 		});
