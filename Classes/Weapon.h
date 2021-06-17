@@ -7,7 +7,7 @@
 
 USING_NS_CC;
 
-//Weapon* RandomWeaponCreate();
+Weapon* RandomWeaponCreate();
 
 class Weapon :public Item
 {

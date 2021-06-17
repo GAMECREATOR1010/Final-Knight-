@@ -49,11 +49,12 @@ void SetBody(PhysicsBody* body, int category)
 	else if (category == ObstaclesCate)
 	{
 		body->setCategoryBitmask(0x03); //11
-		body->setCollisionBitmask(0x06); //110
+		body->setCollisionBitmask(0x04); //100
+		//body->setContactTestBitmask(0xff);
 	}
 	else if (category == ItemCate)
 	{
-		body->setCategoryBitmask(0x04);//100 //不碰撞,仅触发
+		body->setCategoryBitmask(0x04); //不碰撞,仅触发
 		body->setCollisionBitmask(0x00); 
 	}
 	body->setContactTestBitmask(0xff);

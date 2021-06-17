@@ -70,7 +70,7 @@ bool Bullet::init(int bulletType, Vec2 dir,int cate,  float rangeW, float damage
 
 
 	this->setScale(rangeW);
-	this->setGlobalZOrder(uiOrder);
+	this->setGlobalZOrder(wallOrder);
 	auto moveBy = MoveBy::create(1.5f-speed*0.2f, dir * (250+distance*50));
 	auto bulletEffect = CallFunc::create([&]() {
 		this->ShowEffect();

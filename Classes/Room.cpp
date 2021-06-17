@@ -134,8 +134,6 @@ void Room::DrawDoor(float x, float y)
 	wall->setTileGID(passageFloorGid, Vec2(x, y));
 	shade->setTileGID(passageFloorGid, Vec2(x, y + 1));
 	meta->setTileGID(passageFloorGid, Vec2(x, y));
-	meta->getTileAt(Vec2(x, y))->removeAllComponents();
-	
 	if (doorOpen)
 	{
 		shade->setTileGID(doorOpenGid, Vec2(x, y));
@@ -146,10 +144,6 @@ void Room::DrawDoor(float x, float y)
 		shade->setTileGID(doorCloseGid+10, Vec2(x, y ));
 		meta->setTileGID(metaGid, Vec2(x, y ));
 		wall->setTileGID(doorCloseGid, Vec2(x, y-1));
-		auto obstaclesbox = PhysicsBody::createBox(Size(64.0f, 64.0f));
-		obstaclesbox->setDynamic(false);
-		SetBody(obstaclesbox, ObstaclesCate);
-		meta->getTileAt(Vec2(x, y))->addComponent(obstaclesbox);
 	}
 }
 
@@ -203,14 +197,14 @@ void Room::DrawObstacles(float x, float y,bool removable)
 {
 	obstacles->setTileGID(55, Vec2(x, y));
     meta->setTileGID(metaGid, Vec2(x, y));
-	auto obstaclesbox = PhysicsBody::createBox(Size(55.0f, 55.0f));
+	auto obstaclesbox = PhysicsBody::createBox(Size(64.0f, 64.0f));
 	obstaclesbox->setDynamic(false);
 	SetBody(obstaclesbox, ObstaclesCate);
-	meta->getTileAt(Vec2(x, y))->addComponent(obstaclesbox);
+	obstacles->getTileAt(Vec2(x, y))->addComponent(obstaclesbox);
 	if(removable)
-		meta->getTileAt(Vec2(x, y))->setTag(obstaclesRemovableTag);
+		obstacles->getTileAt(Vec2(x, y))->setTag(obstaclesRemovableTag);
 	else
-		meta->getTileAt(Vec2(x, y))->setTag(obstaclesNormTag);
+		obstacles->getTileAt(Vec2(x, y))->setTag(obstaclesNormTag);
 	shade->setTileGID(56, Vec2(x, y + 1));
 }
 
@@ -219,7 +213,7 @@ void Room::DeleteObstacles(float x, float y)
 	meta->setTileGID(roomFloorGid, Vec2(x, y));
 	obstacles->setTileGID(roomFloorGid, Vec2(x, y));
 	shade->setTileGID(roomFloorGid, Vec2(x, y + 1));
-	meta->getTileAt(Vec2(x, y))->setTag(emptyTag);
+	obstacles->getTileAt(Vec2(x, y))->setTag(emptyTag);
 }
 
 void Room::UpdateObstacles()//添加障碍物，后期会更改丰富
@@ -307,6 +301,13 @@ bool Room::init(int wid, int hei, roomTypeEnum rType, roomThemeEnum rTheme, Vec2
 	roomTheme = rTheme;
 	width = wid;
 	height = hei;
+	if (rType == normalRoomEnum)
+	{
+		enemyCount = rand() % 4 + 5;
+	}
+	else
+		enemyCount = 0;
+	doorNum = 0;
 	roomPosition = roomPos;
 	roomMap = TMXTiledMap::create("room.tmx");
 	meta = roomMap->getLayer("meta");

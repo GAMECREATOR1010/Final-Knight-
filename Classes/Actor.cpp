@@ -24,35 +24,11 @@ void Actor::AddShade(const Vec2 test)
 	shade->setGlobalZOrder(floorOrder);
 }
 
-void Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
+void Actor::BindWea(Weapon* myWea)
 {
-	
-	if ((myWea->costEnergy == 0 && wea->costEnergy == 0)||
-		(myWea->costEnergy >0 && wea->costEnergy > 0))
-	{
-		Weapon* temp = wea;
-		wea = myWea;
-		myWea = temp;
-		wea->setPosition(wea->bindPoint);
-	}
-	else
-	{
-		Weapon* temp = wea1;
-		wea1 = myWea;
-		myWea = temp;
-	}
+	wea = myWea;
+	wea->setPosition(wea->bindPoint);
 }
-
-void Actor::ChangeWea()
-{
-	if (wea1 != nullptr)
-	{
-		Weapon* temp = wea;
-		wea = wea1;
-		wea1 = temp;
-	}
-}
-
 Weapon* Actor::GetWea()
 {
 	return wea;
@@ -73,15 +49,16 @@ bool Actor::init()
 	return true;
 }
 
-void Actor::Behit(float otherDam)/*¹¥»÷Ð§¹û*/
+void Actor::Behit(float otherDam)
 {
 	if (!death)
 	{
-		if (otherDam - defence > 0)
+		if (defence - otherDam > 0)
 		{
-			HP -= otherDam - defence;
+			HP -= defence - otherDam;
 			if (HP <= 0)
 			{
+				death = true;
 				DeathEffect();
 			}
 		}
@@ -94,26 +71,15 @@ float Actor::GetDamage()
 	return damage;
 }
 
-float Actor::GetMoveSpeed()
-{
-	return moveSpeed;
-}
 
-void Actor::DeathEffect()/*ËÀÍöÐ§¹û*/
+void Actor::DeathEffect()
 {
-	death = true;
 	auto ActorFall = CallFunc::create([&]() {
 		removeAllComponents();
-		pic->stopAllActions();
 		if (getTag() == enemyTag)
-		{
 			inRoom->enemyCount -= 1;
-			if (inRoom->enemyCount <= 0)
-			{
-				inRoom->UpdateDoor();
-			}
-		}
 		shade->setVisible(false);
+		pic->stopAllActions();
 		pic->setColor(Color3B(128, 138, 135));
 		if (wea != nullptr)
 		{

@@ -20,7 +20,6 @@ public:
     void HPMaxChange(float hpchange);
     void EnergyMaxChange(float energychange);
     void EnergyNowChange(float energychange);
-    void CopyKnight(Knight* preKnight);
 private:
     virtual bool init(int type=0, int rank=1);
     int energyMax=150;
@@ -28,5 +27,5 @@ private:
     int rank = 1;
     int EXP = 0;
 };
-static Knight* myKnightForever ;
+
 #endif 

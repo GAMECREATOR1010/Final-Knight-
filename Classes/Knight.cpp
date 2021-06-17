@@ -28,7 +28,7 @@ bool Knight::init(int type, int rank)
 		addChild(pic, 0);
 		auto shape = PhysicsShapeBox::create(Size(45.0f,40.0f));
 		body->addShape(shape);
-		pic->setGlobalZOrder(knightOrder);
+		pic->setGlobalZOrder(shadeOrder);
 		pic->setAnchorPoint(Vec2(0.7f, 0.6f));
 		attackMode = gunEnum;
 		
@@ -51,34 +51,12 @@ bool Knight::init(int type, int rank)
 	setTag(knightTag);
 	return true;
 }
-void Knight::CopyKnight(Knight* preKnight)
-{
-	Sprite* pic;
-	Weapon* wea;
-	Weapon* wea1;
-	Sprite* shade;
-	Sprite* ghost;
-	Room* inRoom;
 
-	attackModeEnum attackMode = gunEnum;
-	float attackSpeed = 3;
-	float moveSpeed = 20;
-	float attackRange = 1;
-
-	float damage = 2;//Ω”¥•…À∫¶
-	float defence = 1;
-	float HP = 5, maxHP = 5;
-
-	PhysicsBody* body;
-
-
-}
 void Knight::LevelUp()
 {
 	energyMax += 10;
 	energyNow = energyMax;
 }
-
 
 void Knight::AddDefence(float addDefence)
 {
