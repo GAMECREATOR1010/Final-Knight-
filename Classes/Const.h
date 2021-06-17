@@ -6,17 +6,18 @@
 #define metaOrder 0
 #define floorOrder 1
 #define shadeOrder 2
-#define knightOrder 3
+#define knightOrder 3 
 #define wallOrder 4
 #define obstaclesOrder 5
-#define uiOrder 6
+#define uiOrder 6 
+
 
 #define metaGid 41
 #define roomFloorGid 61//enemy可行动处
 #define passageFloorGid 31
 #define doorOpenGid 21
 #define doorCloseGid 1
-#define obstaclesNorm
+#define obstaclesNorm 
 
 #define offSet 2112
 
@@ -32,7 +33,9 @@
 #define obstaclesRemovableTag 10
 #define emptyTag 11
 #define nextChapterTag 12
+#define hitAllActorTag 13
 #define statueTag 20
+
 static const int potionChestTag = 21;
 static const int potionGoodsTag = 22;
 static const int weaponChestTag = 23;
@@ -52,34 +55,35 @@ static const double MANA_LEVEL_MUTI = 1.1;
 #include "cocos2d.h"
 
 USING_NS_CC;
-Vector<SpriteFrame*> GetAnim(const char*, int);
+Vector<SpriteFrame*> GetAnim(const char* , int );
 Vec2 ChangeDir();
-void SetBody(PhysicsBody*, int);
+void SetBody(PhysicsBody*,int);
 Vec2 Rotate(Vec2 faceDir, float angle);
 
 enum  attackModeEnum
 {
-	meleeEnum = 0, gunEnum, touchEnum/*无武器，靠接触*/
+    meleeEnum= 0, gunEnum,touchEnum/*无武器，靠接触*/
 };
 
 enum  EnemyState
 {
-	EnemyIdle = 0/*静止*/, EnemyWalk/*玩家进入后激活，开始乱走*/, EnemyChase/*追击*/, EnemyAttack, EnemyAttacked, EnemyDeath
+    EnemyIdle = 0/*静止*/, EnemyWalk/*玩家进入后激活，开始乱走*/, EnemyChase/*追击*/, EnemyAttack, EnemyAttacked, EnemyDeath
 };
 
 enum  KnightState
 {
-	KnightIdle = 0/*行走*/, KnightAttack, KnightAttacked, KnightDeath
+    KnightIdle = 0/*行走*/, KnightAttack, KnightAttacked, KnightDeath
 };
+
 
 enum  roomTypeEnum
 {
-	startRoomEnum = 0, normalRoomEnum = 1, bonusRoomEnum = 2, sacrificeRoomEnum = 3, bossRoomEnum = 4, endRoomEnum = 5
+    startRoomEnum=0,normalRoomEnum=1,bonusRoomEnum=2,sacrificeRoomEnum=3,bossRoomEnum=4,endRoomEnum =5
 };
 
 enum roomThemeEnum
 {
-	iceTheme = 0, darkTheme = 1, techTheme = 2, forestTheme = 3, sandTheme = 4
+    iceTheme = 0, darkTheme=1, techTheme=2,forestTheme=3,sandTheme =4
 };
 
-#endif
+#endif 
