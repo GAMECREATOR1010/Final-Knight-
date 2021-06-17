@@ -165,41 +165,58 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 		/* 触发雕像 */
 		if (nodeA->getTag() == knightTag && nodeB->getTag() == statueTag)
 		{
-			auto activer = static_cast <Knight*> (nodeA);
-			auto statue = static_cast <Statue*> (nodeB);
-			statue->ActiveStatue(activer);
+			if (_isInteract)
+			{
+				_isInteract = false;
+				auto activer = static_cast <Knight*> (nodeA);
+				auto statue = static_cast <Statue*> (nodeB);
+				statue->ActiveStatue(activer);
+			}
+
 		}
 
 		/* 宝箱中/掉落的药水交互 */
 		if (nodeA->getTag() == knightTag && nodeB->getTag() == potionChestTag)
 		{
-			auto activer = static_cast <Knight*> (nodeA);
-			auto potion = static_cast <Potion*> (nodeB);
-			potion->Drink(activer);
-			removeChild(potion);
+			if (_isInteract)
+			{
+				_isInteract = false;
+				auto activer = static_cast <Knight*> (nodeA);
+				auto potion = static_cast <Potion*> (nodeB);
+				potion->Drink(activer);
+				removeChild(potion);
+			}
 		}
 
 		/* 宝箱中/掉落的武器交互 */
 		if (nodeA->getTag() == knightTag && nodeB->getTag() == weaponChestTag)
 		{
-			auto activer = static_cast <Knight*> (nodeA);
-			auto wp = static_cast <Weapon*> (nodeB);
-			activer->BindWea(wp);
-			removeChild(wp);
+			if (_isInteract)
+			{
+				_isInteract = false;
+				auto activer = static_cast <Knight*> (nodeA);
+				auto wp = static_cast <Weapon*> (nodeB);
+				activer->BindWea(wp);
+				removeChild(wp);
+			}
 		}
 
 		/* 商店物品交互 */
 		if (nodeA->getTag() == knightTag && ((nodeB->getTag() == potionGoodsTag) || (nodeB->getTag() == weaponGoodsTag)))
 		{
-			auto activer = static_cast <Knight*> (nodeA);
-			auto potionG = static_cast <Goods*> (nodeB);
-			if (potionG->Buy())
+			if (_isInteract)
 			{
-				/* 提示购买成功 */
-			}
-			else
-			{
-				/* 提示没有足够的钱 */
+				_isInteract = false;
+				auto activer = static_cast <Knight*> (nodeA);
+				auto potionG = static_cast <Goods*> (nodeB);
+				if (potionG->Buy())
+				{
+					/* 提示购买成功 */
+				}
+				else
+				{
+					/* 提示没有足够的钱 */
+				}
 			}
 		}
 	}
@@ -228,6 +245,10 @@ bool Gaming::onKeyReleased(EventKeyboard::KeyCode keycode, Event* event)
 	{
 		if (change == Vec2(-1, 0))
 			change = Vec2(0, 0);
+	}
+	if (keycode == EventKeyboard::KeyCode::KEY_F)
+	{
+		_isInteract = false;
 	}
 	return true;
 }
@@ -266,7 +287,12 @@ bool Gaming::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 			myKnight->GetWea()->setRotation(90.0f);
 			change = Vec2(0, 1);
 		}
+		else if (keycode == EventKeyboard::KeyCode::KEY_F)
+		{
+			_isInteract = true;
+		}
 	}
+
 	return true;
 }
 
@@ -327,3 +353,4 @@ void Gaming::update(float delta)
 		unscheduleUpdate();
 	}
 }
+

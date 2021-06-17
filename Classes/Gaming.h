@@ -30,6 +30,8 @@ public:
 	Room* nextRoom;
 	void Test();
 	// implement the "static create()" method manually
+private:
+	bool _isInteract=false;
 };
 
 #endif
