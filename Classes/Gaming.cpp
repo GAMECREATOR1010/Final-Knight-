@@ -162,6 +162,21 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 			}
 		}
 
+		/* ¿ªÆô±¦Ïä */
+		if (nodeA->getTag() == knightTag && nodeB->getTag() == chestTag)
+		{
+			if (_isInteract)
+			{
+				_isInteract = false;
+				auto activer = static_cast <Knight*> (nodeA);
+				auto chest = static_cast <Chest*> (nodeB);
+				auto item=chest->open(activer);
+				item->setPosition(chest->getPosition());
+				addChild(item);
+			}
+
+		}
+
 		/* ´¥·¢µñÏñ */
 		if (nodeA->getTag() == knightTag && nodeB->getTag() == statueTag)
 		{

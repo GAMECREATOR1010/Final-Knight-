@@ -61,6 +61,7 @@ public:
 	virtual void Drink(Knight* drinker,float multi = 1) = 0;	// π”√“©ÀÆ
 protected:
 	bool initWithScale(Scale scale);
+	bool _isDrunk=false;
 private:
 	Scale _scale;
 	Type _type;

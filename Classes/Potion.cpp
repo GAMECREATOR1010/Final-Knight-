@@ -42,6 +42,7 @@ HealPotion* HealPotion::create(Scale scale)
 	auto pRet = new(std::nothrow) HealPotion();
 	if (pRet && pRet->initWithScale(scale))
 	{
+		pRet->setGlobalZOrder(shadeOrder);
 		pRet->autorelease();
 		return pRet;
 	}
@@ -59,10 +60,15 @@ HealPotion* HealPotion::create(Scale scale)
 /// <param name="multi">附加倍率，大小瓶规模无需附加</param>
 void HealPotion::Drink(Knight* drinker,float multi)
 {
+	if (_isDrunk)
+	{
+		return;
+	}
+	_isDrunk = true;
 	int heal = heal = _baseHealValue * GetScale() * multi;
 	/* 调用增加生命接口 */
 	drinker->HPNowChange(heal);
-
+	this->setVisible(false);
 	return;
 }
 
@@ -93,6 +99,7 @@ ManaPotion* ManaPotion::create(Scale scale)
 	auto pRet = new(std::nothrow) ManaPotion();
 	if (pRet && pRet->initWithScale(scale))
 	{
+		pRet->setGlobalZOrder(shadeOrder);
 		pRet->autorelease();
 		return pRet;
 	}
@@ -110,6 +117,11 @@ ManaPotion* ManaPotion::create(Scale scale)
 /// <param name="multi">附加倍率，大小瓶规模无需附加</param>
 void ManaPotion::Drink(Knight* drinker, float multi)
 {
+	if (_isDrunk)
+	{
+		return;
+	}
+	_isDrunk = true;
 	int heal = _baseHealValue * GetScale() * multi;
 	/* 调用增加魔力接口 */
 	drinker->EnergyNowChange(heal);
@@ -144,6 +156,7 @@ FullPotion* FullPotion::create(Scale scale)
 	auto pRet = new(std::nothrow) FullPotion();
 	if (pRet && pRet->initWithScale(scale))
 	{
+		pRet->setGlobalZOrder(shadeOrder);
 		pRet->autorelease();
 		return pRet;
 	}
@@ -160,6 +173,11 @@ FullPotion* FullPotion::create(Scale scale)
 /// </summary>
 void FullPotion::Drink(Knight* drinker, float multi)
 {
+	if (_isDrunk)
+	{
+		return;
+	}
+	_isDrunk = true;
 	HealPotion::Drink(drinker, multi);
 	ManaPotion::Drink(drinker, multi);
 
@@ -198,6 +216,7 @@ BuffPotion* BuffPotion::create(BuffType buffType)
 	auto pRet = new(std::nothrow) BuffPotion();
 	if (pRet && pRet->initWithBuffType(buffType))
 	{
+		pRet->setGlobalZOrder(shadeOrder);
 		pRet->autorelease();
 		return pRet;
 	}
@@ -215,6 +234,11 @@ BuffPotion* BuffPotion::create(BuffType buffType)
 /// <param name="multi"></param>
 void BuffPotion::Drink(Knight* drinker, float multi)
 {
+	if (_isDrunk)
+	{
+		return;
+	}
+	_isDrunk = true;
 	int buff = _buffType;
 	if (buff == RANDOM)
 	{

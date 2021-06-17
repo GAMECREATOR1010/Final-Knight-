@@ -5,16 +5,8 @@
  ****************************************************************************/
 #include "Chest.h"
 
- /// <summary>
- /// 仅添加物理碰撞
- /// </summary>
- /// <returns></returns>
 bool Chest::init()
 {
-	/* 添加碰撞范围 */
-	auto phy = PhysicsBody::createCircle(_physicalRange);
-	SetBody(phy, ItemCate);
-	addComponent(phy);
 
 	return true;
 }
@@ -24,6 +16,8 @@ WhiteChest* WhiteChest::create()
 	auto pRet = new(std::nothrow) WhiteChest();
 	if (pRet && pRet->init())
 	{
+		pRet->setTag(chestTag);
+		pRet->setGlobalZOrder(shadeOrder);
 		pRet->autorelease();
 		return pRet;
 	}
@@ -41,6 +35,12 @@ WhiteChest* WhiteChest::create()
 /// <returns>生成的物品对象指针，生成金币能量返回空</returns>
 Item* WhiteChest::open(Knight* activer)
 {
+	if (_isOpened)
+	{
+		return nullptr;
+	}
+	_isOpened = true;
+	this->setVisible(false);
 	/* 动画效果（待定） */
 
 	/* 改变材质 */
@@ -87,6 +87,10 @@ bool WhiteChest::init()
 	{
 		return false;
 	}
+	/* 添加碰撞范围 */
+	auto phy = PhysicsBody::createCircle(80.0, PhysicsMaterial(0.0, 0.0, 0.0));
+	SetBody(phy, ItemCate);
+	addComponent(phy);
 
 	return true;
 }

@@ -45,7 +45,7 @@ protected:
 	virtual bool init();
 	bool _isOpened = false;
 private:
-	static constexpr double _physicalRange = 80.0;
+	const double _physicalRange = 80.0;
 };
 
 /* 白色宝箱，关卡结束、宝箱房间 */
