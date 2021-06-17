@@ -6,9 +6,10 @@
 #define metaOrder 0
 #define floorOrder 1
 #define shadeOrder 2
-#define wallOrder 3
-#define obstaclesOrder 4
-#define uiOrder 5
+#define knightOrder 3 
+#define wallOrder 4
+#define obstaclesOrder 5
+#define uiOrder 6 
 
 
 #define metaGid 41
@@ -16,6 +17,7 @@
 #define passageFloorGid 31
 #define doorOpenGid 21
 #define doorCloseGid 1
+#define obstaclesNorm 
 
 #define offSet 2112
 
@@ -31,11 +33,10 @@
 #define obstaclesNormTag 9
 #define obstaclesRemovableTag 10
 #define emptyTag 11
-#define statueTag 20
-const int potionChestTag = 21;
-const int potionGoodsTag = 22;
-const int weaponChestTag = 23;
-const int weaponGoodsTag = 24;
+#define nextChapterTag 12
+#define waitToAddTagRemove 13
+#define waitToAddTagNorm 14
+#define statueTag 21
 
 #define KnightCate 1
 #define EnemyCate 2
@@ -46,28 +47,6 @@ const int weaponGoodsTag = 24;
 #define faceLeft 2
 #define faceUp 3
 #define faceDown 4
-
-//UI stuff
-#define stopButtonTag 800
-#define stopLayerTag  850
-#define stopLayerStuffTag  900
-#define infoLayerTag       950
-#define infoLayerStuffTag  999
-
-#define StopFramePre     0.45f
-
-#define ButtonPre    0.075f
-#define ButtonWidthGap   40
-#define ButtonHeightGap  30
-#define ButtonWidthGapInStop   10
-#define ButtonHeightGapInStop  90
-//UI stuff end
-
-const int MONEY_EVERY_ENEMY = 2;
-const int MONEY_EVERY_ROOM = 5;
-const double MONEY_LEVEL_MUTI = 1.4;    //每层倍率
-const int MANA_EVERY_ROOM = 20;
-const double MANA_LEVEL_MUTI = 1.1;    //每层倍率
 
 #include "cocos2d.h"
 
@@ -103,4 +82,4 @@ enum roomThemeEnum
     iceTheme = 0, darkTheme=1, techTheme=2,forestTheme=3,sandTheme =4
 };
 
-#endif
+#endif 

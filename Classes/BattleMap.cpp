@@ -1,10 +1,10 @@
 #include "BattleMap.h"
 USING_NS_CC;
 
-BattleMap* BattleMap::create(int chapter, roomThemeEnum rTheme, Knight* target)
+BattleMap* BattleMap::create(int chapter, roomThemeEnum rTheme,  Knight* target)
 {
 	BattleMap* battleMap = new BattleMap;
-	if (battleMap != nullptr && battleMap->init(chapter, rTheme, target))
+	if (battleMap != nullptr && battleMap->init(chapter, rTheme,target))
 	{
 		battleMap->autorelease();
 		return battleMap;
@@ -127,7 +127,6 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 			farRoom.pushBack(temp1);
 		temp1->DrawPassage();
 		temp1->UpdateDoor();
-
 	}
 
 
@@ -202,7 +201,7 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 		endRoom = tempRoom;
 	}
 
-	if (chapter % 3 == 0)/*boss房放置*/
+	if (chapter % 3 == 0)//boss房放置
 	{
 		if (endRoom->width > 14 && endRoom->height > 14)
 			endRoom->roomType = bossRoomEnum;
@@ -214,55 +213,85 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 		AddThings(temp);
 	}
 
+
 	return true;
 }
+
 
 void BattleMap::AddThings(Room* inRoom)
 {
 	if (inRoom->roomType == startRoomEnum)
 	{
-		auto enemy1 = Enemy::create(2);
+		auto enemy1 = Enemy::create(0);
 		enemy1->target = targetKnight;
-		addChild(enemy1);
+		inRoom->addChild(enemy1);
 		enemy1->setPosition(Vec2(offSet / 2, offSet / 2));
 		enemy1->BindRoom(inRoom);
 		inRoom->enemyCount = 1;
+		Enemies.pushBack(enemy1);
 	}
-	else if (inRoom->roomType == normalRoomEnum)
+	else if(inRoom->roomType == normalRoomEnum)
 	{
-		int i = rand() % 6;
-		//inRoom->enemyCount = i;
+		int enemyType = random(0, 3);
+		int i = 0;
+		if (enemyType < 3)
+			i = random(3, 7);
+		else
+			i = random(2, 5);
+		inRoom->enemyCount = i;
 		for (int j = 0; j < i; ++j)
 		{
-			int x = rand() % (inRoom->width);
-
+			int x =random(-inRoom->width/2+1,inRoom->width / 2-1);
+			int y = random(-inRoom->height / 2+1, inRoom->height / 2-1);
+			if (inRoom->Movable(Vec2((15 + x) * 64, offSet - (15 + y) * 64), roomFloorGid)&&
+				(inRoom->enemyPos->getTileGIDAt(Vec2(15+x, 15+y)) == passageFloorGid))
+			{
+				inRoom->enemyPos->setTileGID(roomFloorGid, Vec2(15 + x, 15 + y));
+				auto enemy = Enemy::create(enemyType);
+				enemy->target = targetKnight;
+				inRoom->addChild(enemy);
+				enemy->setPosition(Vec2((15 + x)* 64, offSet - (15+y) * 64));
+				enemy->BindRoom(inRoom);
+			}
+			else
+			{
+				--j;
+			}
 		}
 	}
-	else if (inRoom->roomType == endRoomEnum)
+	else if(inRoom->roomType == endRoomEnum)
 	{
 		AddTransDoor(endRoom);
 	}
 }
 
+void BattleMap::ClearBattleMap()
+{
+	this->removeAllChildrenWithCleanup(true);
+	rooms.clear();
+	farRoom.clear();
+	oneDoorRoom.clear();
+	Enemies.clear();
+}
+
+
 void BattleMap::AddTransDoor(Room* inRoom)
 {
 	auto frames = GetAnim("gate%02d.png", 8);
 	auto transDoor = Sprite::createWithSpriteFrame(frames.front());
-	transDoor->setGlobalZOrder(shadeOrder);
-	inRoom->addChild(transDoor);
-	transDoor->setPosition(offSet / 2, offSet / 2);
 	auto animation = Animation::createWithSpriteFrames(frames, 1.0f / 8);
 	transDoor->runAction(RepeatForever::create(Animate::create(animation)));
+	transDoor->setPhysicsBody(PhysicsBody::createBox(transDoor->getContentSize()));
+	transDoor->setTag(nextChapterTag);
+	SetBody(transDoor->getPhysicsBody(), ItemCate);
+	transDoor->setGlobalZOrder(knightOrder);
 
+	inRoom->addChild(transDoor);
+	transDoor->setPosition(offSet / 2, offSet / 2);
 	auto particleSystem = ParticleSystemQuad::create("gate/door.plist");
 	inRoom->addChild(particleSystem);
 	particleSystem->setGlobalZOrder(wallOrder);
 	particleSystem->setPosition(transDoor->getPosition());
-}
-
-int BattleMap::GetLevel() const
-{
-	return chapter;
 }
 
 Room* BattleMap::InRoom(Vec2 pos)
@@ -278,6 +307,5 @@ Room* BattleMap::InRoom(Vec2 pos)
 	}
 	return nullptr;
 }
-
 
 

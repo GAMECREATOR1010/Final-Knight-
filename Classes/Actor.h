@@ -7,42 +7,47 @@
 #include "Const.h"
 #include "Weapon.h"
 
+
 USING_NS_CC;
 class Actor :public Node
 {
 public:
-	static Actor* create();
+    static Actor* create();
 	void Behit(float otherDam);
 	void DeathEffect();
 	void AddShade(const Vec2);
 	void BindWea(Weapon*);
+	void ChangeWea();
 	float GetDamage();
-	void BindRoom(Room*);
+	float GetMoveSpeed();
+	void BindRoom(Room* );
 	Room* GetRoom();
 	Weapon* GetWea();
-	Vec2 faceDir = Vec2(0, 1);
+	Vec2 faceDir=Vec2(0,1);
 	bool death = false;
 	~Actor();
 	Actor();
 protected:
-	Sprite* pic;
+    Sprite* pic;
 	Weapon* wea;
+	Weapon* wea1;
 	Sprite* shade;
 	Sprite* ghost;
 	Room* inRoom;
 
+
 	virtual bool init();
-	attackModeEnum attackMode = gunEnum;
-	float attackSpeed = 3;
-	float moveSpeed = 5;
-	float attackRange = 1;
+	attackModeEnum attackMode=gunEnum;
+	float attackSpeed=3;
+	float moveSpeed=20;
+	float attackRange=1;
 
-	float damage = 1;//Ω”¥•…À∫¶
-	float defence = 2;
-	float HP = 5, maxHP = 5;
-
-	int weaponId = 0;
+	float damage=2;//Ω”¥•…À∫¶
+	float defence=1;
+	float HP=5 , maxHP=5 ;
+	
 	PhysicsBody* body;
+
 };
 
-#endif
+#endif 
