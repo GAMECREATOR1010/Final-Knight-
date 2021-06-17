@@ -17,6 +17,8 @@ BGM::BGM()
 bool BGM::_ifonBGM = true;
 bool SE::_ifonSE = true;
 
+
+
 int BGM::play2d(const std::string& filePath, bool loop)
 {
 	if (true == _ifonBGM)
@@ -25,10 +27,12 @@ int BGM::play2d(const std::string& filePath, bool loop)
 		return AudioEngine::INVALID_AUDIO_ID;
 }
 
+
 int BGM::getIfon()
 {
 	return _ifonBGM;
 }
+
 
 void BGM::change()
 {
@@ -40,7 +44,9 @@ void BGM::change()
 	{
 		_ifonBGM = false;
 	}
+
 }
+
 
 int SE::play2d(const std::string& filePath, bool loop)
 {
@@ -54,6 +60,7 @@ int SE::getIfon()
 {
 	return _ifonSE;
 }
+
 
 void SE::change()
 {

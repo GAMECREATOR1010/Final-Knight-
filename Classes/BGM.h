@@ -41,6 +41,7 @@ public:
 	void change();
 };
 
+
 extern BGM bgm;
 extern SE se;
 
