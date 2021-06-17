@@ -203,7 +203,7 @@ void Room::DrawObstacles(float x, float y,bool removable)
 {
 	obstacles->setTileGID(55, Vec2(x, y));
     meta->setTileGID(metaGid, Vec2(x, y));
-	auto obstaclesbox = PhysicsBody::createBox(Size(60.0f, 60.0f));
+	auto obstaclesbox = PhysicsBody::createBox(Size(55.0f, 55.0f));
 	obstaclesbox->setDynamic(false);
 	SetBody(obstaclesbox, ObstaclesCate);
 	meta->getTileAt(Vec2(x, y))->addComponent(obstaclesbox);

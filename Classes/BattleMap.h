@@ -24,8 +24,6 @@ public:
     void AddThings(Room* inRoom);
     void AddTransDoor(Room* inRoom);
     void ClearBattleMap();
-    void AddRoom(int cha, roomThemeEnum rTheme, Knight* target, BattleMap* battlemap);
-    void Test();
 private:
     virtual bool init(int chapter, roomThemeEnum rTheme, Knight* target);
     roomThemeEnum roomTheme;

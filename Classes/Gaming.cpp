@@ -45,17 +45,13 @@ bool Gaming::init(Knight* myknight, int Chapter)
 	chapter = Chapter;
 	roomThemeEnum theme = roomThemeEnum(rand() % 5);
 	auto battlemap = BattleMap::create(Chapter, theme, myKnight);
-	maps.pushBack(battlemap);
 	change = Vec2(0, 0);
 	addChild(battlemap);
-	map = maps.front();
+	map = battlemap;
 	
 	myKnight->setPosition(Vec2(origin.x + visibleSize.width / 2,
 		origin.y + visibleSize.height / 2));
-	
-		addChild(myKnight);
-	
-
+	addChild(myKnight);
 	flag = false;//
 	inPassage = false;
 	transing = false;
@@ -295,8 +291,12 @@ void Gaming::update(float delta)
 	{
 		transing = false;
 		endGame = true;
-		auto scene = GamingNext::createScene(myKnightForever, chapter);
-		Director::getInstance()->replaceScene(scene);
+		auto startNewChapter = CallFunc::create([&]() {
+			auto scene = Gaming::createScene(myKnightForever, chapter);
+			Director::getInstance()->replaceScene(scene);
+			});
+		runAction(startNewChapter);
+		unscheduleUpdate();
 	}
 }
 

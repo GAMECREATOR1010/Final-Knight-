@@ -13,40 +13,25 @@ BattleMap* BattleMap::create(int chapter, roomThemeEnum rTheme,  Knight* target)
 	return nullptr;
 }
 
-
 bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 {
-	AddRoom(cha,rTheme, target,this);
-
-	return true;
-}
-
-void BattleMap::Test()
-{
-	auto sprit = Sprite::create("tileSet.png");
-	sprit->setGlobalZOrder(shadeOrder);
-	endRoom -> addChild(sprit);
-}
-
-void BattleMap::AddRoom(int cha, roomThemeEnum rTheme, Knight* target,BattleMap* battlemap)
-{
-	battlemap->targetKnight = target;
-	battlemap->roomTheme = rTheme;
-	battlemap->chapter = cha;
-	if (battlemap->chapter <= 4)
+	targetKnight = target;
+	roomTheme = rTheme;
+	chapter = cha;
+	if (chapter <= 4)
 	{
-		battlemap->roomNumber = 7;
+		roomNumber = 7;
 	}
 	else
-		battlemap->roomNumber = rand() % 3 + 8;
+		roomNumber = rand() % 3 + 8;
 
 	Vec2 genPoint = Vec2(0, 0);
 	Vec2 dirOne = ChangeDir(), dirNext = dirOne;
 	bool first = true, flag = false;
 	int wid = 12, hei = 12;
-	battlemap->maxDistance = 0;
+	maxDistance = 0;
 	roomTypeEnum type = startRoomEnum;
-	for (int i = 0; i < battlemap->roomNumber; i++)/*生成房间*/
+	for (int i = 0; i < roomNumber; i++)/*生成房间*/
 	{
 		if (!first)
 		{
@@ -65,7 +50,7 @@ void BattleMap::AddRoom(int cha, roomThemeEnum rTheme, Knight* target,BattleMap*
 			}
 
 			Vec2 tempPos = dirOne * offSet + genPoint;
-			for (auto tempR : battlemap->rooms)
+			for (auto tempR : rooms)
 			{
 				Vec2 pos = tempR->getPosition();
 				if (tempPos == pos)
@@ -95,25 +80,25 @@ void BattleMap::AddRoom(int cha, roomThemeEnum rTheme, Knight* target,BattleMap*
 			type = normalRoomEnum;//待修改
 		}
 
-		Room* tempRoom = Room::create(wid, hei, type, battlemap->roomTheme, genPoint);
+		Room* tempRoom = Room::create(wid, hei, type, roomTheme, genPoint);
 		first = false;
-		battlemap->addChild(tempRoom);
+		addChild(tempRoom);
 		tempRoom->setPosition(genPoint);
 		tempRoom->distance = abs(genPoint.x / offSet) + abs(genPoint.y / offSet);
-		if (tempRoom->distance > battlemap->maxDistance)
-			battlemap->maxDistance = tempRoom->distance;
-		battlemap->rooms.pushBack(tempRoom);
+		if (tempRoom->distance > maxDistance)
+			maxDistance = tempRoom->distance;
+		rooms.pushBack(tempRoom);
 	}
 
 
-	for (auto temp1 : battlemap->rooms)/*连接各房间，找到距离较远的房间*/
+	for (auto temp1 : rooms)/*连接各房间，找到距离较远的房间*/
 	{
 		Vec2 pos = temp1->getPosition();
-		for (auto temp2 : battlemap->rooms)
+		for (auto temp2 : rooms)
 		{
 			if (temp2->distance > temp1->distance)
 			{
-				battlemap->maxDistance = temp2->distance;
+				maxDistance = temp2->distance;
 			}
 			if (temp2->Ifnear(pos + Vec2(0, offSet)))
 			{
@@ -138,57 +123,57 @@ void BattleMap::AddRoom(int cha, roomThemeEnum rTheme, Knight* target,BattleMap*
 			if (temp1->doorNum >= 4)
 				break;
 		}
-		if (temp1->distance == battlemap->maxDistance && temp1->doorNum != 4)
-			battlemap->farRoom.pushBack(temp1);
+		if (temp1->distance == maxDistance && temp1->doorNum != 4)
+			farRoom.pushBack(temp1);
 		temp1->DrawPassage();
 		temp1->UpdateDoor();
 	}
 
 
 	Vec2 final = Vec2(0, 0);
-	for (auto temp : battlemap->farRoom)//Find endRoom
+	for (auto temp : farRoom)//Find endRoom
 	{
 		if (temp->doorNum == 1)
 		{
-			battlemap->oneDoorRoom.pushBack(temp);
+			oneDoorRoom.pushBack(temp);
 			break;
 		}
 	}
 
-	if (battlemap->oneDoorRoom.size() != 0)
+	if (oneDoorRoom.size() != 0)
 	{
-		battlemap->endRoom = oneDoorRoom.front();
-		battlemap->endRoom->roomType = endRoomEnum;
+		endRoom = oneDoorRoom.front();
+		endRoom->roomType = endRoomEnum;
 	}
 	else
 	{
 		Vec2 final = Vec2(0, 0);
 		bool doorU = false, doorD = false, doorL = false, doorR = false;
-		if (!battlemap->farRoom.front()->doorUp)
+		if (!farRoom.front()->doorUp)
 		{
 			doorD = true;
 			final = Vec2(0, offSet);
-			battlemap->farRoom.front()->doorUp = true;
+			farRoom.front()->doorUp = true;
 		}
-		else if (!battlemap->farRoom.front()->doorDown)
+		else if (!farRoom.front()->doorDown)
 		{
 			doorU = true;
 			final = Vec2(0, -offSet);
-			battlemap->farRoom.front()->doorDown = true;
+			farRoom.front()->doorDown = true;
 		}
-		else if (!battlemap->farRoom.front()->doorLeft)
+		else if (!farRoom.front()->doorLeft)
 		{
 			doorR = true;
 			final = Vec2(-offSet, 0);
-			battlemap->farRoom.front()->doorLeft = true;
+			farRoom.front()->doorLeft = true;
 		}
-		else if (!battlemap->farRoom.front()->doorRight)
+		else if (!farRoom.front()->doorRight)
 		{
 			doorL = true;
 			final = Vec2(offSet, 0);
-			battlemap->farRoom.front()->doorRight = true;
+			farRoom.front()->doorRight = true;
 		}
-		if (battlemap->chapter % 3 == 0)
+		if (chapter % 3 == 0)
 		{
 			wid = (rand() % 4) * 2 + 14;
 			hei = (rand() % 4) * 2 + 14;
@@ -199,34 +184,37 @@ void BattleMap::AddRoom(int cha, roomThemeEnum rTheme, Knight* target,BattleMap*
 			hei = (rand() % 4) * 2 + 10;
 		}
 
-		Room* tempRoom = Room::create(wid, hei, endRoomEnum, battlemap->roomTheme, battlemap->farRoom.front()->roomPosition + final);
+		Room* tempRoom = Room::create(wid, hei, endRoomEnum, roomTheme, farRoom.front()->roomPosition + final);
 
 		tempRoom->doorUp = doorU;
 		tempRoom->doorDown = doorD;
 		tempRoom->doorLeft = doorL;
 		tempRoom->doorRight = doorR;
-		battlemap->addChild(tempRoom);
-		tempRoom->setPosition(battlemap->farRoom.front()->roomPosition + final);
+		addChild(tempRoom);
+		tempRoom->setPosition(farRoom.front()->roomPosition + final);
 		tempRoom->DrawPassage();
 		tempRoom->UpdateDoor();
-		battlemap->farRoom.front()->DrawPassage();
-		battlemap->farRoom.front()->UpdateDoor();
+		farRoom.front()->DrawPassage();
+		farRoom.front()->UpdateDoor();
 		tempRoom->roomType = endRoomEnum;
-		battlemap->rooms.pushBack(tempRoom);
-		battlemap->endRoom = tempRoom;
+		rooms.pushBack(tempRoom);
+		endRoom = tempRoom;
 	}
 
 	if (chapter % 3 == 0)//boss房放置
 	{
-		if (battlemap->endRoom->width > 14 && battlemap->endRoom->height > 14)
-			battlemap->endRoom->roomType = bossRoomEnum;
+		if (endRoom->width > 14 && endRoom->height > 14)
+			endRoom->roomType = bossRoomEnum;
 	}
 
-	for (auto temp : battlemap->rooms)
+	for (auto temp : rooms)
 	{
 		temp->UpdateObstacles();
 		AddThings(temp);
 	}
+
+
+	return true;
 }
 
 
@@ -244,7 +232,7 @@ void BattleMap::AddThings(Room* inRoom)
 	}
 	else if(inRoom->roomType == normalRoomEnum)
 	{
-		/*int enemyType = random(0, 3);
+		int enemyType = random(0, 3);
 		int i = 0;
 		if (enemyType < 3)
 			i = random(3, 7);
@@ -269,7 +257,7 @@ void BattleMap::AddThings(Room* inRoom)
 			{
 				--j;
 			}
-		}*/
+		}
 	}
 	else if(inRoom->roomType == endRoomEnum)
 	{
