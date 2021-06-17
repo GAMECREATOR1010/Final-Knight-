@@ -38,6 +38,28 @@ public:
 	float GetAttackDistance();
 	float GetAttackDistanceMax();
 
+
+	void HPNowChange(float, float continueTime = -1.0f);
+	void HPMaxChange(float);
+
+	void DefenceNowChange(float, float continueTime = -1.0f);
+	void DefenceMaxChange(float);
+
+	void MoveSpeedNowChange(float, float continueTime = -1.0f);
+	void MoveSpeedMaxChange(float);
+
+	void DamageNowChange(float, float continueTime = -1.0f);
+	void DamageMaxChange(float);
+
+	void AttackSpeedChange(float, float continueTime = -1.0f);
+	void AttackSpeedMaxChange(float);
+
+	void AttackRangeChange(float, float continueTime = -1.0f);
+	void AttackRangeMaxChange(float);
+
+	void AttackDistanceChange(float, float continueTime = -1.0f);
+	void AttackDistanceMaxChange(float);
+
 	void BindRoom(Room* );
 	Room* GetRoom();
 
@@ -74,6 +96,8 @@ protected:
 	float defenceMax=1;
 	float HP=5 , HPMax=5 ;
 	
+	float tempHP, tempEnergy, tempDefence, tempMoveSpeed, tempDamage,
+		tempAttackSpeed, tempAttackRange, tempAttackDistance;
 	PhysicsBody* body;
 
 };
