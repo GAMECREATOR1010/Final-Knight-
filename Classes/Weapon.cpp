@@ -4,9 +4,9 @@
 /// 随机创建武器
 /// </summary>
 /// <returns>武器对象指针</returns>
-Weapon* RandomWeaponCreate()
+/*Weapon* RandomWeaponCreate()
 {
-	auto rarity = RandomItemRarity();
+	/*auto rarity = RandomItemRarity();
 	switch (rarity)
 	{
 	case LEGENDARY:
@@ -29,8 +29,8 @@ Weapon* RandomWeaponCreate()
 	default:
 		throw("Weapon random create failed! In func: RandomWeaponCreate");
 	}
+}*/
 	
-}
 
 
 Weapon* Weapon::create(int id, int cate)
@@ -64,7 +64,7 @@ bool Weapon::init(int id, int cate)
 		attackEffect->setGlobalZOrder(wallOrder);
 		
 		
-		SetBody(attackEffect->getPhysicsBody(), cate);
+		SetBody(attackEffect->getPhysicsBody(), ItemCate);
 		attackEffect->setVisible(false);
 		attackEffect->getPhysicsBody()->setEnabled(false);
 
@@ -174,7 +174,7 @@ bool Weapon::init(int id, int cate)
 		addComponent(trigger);
 	}
 
-	setGlobalZOrder(shadeOrder);
+	setGlobalZOrder(knightOrder);
 	setTag(weaponTag);
 	return true;
 }

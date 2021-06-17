@@ -11,6 +11,8 @@ class Gaming : public cocos2d::Scene
 public:
     static cocos2d::Scene* createScene(Knight* myknight,int chapter);
     BattleMap* map;
+    Vector<BattleMap*> maps;
+    void AddRoom(int cha, roomThemeEnum rTheme, Knight* target, BattleMap* battlemap);
     Knight* myKnight;
     bool flag, inPassage, transing = false;
     bool endGame = false;
@@ -24,6 +26,7 @@ public:
     Vec2 change;
     Room* atRoom;
     Room* nextRoom;
+    void Test();
     // implement the "static create()" method manually
 };
 
