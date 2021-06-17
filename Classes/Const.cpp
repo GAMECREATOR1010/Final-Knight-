@@ -44,7 +44,7 @@ void SetBody(PhysicsBody* body, int category)
 	else if (category == EnemyCate)
 	{
 		body->setCategoryBitmask(0x02); //10
-		body->setCollisionBitmask(0x05); //101
+		body->setCollisionBitmask(0xff); //±ÜÃâÖØµş
 	}
 	else if (category == ObstaclesCate)
 	{
