@@ -3,7 +3,6 @@
 #define __GENERAL_H__
 
 #include "cocos2d.h"
-#include "Gaming.h"
 #include "Room.h"
 #include "BattleMap.h"
 #include "Actor.h"

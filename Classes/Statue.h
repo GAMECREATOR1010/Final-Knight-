@@ -36,11 +36,11 @@ enum StatueType
 	STATUECOUNT
 };
 
-const char* WEREWOLF_PATH = "/statues/WerewolfStatue.png";
-const char* PRIEST_PATH = "/statues/PriestStatue.png";
-const char* KNIGHT_PATH = "/statues/KnightStatue.png";
-const char* THIEF_PATH = "/statues/ThiefStatue.png";
-const char* ELF_PATH = "/statues/ElfStatue.png";
+static const char* WEREWOLF_PATH = "/statues/WerewolfStatue.png";
+static const char* PRIEST_PATH = "/statues/PriestStatue.png";
+static const char* KNIGHT_PATH = "/statues/KnightStatue.png";
+static const char* THIEF_PATH = "/statues/ThiefStatue.png";
+static const char* ELF_PATH = "/statues/ElfStatue.png";
 
 class Statue : public NPC
 {

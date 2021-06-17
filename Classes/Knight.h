@@ -27,5 +27,5 @@ private:
     int rank = 1;
     int EXP = 0;
 };
-
+static Knight* myKnightForever ;
 #endif 

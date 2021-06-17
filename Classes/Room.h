@@ -10,6 +10,7 @@ USING_NS_CC;
 class Room :public cocos2d::Node
 {
     friend class BattleMap;
+    friend class Gaming;
     friend class Knight;
     friend class Actor;
 public:

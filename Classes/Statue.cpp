@@ -25,7 +25,7 @@ Statue* Statue::create(StatueType type)
 
 bool Statue::ActiveStatue(Knight* activer)
 {
-	if (GoldMoney::ChangeBalance(-STATUE_COST));
+	if (goldMoney.ChangeBalance(-STATUE_COST));
 	{
 		switch (_type)
 		{
@@ -39,8 +39,10 @@ bool Statue::ActiveStatue(Knight* activer)
 				activer->AddDefence(DEFENCE_BUFF);
 				break;
 			case THIEF:
+			{
 				auto curWp = activer->GetWea();
 				curWp->SetDamageBuff(DAMAGE_BUFF);
+			}
 				break;
 			case ELF:
 				activer->HPMaxChange(HEALTH_MAXADD_BUFF);

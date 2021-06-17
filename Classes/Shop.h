@@ -40,9 +40,9 @@ public:
 	bool Buy();	//购买商品
 	void SetGoods(Item*);
 	void SetPrice(int);
-	Item* GetGoods() const;
+	Item* GetGoods();
 private:
-	Item* _pGoods;
+	Item* _pGoods=nullptr;
 	int _price;
 };
 
@@ -50,11 +50,11 @@ class Shop : public Room
 {
 public:
 	bool InitGoods(int curLevel);	//初始化商品
-	std::vector <Goods>& GetGoodses();	//返回所有商品，用于显示
 	NPC* SetShopKeeper();	//返回一个商人
+	Goods goodses[3];
 private:
-	std::vector <Goods> _goodses;
-	bool SetPotion(Type type, int curLevel);
+
+	bool SetPotion(Type type, int curLevel=1);
 	bool SetWeapon(int curLevel = 1);
 };
 

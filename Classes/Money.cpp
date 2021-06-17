@@ -14,7 +14,7 @@
  /// <returns></returns>
 int Money::GetBalance()
 {
-	return _balance;
+	return _balances;
 }
 
 /// <summary>
@@ -23,7 +23,7 @@ int Money::GetBalance()
 /// <param name="setValue">设置余额值</param>
 void Money::SetBalance(int setValue)
 {
-	_balance = setValue;
+	_balances = setValue;
 
 	return;
 }
@@ -35,9 +35,9 @@ void Money::SetBalance(int setValue)
 /// <returns>是否改变成功</returns>
 bool Money::ChangeBalance(int changeValue)
 {
-	if (_balance + changeValue >= 0)
+	if (_balances + changeValue >= 0)
 	{
-		_balance = _balance + changeValue;
+		_balances = _balances + changeValue;
 		return true;
 	}
 
@@ -46,7 +46,7 @@ bool Money::ChangeBalance(int changeValue)
 
 bool Money::create(int initValue)
 {
-	_balance = initValue;
+	_balances = initValue;
 	return true;
 }
 

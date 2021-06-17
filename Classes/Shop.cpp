@@ -11,7 +11,7 @@
 bool Goods::Buy()
 {
 	/* 检测是否有足够的钱 */
-	if (GoldMoney::ChangeBalance(-_price))
+	if (goldMoney.ChangeBalance(-_price))
 	{
 		/* 删除该对象，贴图？设置bool判断？ */
 		/* 该对象作为普通对象交互，这样就不会重复购买了 */
@@ -58,7 +58,7 @@ void Goods::SetPrice(int price)
 	_price = price;
 	return;
 }
-Item* Goods::GetGoods() const
+Item* Goods::GetGoods()
 {
 	return _pGoods;
 }
@@ -88,17 +88,7 @@ bool Shop::InitGoods(int curLevel)
 			return true;
 		}
 	}
-
 	return false;
-}
-
-/// <summary>
-/// 获得商品，Goods内的Item*指针为商品对象指针
-/// </summary>
-/// <returns></returns>
-std::vector<Goods>& Shop::GetGoodses()
-{
-	return _goodses;
 }
 
 /// <summary>
@@ -106,7 +96,7 @@ std::vector<Goods>& Shop::GetGoodses()
 /// </summary>
 /// <param name="type">药水类型</param>
 /// <returns></returns>
-bool Shop::SetPotion(Type type, int curLevel = 1)
+bool Shop::SetPotion(Type type, int curLevel)
 {
 	Potion* potion;
 	int ran = rand() % MAX_POTION_SCALE;
@@ -152,15 +142,17 @@ bool Shop::SetPotion(Type type, int curLevel = 1)
 				break;
 		}
 	}
-	Goods gd;
-	gd.SetGoods(static_cast <Item*> (potion));
-	gd.SetPrice(potion->GetScale() * curLevel);
 
-	/* 将药添加到货物内 */
-	if (_goodses.size() < MAX_GOODS)
+	for (int i = 0; i < 3; i++)
 	{
-		_goodses.push_back(gd);
-		return true;
+		if (goodses[i].GetGoods() == nullptr)
+		{
+
+			goodses[i].SetGoods(potion);
+			goodses[i].SetPrice(potion->GetScale() * curLevel);
+
+			return true;
+		}
 	}
 
 	return false;
@@ -170,19 +162,19 @@ bool Shop::SetPotion(Type type, int curLevel = 1)
 /// 添加武器，并同时设置价格
 /// </summary>
 /// <returns></returns>
-bool Shop::SetWeapon(int curLevel = 1)
+bool Shop::SetWeapon(int curLevel)
 {
-	Goods gd;
-	auto wp = static_cast <Item*> (RandomWeaponCreate());
-
-	gd.SetGoods(wp);
-	gd.SetPrice(wp->GetRarity() * curLevel);
-
-	/* 将药添加到货物内 */
-	if (_goodses.size() < MAX_GOODS)
+	for (int i = 0; i < 3; i++)
 	{
-		_goodses.push_back(gd);
-		return true;
+		if (goodses[i].GetGoods() == nullptr)
+		{
+			auto wp = static_cast <Item*> (RandomWeaponCreate());
+
+			goodses[i].SetGoods(wp);
+			goodses[i].SetPrice(wp->GetRarity() * curLevel);
+
+			return true;
+		}
 	}
 
 	return false;

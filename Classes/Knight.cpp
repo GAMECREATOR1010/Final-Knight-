@@ -22,13 +22,13 @@ bool Knight::init(int type, int rank)
 	body = PhysicsBody::create();
 	if (type == 0)
 	{
-		maxHP = 100;
-		HP = 100;
+		maxHP = 50;
+		HP = 50;
 		pic = Sprite::create("Knight1.png");
 		addChild(pic, 0);
 		auto shape = PhysicsShapeBox::create(Size(45.0f,40.0f));
 		body->addShape(shape);
-		pic->setGlobalZOrder(shadeOrder);
+		pic->setGlobalZOrder(knightOrder);
 		pic->setAnchorPoint(Vec2(0.7f, 0.6f));
 		attackMode = gunEnum;
 		
@@ -40,7 +40,7 @@ bool Knight::init(int type, int rank)
 		pic->runAction(RepeatForever::create(Aniaction));
 		
 		AddShade( Vec2(-5,-40));
-		wea = Weapon::create(9, KnightCate);
+		wea = Weapon::create(5, KnightCate);
 		addChild(wea);
 		wea->setPosition(wea->bindPoint);
    }
@@ -57,6 +57,7 @@ void Knight::LevelUp()
 	energyMax += 10;
 	energyNow = energyMax;
 }
+
 
 void Knight::AddDefence(float addDefence)
 {
