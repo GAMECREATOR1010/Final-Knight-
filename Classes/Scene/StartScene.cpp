@@ -9,6 +9,8 @@
 
 #include "StartScene.h"
 USING_NS_CC;
+using namespace std;
+
 
 Scene* StartScene::createScene()
 {
@@ -54,7 +56,6 @@ bool StartScene::init()
     }
 
     {
-        //显示PRESS TO START,设置为闪烁
         MenuItemFont::setFontName("fonts/Pixeboy.ttf");
         auto startItem = MenuItemFont::create("PRESS TO START",
             CC_CALLBACK_1(StartScene::startCallback, this));
@@ -74,10 +75,15 @@ bool StartScene::init()
 
     {   
         //音效和BGM设置按钮
-        auto BGMButton = BGMLayer::create();
-        auto SEButton = SELayer::create();
-        this->addChild(BGMButton);
-        this->addChild(SEButton);
+        auto bgmButton = BGMButton::create();
+        bgmButton->setPostionStartLayer();
+        this->addChild(bgmButton);
+        auto seButton = SEButton::create();
+        this->addChild(seButton);
+        seButton->setPostionStartLayer();
+        auto infoButton = InfoButton::create();
+        infoButton->setPostionStartLayer();
+        this->addChild(infoButton);
     }
 
     return true;
@@ -89,6 +95,14 @@ void StartScene::startCallback(Ref* sender)
     bgm.stopAll();
     //音效
     se._audioID = se.play2d(s_M_ButtonSelected);
-    Director::getInstance()->replaceScene(HelloWorld::createScene());
+    // create a scene. it's an autorelease object
+
+    auto knight = Knight::create(0, 1);
+    // create a scene. it's an autorelease object
+    auto scene = Gaming::createScene(knight, 1);
+
+    auto director = Director::getInstance();
+    // run
+    director->replaceScene(scene);
 }
 

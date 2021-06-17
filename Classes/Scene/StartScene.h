@@ -13,14 +13,14 @@
 #include "BGM.h"
 #include "cocos2d.h"
 #include "audio/include/AudioEngine.h"
-#include "HelloWorldScene.h"
-#include "Layer/BGMButtonsLayer.h"
+#include "Layer/TwoUseButtonsLayer.h"
+#include "Layer/StopLayer.h"
+#include "Gaming.h"
+#include "General.h"
 #include "source.h" 
 
 class StartScene :public cocos2d::Scene
 {
-private:
-    BGM bgm;
 
 public:
     virtual bool init() override;
