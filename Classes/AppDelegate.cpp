@@ -86,14 +86,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 	register_all_packages();
 
-	// create a scene. it's an autorelease object
-
-	 auto knight = Knight::create(0,1);
-    // create a scene. it's an autorelease object
-    auto scene =Gaming::createScene(knight,1);
-    
-    // run
-    director->runWithScene(scene);
+	auto scene = StartScene::createScene();
+	// run
+	director->runWithScene(scene);
 
 
 	return true;
