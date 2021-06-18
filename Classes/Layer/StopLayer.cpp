@@ -128,6 +128,8 @@ void StopLayer::touchEventResumeButton(Ref* pSender, Widget::TouchEventType type
     case Widget::TouchEventType::BEGAN:
     {
         se._audioID = se.play2d(s_M_ButtonSelected);
+        Director::getInstance()->resume();
+        _eventListener.setEnabled(true);
         this->removeChild(_stopLayer);
     }
     break;
@@ -146,6 +148,7 @@ void StopLayer::touchEventHomeButton(Ref* pSender, Widget::TouchEventType type)
     {
     case Widget::TouchEventType::BEGAN:
     {
+        AudioEngine::stop(bgm._audioID);
         se._audioID = se.play2d(s_M_ButtonSelected);
         Director::getInstance()->replaceScene(StartScene::createScene());
     }
@@ -193,7 +196,7 @@ void StopLayer::touchEventSupremeButton(Ref* pSender, Widget::TouchEventType typ
 
 
 
-bool StopButton::init()
+bool StopButton::init(EventListenerKeyboard& eventListener, Node& node)
 {
     if (!Sprite::init())
     {
@@ -206,7 +209,7 @@ bool StopButton::init()
         listener->setEnabled(true);
         listener->setSwallowTouches(true);
 
-        listener->onTouchBegan = [this](Touch* touch, Event* event) {
+        listener->onTouchBegan = [&,this](Touch* touch, Event* event) {
 
             auto target = static_cast<Sprite*>(event->getCurrentTarget());
 
@@ -216,7 +219,9 @@ bool StopButton::init()
             if (rect.containsPoint(locationInNode))
             {
                 se._audioID = se.play2d(s_M_ButtonSelected);
-                auto stopLayer = StopLayer::create();
+                auto stopLayer = StopLayer::create(eventListener, node);
+                eventListener.setEnabled(false);
+                Director::getInstance()->pause();
                 this->addChild(stopLayer);
                 return true;
             }
