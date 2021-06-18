@@ -18,6 +18,7 @@ bool Enemy::init(int type, bool ifboss)
 	state = EnemyIdle;
 	attackMode = touchEnum;
 	body = PhysicsBody::create();
+	defenceMax = 1;
 	if (type == 0)
 	{
 		auto frames = GetAnim("enemy%02d.png", 5);
@@ -37,6 +38,7 @@ bool Enemy::init(int type, bool ifboss)
 		pic = Sprite::createWithSpriteFrame(frames.front());
 		pic->runAction(RepeatForever::create(Animate::create(animation)));
 
+		damage = 2.2f;
 		chaseDistance = 64 * 10;
 		moveSpeedMax = 280;
 		HPMax = 6;
@@ -83,7 +85,7 @@ bool Enemy::init(int type, bool ifboss)
 		{
 			wea = nullptr;
 			moveSpeedMax = 250;
-			damage = 2;
+			damage = 2.5;
 		}
 		else if (i == 1)
 		{
@@ -122,19 +124,18 @@ bool Enemy::init(int type, bool ifboss)
 		pic = Sprite::createWithSpriteFrame(frames.front());
 		pic->runAction(RepeatForever::create(Animate::create(animation)));
 
-
 		HPMax = 7;
 		chaseDistance = 64 * 8;
 		attackDistance = 64 * 8;
 		moveSpeedMax = 200;
-		damage = 2;
+		damage = 2.5;
 		wea = Weapon::create(random(5, 6), EnemyCate);
 		addChild(wea);
 		wea->setPosition(wea->bindPoint);
 		AddShade(Vec2(0, -30));
 	}
 
-
+	defence = defenceMax;
 	HP = HPMax;
 	moveSpeed = moveSpeedMax;
 	pic->setGlobalZOrder(shadeOrder);

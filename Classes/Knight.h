@@ -26,9 +26,7 @@ private:
     virtual bool init(int type=0, int rank=1);
     float  energyMax=150;
     float  energyNow=150;
-
     float  tempEnergy=150;
-
     int rank = 1;
     int EXP = 0;
 };

@@ -44,6 +44,20 @@ bool Knight::init(int type, int rank)
 		wea->setPosition(wea->bindPoint);
 		wea->trigger->setEnabled(false);
    }
+	else if (type == 1)
+	{
+
+	}
+	else if (type == 2)
+	{
+
+	}
+	else if (type == 3)
+	{
+
+	}
+	
+
 	HPMax = HP;
 	moveSpeed = moveSpeedMax;
 	defence = defenceMax;
