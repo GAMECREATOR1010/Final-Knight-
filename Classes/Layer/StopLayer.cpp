@@ -4,6 +4,13 @@
  Code version 21w20a (2021-6-17)
 
  Annotation:暂停内容
+
+ API:在场景中添加暂停按钮请加入：
+        #include "Layer/StopLayer.h"
+
+
+        auto stopButton = StopButton::create();
+        this->addChild(stopButton);
  ****************************************************************************/
 #include "StopLayer.h"
 
@@ -28,13 +35,13 @@ bool StopLayer::init()
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto originSize = Director::getInstance()->getVisibleOrigin();
-
     //显示框架
     auto sprite = Sprite::create(s_P_StopFrame);
     float scaledPre = visibleSize.width * StopFramePre / (sprite->getContentSize().width);
     sprite->setContentSize(Size(sprite->getContentSize().width * scaledPre, sprite->getContentSize().height * scaledPre));
     sprite->setPosition(Vec2(visibleSize / 2) + originSize);
-    _stopLayer->addChild(sprite, stopLayerTag);
+    sprite->setGlobalZOrder(uiOrder);
+    _stopLayer->addChild(sprite);
 
     float y = originSize.y + visibleSize.height / 2 - sprite->getContentSize().height / 2 + ButtonHeightGapInStop;
 
@@ -51,19 +58,20 @@ bool StopLayer::init()
 
         float x = originSize.x + visibleSize.width / 2;
         resumeButton->setPosition(Vec2(x, y));
-        _stopLayer->addChild(resumeButton, stopLayerStuffTag);
+        resumeButton->setGlobalZOrder(uiOrder);
+        _stopLayer->addChild(resumeButton);
     }
 
     {
         auto seButton = SEButton::create();
         seButton->setPostionStopLayer(sprite);
-        _stopLayer->addChild(seButton, stopLayerStuffTag);
+        _stopLayer->addChild(seButton);
         auto bgmButton = BGMButton::create();
         bgmButton->setPostionStopLayer(sprite);
-        _stopLayer->addChild(bgmButton, stopLayerStuffTag);
+        _stopLayer->addChild(bgmButton);
         auto infoButton = InfoButton::create();
         infoButton->setPostionStopLayer(sprite);
-        _stopLayer->addChild(infoButton, stopLayerStuffTag);
+        _stopLayer->addChild(infoButton);
     }
 
     {
@@ -79,9 +87,35 @@ bool StopLayer::init()
 
         float x = originSize.x + visibleSize.width / 2 + homeButton->getContentSize().width * scaledPre + ButtonWidthGapInStop;
         homeButton->setPosition(Vec2(x, y));
-        _stopLayer->addChild(homeButton, stopLayerStuffTag);
+        homeButton->setGlobalZOrder(uiOrder);
+        _stopLayer->addChild(homeButton);
     }
 
+    {
+        Button* supremeButton = Button::create();
+        /*请加上下端代码并修改touchEventSupremeButton里的内容：
+        if(无敌效果已开启)
+            homeButton->setTexture(s_P_SupremeButtonSelected);
+        else
+            homeButton->setTexture(s_P_SupremeButton);
+        */
+        supremeButton->setAnchorPoint(Vec2(0.5, 0));
+
+        supremeButton->ignoreContentAdaptWithSize(false);
+        supremeButton->setScale9Enabled(true);
+        supremeButton->setPressedActionEnabled(false);
+        supremeButton->addTouchEventListener(CC_CALLBACK_2(StopLayer::touchEventSupremeButton, this));
+
+        float x = originSize.x + visibleSize.width / 2 - supremeButton->getContentSize().width * 3 - ButtonWidthGapInStop;
+        y += ButtonHeightGapInStop * 2;
+        supremeButton->setPosition(Vec2(x, y));
+        supremeButton->setGlobalZOrder(uiOrder);
+        _stopLayer->addChild(supremeButton);
+
+
+    }
+
+    _stopLayer->setGlobalZOrder(uiOrder);
     this->addChild(_stopLayer);
     return true;
 }
@@ -112,7 +146,6 @@ void StopLayer::touchEventHomeButton(Ref* pSender, Widget::TouchEventType type)
     {
     case Widget::TouchEventType::BEGAN:
     {
-        bgm.stopAll();
         se._audioID = se.play2d(s_M_ButtonSelected);
         Director::getInstance()->replaceScene(StartScene::createScene());
     }
@@ -124,6 +157,38 @@ void StopLayer::touchEventHomeButton(Ref* pSender, Widget::TouchEventType type)
     }
     return;
 }
+
+
+
+void StopLayer::touchEventSupremeButton(Ref* pSender, Widget::TouchEventType type)
+{
+    switch (type)
+    {
+    case Widget::TouchEventType::BEGAN:
+    {
+        se._audioID = se.play2d(s_M_ButtonSelected);
+        /*加入你想要的内容*/
+    }
+    break;
+
+    case Widget::TouchEventType::ENDED:
+    {
+        /*请加上下端代码：
+        if(无敌效果已开启)
+            homeButton->setTexture(s_P_SupremeButtonSelected);
+        else
+            homeButton->setTexture(s_P_SupremeButton);
+        */
+    }
+    break;
+    default:
+        break;
+    }
+    return;
+}
+
+
+
 
 
 
@@ -153,7 +218,6 @@ bool StopButton::init()
                 se._audioID = se.play2d(s_M_ButtonSelected);
                 auto stopLayer = StopLayer::create();
                 this->addChild(stopLayer);
-
                 return true;
             }
             return false;
@@ -182,6 +246,7 @@ bool StopButton::init()
         float x = originSize.x + visibleSize.width - _stopButton->getContentSize().width / 2 - ButtonWidthGap;
         float y = originSize.y + visibleSize.height - _stopButton->getContentSize().height / 2 - ButtonHeightGap;
         _stopButton->setPosition(Vec2(x, y));
+        _stopButton->setGlobalZOrder(uiOrder);
         addChild(_stopButton);
     }
 

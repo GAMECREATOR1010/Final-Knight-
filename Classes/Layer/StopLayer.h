@@ -6,6 +6,9 @@
  Annotation:暂停内容
 
  API:在场景中添加暂停按钮请加入：
+        #include "Layer/StopLayer.h"
+
+
         auto stopButton = StopButton::create();
         this->addChild(stopButton);
  ****************************************************************************/
@@ -71,6 +74,7 @@ public:
 
     void touchEventResumeButton(Ref* pSender, Widget::TouchEventType type);
     void touchEventHomeButton(Ref* pSender, Widget::TouchEventType type);
+    void touchEventSupremeButton(Ref* pSender, Widget::TouchEventType type);
 
     static StopLayer* create()
     {
