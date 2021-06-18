@@ -1,9 +1,9 @@
 #include "Bullet.h"
 
-Bullet* Bullet::create(int bulletType, Vec2 dir,int cate,  float range,float damage, float speed,float distance)
+Bullet* Bullet::create(int bulletType, Vec2 dir, int cate, float range, float damage, float speed, float distance)
 {
 	Bullet* bullet = new Bullet;
-	if (bullet != nullptr && bullet->init(bulletType, dir,cate,  range, damage,speed,distance))
+	if (bullet != nullptr && bullet->init(bulletType, dir,  cate, range, damage, speed, distance))
 	{
 		bullet->autorelease();
 		return bullet;
@@ -12,15 +12,16 @@ Bullet* Bullet::create(int bulletType, Vec2 dir,int cate,  float range,float dam
 	return nullptr;
 }
 
-bool Bullet::init(int bulletType, Vec2 dir,int cate,  float rangeW, float damageW, float speed,float distance)
+bool Bullet::init(int bulletType, Vec2 dir, int cate, float rangeW, float damageW, float speed, float distance)
 {
 	std::string  path = "bullet/";
 	std::string count = StringUtils::toString(cate);
-	std::string filename = path + count ;
+	std::string filename = path + count;
 
+	belongCate = cate;
 	type = bulletType;
 	damage = damageW;
-	trigger=  PhysicsBody::create();
+	trigger = PhysicsBody::create();
 	if (bulletType == 0)
 	{
 		filename += "roundBullet1.png";
@@ -31,7 +32,7 @@ bool Bullet::init(int bulletType, Vec2 dir,int cate,  float rangeW, float damage
 	{
 		filename += "triangleBullet.png";
 		this->initWithFile(filename);
-		Vec2 verts[] = { Vec2(-30, -3), Vec2(30,-3), Vec2(0, 40)};
+		Vec2 verts[] = { Vec2(-30, -3), Vec2(30,-3), Vec2(0, 40) };
 		trigger->addShape(PhysicsShapeEdgePolygon::create(verts, 3));
 	}
 	else if (bulletType == 2)
@@ -56,28 +57,72 @@ bool Bullet::init(int bulletType, Vec2 dir,int cate,  float rangeW, float damage
 		Vec2 verts[] = { Vec2(-15, -144), Vec2(-15,144), Vec2(15, 144),Vec2(15, -144) };
 		trigger->addShape(PhysicsShapeEdgePolygon::create(verts, 4));
 	}
-
-	SetBody(trigger, ItemCate);
-	this->addComponent(trigger);
-
-	if (cate == KnightCate)
+	else if (bulletType == 5)
 	{
-		this->setTag(myBulletTag);
+		filename += "bomb.png";
+		this->initWithFile(filename);
+		trigger->addShape(PhysicsShapeCircle::create(25.0f));
+	}
+	if (type < 5)
+	{
+		SetBody(trigger, ItemCate);
+		if (cate == KnightCate)
+		{
+			this->setTag(myBulletTag);
+		}
+		else
+			this->setTag(enemyBulletTag);
 	}
 	else
-		this->setTag(enemyBulletTag);
-	
+	{
+		SetBody(trigger, ObstaclesCate);
+		trigger->setDynamic(false);
+	}
 
-
+	this->addComponent(trigger);
 	this->setScale(rangeW);
-	this->setGlobalZOrder(uiOrder);
-	auto moveBy = MoveBy::create(1.0f-speed*0.1f, dir * (400+distance*70));
+	this->setGlobalZOrder(wallOrder);
+
 	auto bulletEffect = CallFunc::create([&]() {
 		this->ShowEffect();
 		});
+
+	if (type > 4)
+	{
+		auto delayPre = DelayTime::create(2.0f-(type-5)*0.1f);
+		auto explosion = Sprite::create("weapon/empty.png");
+		addChild(explosion);
+		explosion->setPosition(Vec2(15, 30));
+		explosionEffect = PhysicsBody::create();
+		explosionEffect->addShape(PhysicsShapeCircle::create(25 * type));
+		SetBody(explosionEffect,ItemCate);
+		explosion->addComponent(explosionEffect);
+		explosion->setTag(explosionTag);
 	
-	auto mySeq = Sequence::create(moveBy, bulletEffect,nullptr);
-	this->runAction(mySeq);
+		explosionEffect->setEnabled(false);
+		auto bomp = CallFunc::create([&]() {
+			explosionEffect->setEnabled(true);
+			});
+		auto continueExplosion = DelayTime::create(0.3f);
+		auto mySeq = Sequence::create(delayPre, bomp, continueExplosion, bulletEffect,nullptr);
+		this->runAction(mySeq);
+	}
+	else
+	{
+		auto moveBy = MoveBy::create(0.8f - speed * 0.1f, dir * (500 + distance * 70));
+		auto moveEasOut = EaseOut::create(moveBy->clone(), 0.5f);
+		if (bulletType == 4)
+		{
+			auto moveSineOut = EaseSineOut::create(moveBy->clone());
+			auto mySeq = Sequence::create(moveSineOut, bulletEffect, nullptr);
+			this->runAction(mySeq);
+		}
+		else
+		{
+			auto mySeq = Sequence::create(moveEasOut, bulletEffect, nullptr);
+			this->runAction(mySeq);
+		}
+	}
 	return true;
 }
 
@@ -88,17 +133,23 @@ void Bullet::BulletDis()
 
 void Bullet::ShowEffect()
 {
-	std::string  effect = "bulletParticle/shot";
-	std::string countEffect = StringUtils::toString(type);
-	std::string filenameEffect = effect + countEffect + ".plist";
-	auto particleSystem = ParticleSystemQuad::create(filenameEffect);
-	this->getParent()->addChild(particleSystem);
-	particleSystem->setGlobalZOrder(wallOrder);
-	particleSystem->setPosition(this->getPosition());
+	stopAllActions();
+	auto bulletParticle = CallFunc::create([&]() {
+		if (type > 4)
+			type = 5;
+		std::string  effect = "bulletParticle/shot";
+		std::string countEffect = StringUtils::toString(type);
+		std::string filenameEffect = effect + countEffect + ".plist";
+		auto particleSystem = ParticleSystemQuad::create(filenameEffect);
+		this->getParent()->addChild(particleSystem);
+		particleSystem->setGlobalZOrder(wallOrder);
+		particleSystem->setPosition(this->getPosition());
+		});
 	auto bulletDis = CallFunc::create([&]() {
 		this->BulletDis();
 		});
+
 	auto delay = DelayTime::create(0.05f);
-	auto mySeq = Sequence::create(delay, bulletDis, nullptr);
+	auto mySeq = Sequence::create(bulletParticle, delay, bulletDis, nullptr);
 	this->runAction(mySeq);
 }
