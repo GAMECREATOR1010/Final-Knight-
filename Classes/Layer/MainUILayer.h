@@ -20,7 +20,19 @@ class MainUILayer : public cocos2d::Layer
 {
 public:
 
-    virtual bool init();
+    virtual bool init(EventListenerKeyboard& eventListener,Node& node);
 
-    CREATE_FUNC(MainUILayer);
+    static MainUILayer* create(EventListenerKeyboard& eventListener, Node& node)
+    {
+        auto ret = new (std::nothrow) MainUILayer();
+        if (ret && ret->init(eventListener,node))
+        {
+            ret->autorelease();
+        }
+        else
+        {
+            CC_SAFE_DELETE(ret);
+        }
+        return ret;
+    }
 };

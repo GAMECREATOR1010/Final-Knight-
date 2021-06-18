@@ -57,10 +57,6 @@ bool Gaming::init(Knight* myknight, int Chapter)
 	transing = false;
 	endGame = false;
 
-	auto mainUILayer = MainUILayer::create();
-	mainUILayer->setGlobalZOrder(uiOrder);
-	this->addChild(mainUILayer);
-
 	auto keyListener = EventListenerKeyboard::create();
 	keyListener->onKeyPressed = CC_CALLBACK_2(Gaming::onKeyPressed, this);
 	keyListener->onKeyReleased = CC_CALLBACK_2(Gaming::onKeyReleased, this);
@@ -69,6 +65,10 @@ bool Gaming::init(Knight* myknight, int Chapter)
 	auto contactListener = EventListenerPhysicsContact::create();
 	contactListener->onContactBegin = CC_CALLBACK_1(Gaming::onContactBegin, this);
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
+
+	auto mainUILayer = MainUILayer::create(*keyListener, *this);
+	mainUILayer->setGlobalZOrder(uiOrder);
+	this->addChild(mainUILayer);
 
 	//this->setScale(0.2f);
 	//map->setVisible(false);
@@ -311,6 +311,7 @@ bool Gaming::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 		{
 			map->setVisible(false);
 		}
+
 
 		if (keycode == EventKeyboard::KeyCode::KEY_UP_ARROW)
 		{

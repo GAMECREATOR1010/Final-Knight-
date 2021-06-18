@@ -16,7 +16,7 @@ static void problemLoading(const char* filename)
     printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
 
-bool MainUILayer::init()
+bool MainUILayer::init(EventListenerKeyboard& eventListener, Node& node)
 {
     if (!Layer::init())
     {
@@ -29,7 +29,7 @@ bool MainUILayer::init()
     bgm._audioID = bgm.play2d(s_M_StartBGM);
 
     {
-        auto stopButton = StopButton::create();
+        auto stopButton = StopButton::create(eventListener, node);
         stopButton->setGlobalZOrder(uiOrder);
         this->addChild(stopButton);
     }

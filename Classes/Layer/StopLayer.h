@@ -28,15 +28,16 @@
 
 using namespace cocos2d::ui;
 
+
 class StopButton : public cocos2d::Sprite
 {
 public:
-    virtual bool init();
+    virtual bool init(EventListenerKeyboard& eventListener, Node& node);
 
-    static StopButton* create()
+    static StopButton* create(EventListenerKeyboard& eventListener, Node& node)
     {
         auto ret = new (std::nothrow) StopButton();
-        if (ret && ret->init())
+        if (ret && ret->init(eventListener,node))
         {
             ret->autorelease();
         }
@@ -76,9 +77,9 @@ public:
     void touchEventHomeButton(Ref* pSender, Widget::TouchEventType type);
     void touchEventSupremeButton(Ref* pSender, Widget::TouchEventType type);
 
-    static StopLayer* create()
+    static StopLayer* create(EventListenerKeyboard& eventListener, Node& node)
     {
-        auto ret = new (std::nothrow)StopLayer();
+        auto ret = new (std::nothrow)StopLayer(eventListener,node);
         if (ret && ret->init())
         {
             ret->autorelease();
@@ -91,12 +92,16 @@ public:
     }
 
 protected:
-     StopLayer()
+    StopLayer(EventListenerKeyboard& eventListener, Node& node)
         : _stopLayer(Layer::create())
+        , _node(node)
+            , _eventListener(eventListener)
     {
     }
 private:
     Layer* _stopLayer;
+    Node& _node;
+    EventListenerKeyboard& _eventListener;
 
 };
 
