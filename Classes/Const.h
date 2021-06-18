@@ -6,10 +6,10 @@
 #define metaOrder 0
 #define floorOrder 1
 #define shadeOrder 2
-#define knightOrder 3
+#define knightOrder 3 
 #define wallOrder 4
 #define obstaclesOrder 5
-#define uiOrder 6
+#define uiOrder 6 
 
 
 #define metaGid 41
@@ -17,7 +17,7 @@
 #define passageFloorGid 31
 #define doorOpenGid 21
 #define doorCloseGid 1
-#define obstaclesNorm
+#define obstaclesNorm 
 
 #define offSet 2112
 
@@ -34,6 +34,9 @@
 #define emptyTag 11
 #define nextChapterTag 12
 #define hitAllActorTag 13
+#define lowerAllActorSpeadTag 14
+#define explosionTag 15
+
 
 static const int chestTag = 19;
 static const int statueTag = 20;
@@ -49,6 +52,7 @@ static const int MANA_EVERY_ROOM = 20;
 static const double MANA_LEVEL_MUTI = 1.1;
 
 static const bool DEBUG_CHEST_MODE = true;
+
 #define KnightCate 1
 #define EnemyCate 2
 #define ObstaclesCate 3
@@ -88,4 +92,4 @@ enum roomThemeEnum
     iceTheme = 0, darkTheme=1, techTheme=2,forestTheme=3,sandTheme =4
 };
 
-#endif
+#endif 
