@@ -25,7 +25,7 @@ bool Enemy::init(int type, bool ifboss)
 		pic = Sprite::createWithSpriteFrame(frames.front());
 		pic->runAction(RepeatForever::create(Animate::create(animation)));
 
-		moveSpeed = 200;
+		moveSpeedMax = 200;
 		attackMode = touchEnum;
 		wea = nullptr;
 		AddShade(Vec2(0, -27));
@@ -38,9 +38,8 @@ bool Enemy::init(int type, bool ifboss)
 		pic->runAction(RepeatForever::create(Animate::create(animation)));
 
 		chaseDistance = 64 * 10;
-		moveSpeed = 280;
-		maxHP = 6;
-		HP = 6;
+		moveSpeedMax = 280;
+		HPMax = 6;
 		AddEXP = 2;
 		wea = nullptr;
 		AddShade(Vec2(0, -27));
@@ -71,7 +70,7 @@ bool Enemy::init(int type, bool ifboss)
 		pic->runAction(RepeatForever::create(Animate::create(animation)));
 
 		chaseDistance = 64 * 12;
-		moveSpeed = 300;
+		moveSpeedMax = 300;
 		damage = 0;
 		wea = nullptr;
 		AddShade(Vec2(0, -40));
@@ -79,44 +78,66 @@ bool Enemy::init(int type, bool ifboss)
 	else if (type == 3)
 	{
 		int i = random(0, 3);
-		auto frames = GetAnim("enemy30%02d.png",5);
+		auto frames = GetAnim("enemy30%02d.png", 5);
 		if (i == 0)
 		{
 			wea = nullptr;
-			moveSpeed = 250;
+			moveSpeedMax = 250;
+			damage = 2;
 		}
 		else if (i == 1)
 		{
 			frames = GetAnim("enemy31%02d.png", 5);
-			
-			wea = Weapon::create(random(0,2), EnemyCate);
+
+			wea = Weapon::create(random(0, 2), EnemyCate);
 			addChild(wea);
 			wea->setPosition(wea->bindPoint);
-			attackDelayTime = 1.2f;
+			attackDelayTime = 1.5f;
 
 			chaseDistance = 64 * 8;
-			attackDistance = 64 * 6;
-			moveSpeed = 270;
+			attackDistance = 64 * 5;
+			moveSpeedMax = 270;
 		}
 		else
 		{
 			frames = GetAnim("enemy32%02d.png", 5);
-
+			HPMax = 8;
 			wea = Weapon::create(random(5, 7), EnemyCate);
 			addChild(wea);
 			wea->setPosition(wea->bindPoint);
-			attackDelayTime = 0.8f;
-			moveSpeed = 300;
-			chaseDistance = 64 * 12;
-			attackDistance = 64 * 9;
+			attackDelayTime = 1.7f;
+			moveSpeedMax = 250;
+			chaseDistance = 64 * 10;
+			attackDistance = 64 * 10;
 		}
 		auto animation = Animation::createWithSpriteFrames(frames, 1.0f / 8);
 		pic = Sprite::createWithSpriteFrame(frames.front());
 		pic->runAction(RepeatForever::create(Animate::create(animation)));
-		AddShade(Vec2(-5, -40));
+		AddShade(Vec2(-5, -30));
+	}
+	else if (type == 4)
+	{
+		auto frames = GetAnim("enemy4%02d.png", 5);
+		auto animation = Animation::createWithSpriteFrames(frames, 1.0f / 8);
+		pic = Sprite::createWithSpriteFrame(frames.front());
+		pic->runAction(RepeatForever::create(Animate::create(animation)));
+
+
+		HPMax = 7;
+		chaseDistance = 64 * 8;
+		attackDistance = 64 * 8;
+		moveSpeedMax = 200;
+		damage = 2;
+		wea = Weapon::create(random(5, 6), EnemyCate);
+		addChild(wea);
+		wea->setPosition(wea->bindPoint);
+		AddShade(Vec2(0, -30));
 	}
 
-	pic->setGlobalZOrder(knightOrder);
+
+	HP = HPMax;
+	moveSpeed = moveSpeedMax;
+	pic->setGlobalZOrder(shadeOrder);
 	body->addShape(PhysicsShapeBox::create(pic->getContentSize()));
 	body->setRotationEnable(false);
 	addChild(pic);
@@ -143,20 +164,16 @@ void Enemy::Movement()
 {
 	if (inRoom->playerEnter && !death)
 	{
-		if (!inRoom->Movable(getPosition() + faceDir * 100, roomFloorGid))
+		if (!inRoom->Movable(getPosition() + faceDir *170, roomFloorGid))
 		{
-			HP -= 0.1;
-			if (HP < 0)
-				DeathEffect();
-			else
+
+			body->setVelocity(Vec2(0, 0));
+			faceDir = ChangeDir();
+			if ((inRoom->Movable(getPosition() + faceDir * 200, roomFloorGid)) || (inRoom->Movable(getPosition() + faceDir * 60, roomFloorGid)))
 			{
-				body->setVelocity(Vec2(0,0));
-				faceDir = ChangeDir();
-				if((inRoom->Movable(getPosition() + faceDir *200 , roomFloorGid))|| (inRoom->Movable(getPosition() + faceDir *60, roomFloorGid)))
-				{
-					body->setVelocity(faceDir * moveSpeed);
-				}
+				body->setVelocity(faceDir * moveSpeed);
 			}
+
 		}
 		else if (!target->death)
 		{
@@ -166,14 +183,13 @@ void Enemy::Movement()
 				setScaleX(-1.0f);
 
 			Vec2 pos = getPosition() + getParent()->getPosition() + getParent()->getParent()->getPosition();
-			float disX = pos.x - target->getPositionX();
-			float disY = pos.y - target->getPositionY();
-			float dis = sqrt(disX * disX + disY * disY);
+			Vec2 farDistance = target->getPosition()-pos  ;
+			float dis = sqrt(farDistance.x * farDistance.x + farDistance.y* farDistance.y);
 
 			if (dis >= chaseDistance)
 			{
 				state = EnemyWalk;
-				if (time_count == 0.0f)
+				if (timeCount == 0.0f)
 				{
 					faceDir.x = rand_minus1_1() * 1.5;
 					faceDir.y = rand_minus1_1() * 1.5;
@@ -183,30 +199,23 @@ void Enemy::Movement()
 			else if (dis < chaseDistance)
 			{
 				state = EnemyChase;
-				if (disX > 0)
-					faceDir.x = -1;
-				else
-					faceDir.x = 1;
-
-				if (disY > 0)
-					faceDir.y = -1;
-				else
-					faceDir.y = 1;
+				
+				faceDir=farDistance/dis;
 				body->setVelocity(faceDir * moveSpeed);
 				if (dis < attackDistance)
 				{
 					state = EnemyAttack;
-					if (time_count == 0.0f)
+					if (timeCount == 0.0f)
 					{
 						if (wea != nullptr)
-							wea->WeaponAttack(faceDir);
+							wea->WeaponAttack(faceDir, inRoom, getPosition());
 					}
 				}
 			}
 		}
-		time_count += 0.3f;
-		if (time_count > attackDelayTime)
-			time_count = 0;
+		timeCount += 0.3f;
+		if (timeCount > attackDelayTime)
+			timeCount = 0;
 	}
 }
 
