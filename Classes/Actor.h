@@ -73,9 +73,9 @@ public:
 protected:
     Sprite* pic;
 	Weapon* wea;
-	Weapon* wea1;
+	Weapon* wea1=nullptr;
 	Sprite* shade;
-	Sprite* ghost;
+	Sprite* ghost=nullptr;
 	Room* inRoom;
 
 

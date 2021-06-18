@@ -357,7 +357,6 @@ void Actor::AttackDistanceMaxChange(float attackDistancechange)
 	wea->SetDistanceBuff(attackDistance);
 }
 
-
 void Actor::AddShade(const Vec2 test)
 {
 	shade = Sprite::create("shade.png");
@@ -369,7 +368,7 @@ void Actor::AddShade(const Vec2 test)
 
 void  Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
 {
-
+	myWea->trigger->setEnabled(false);
 	myWea->SetDamageBuff(damage);
 	myWea->SetRangeBuff(attackRange);
 	myWea->SetSpeedBuff(attackSpeed);
@@ -388,7 +387,7 @@ void  Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
 		wea1 = myWea;
 		myWea = temp;
 	}
-
+	myWea->trigger->setEnabled(true);
 }
 
 void  Actor::ChangeWea()
@@ -444,8 +443,9 @@ void Actor::DeathEffect()/*ËÀÍöÐ§¹û*/
 {
 	death = true;
 	auto ActorFall = CallFunc::create([&]() {
-		removeAllComponents();
 		pic->stopAllActions();
+		removeAllComponents();
+		auto delay = DelayTime::create(0.5f);
 		if (getTag() == enemyTag)
 		{
 			/*if (DEBUG_CHEST_MODE)
@@ -459,6 +459,10 @@ void Actor::DeathEffect()/*ËÀÍöÐ§¹û*/
 			if (inRoom->enemyCount <= 0)
 			{
 				inRoom->UpdateDoor();
+				if (inRoom->roomType == endRoomEnum)
+				{
+					inRoom->AddTransDoor();
+				}
 			}
 		}
 		shade->setVisible(false);
@@ -470,7 +474,8 @@ void Actor::DeathEffect()/*ËÀÍöÐ§¹û*/
 		pic->setAnchorPoint(Vec2(0.5, 0.3));
 		auto temp = this->getScaleX();
 		auto rotateBy = RotateBy::create(1.0f, 90.0f * temp);
-		this->runAction(rotateBy);
+		auto seq = Sequence::create(delay, rotateBy, nullptr);
+		this->runAction(seq);
 		});
 
 	auto ghostAppear = CallFunc::create([&]() {
@@ -480,12 +485,12 @@ void Actor::DeathEffect()/*ËÀÍöÐ§¹û*/
 		ghost->setPosition(this->getPosition() + Vec2(40, rand() % 15 + 40));
 		auto fadeOut = FadeOut::create(1.5f);
 		auto move = MoveBy::create(1.0f, Vec2(0, 40 + rand() % 20));
-		auto move_ease_out = EaseOut::create(move->clone(), 1.5f);
+		auto moveEaseOut = EaseOut::create(move->clone(), 1.5f);
 		auto ghostDis = CallFunc::create([&]()
 			{
 				ghost->removeFromParentAndCleanup(true);
 			});
-		auto mySpawn = Spawn::create(move_ease_out, fadeOut, nullptr);
+		auto mySpawn = Spawn::create(moveEaseOut, fadeOut, nullptr);
 		auto ghostSeq = Sequence::create(mySpawn, ghostDis, nullptr);
 		ghost->runAction(ghostSeq);
 		});
