@@ -91,18 +91,13 @@ bool StartScene::init()
 
 void StartScene::startCallback(Ref* sender)
 {
-    //回调函数，设置关掉音乐，打开游戏关卡
-    bgm.stopAll();
     //音效
     se._audioID = se.play2d(s_M_ButtonSelected);
     // create a scene. it's an autorelease object
-
+    AudioEngine::stop(bgm._audioID);
     auto knight = Knight::create(0, 1);
-    // create a scene. it's an autorelease object
     auto scene = Gaming::createScene(knight, 1);
-
     auto director = Director::getInstance();
-    // run
     director->replaceScene(scene);
 }
 
