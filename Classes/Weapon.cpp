@@ -4,41 +4,32 @@
 /// 随机创建武器
 /// </summary>
 /// <returns>武器对象指针</returns>
-Weapon* RandomWeaponCreate()
+/*Weapon* RandomWeaponCreate()
 {
-	auto rarity = RandomItemRarity();
+	/*auto rarity = RandomItemRarity();
 	switch (rarity)
 	{
 	case LEGENDARY:
 		return nullptr;
 	case EPIC:
-	{int rId = 9;
-	return Weapon::create(rId, 1); }
+		int rId = 9;
+		return Weapon::create(rId, 1);
 	case VERYRARE:
-	{
 		int rId = 8;
 		return Weapon::create(rId, 1);
-
-	}
 	case RARE:
-	{
 		int rId = 7;
 		return Weapon::create(rId, 1);
-	}
 	case UNCOMMON:
-	{
 		int rId = 6;
 		return Weapon::create(rId, 1);
-	}
 	case COMMON:
-	{
 		int rId = random(0, 5);
 		return Weapon::create(rId, 1);
-	}
 	default:
 		throw("Weapon random create failed! In func: RandomWeaponCreate");
 	}
-}
+}*/
 	
 
 
@@ -88,11 +79,6 @@ bool Weapon::init(int id, int cate)
 		std::string  name = "weapon/gun_";
 		std::string  number = StringUtils::toString(id-5);
 		bulletType = id-5;
-		if (id > 9)
-		{
-			name= "weapon/bow_";
-			number = StringUtils::toString(id - 10);
-		}
 		std::string gunFilename = name + number + ".png";
 		attackMode = gunEnum;
 		initWithFile(gunFilename);
@@ -101,14 +87,14 @@ bool Weapon::init(int id, int cate)
 	{
 		initWithFile("weapon/sword_0.png");
 		setAnchorPoint(Vec2(0.2f, 0.5f));
-		damage = 1.5;
+		damage = 2;
 	}
 	else if (id == 1)
 	{
 		initWithFile("weapon/axe_0.png");
 		costEnergy = 1;
 		damage = 2;
-		range = 1.5; 
+		range = 1.3; 
 	}
 	else if (id == 2)
 	{
@@ -123,7 +109,7 @@ bool Weapon::init(int id, int cate)
 		initWithFile("weapon/sword_2.png");
 		costEnergy = 2;
 		damage = 4;
-		range = 2;
+		range = 1.8;
 		speed = 2;
 	}
 	else if (id == 4)
@@ -138,19 +124,19 @@ bool Weapon::init(int id, int cate)
 	else if (id == 5)
 	{
 		setAnchorPoint(Vec2(0.25f, 0.5f));
-		damage = 3;
+		damage =2.5;
 	}
 	else if(id == 6)
 	{
 		setAnchorPoint(Vec2(0.3f, 0.5f));
-		damage = 4;
+		damage = 2;
 		countPerTime = 3;
 		costEnergy = 2;
 	}
 	else if (id == 7)
 	{
 		setAnchorPoint(Vec2(0.3f, 0.5f));
-		damage = 4;
+		damage = 3;
 		countPerTime = 4;
 		distance = 2;
 		costEnergy = 3;
@@ -158,7 +144,7 @@ bool Weapon::init(int id, int cate)
 	else if (id == 8)
 	{
 		setAnchorPoint(Vec2(0.3f, 0.5f));
-		damage = 5;
+		damage = 4;
 		countPerTime =8;
 		speed = 2;
 		distance = 3;
@@ -167,13 +153,21 @@ bool Weapon::init(int id, int cate)
 	else if (id == 9)
 	{
 		setAnchorPoint(Vec2(0.3f, 0.5f));
-		damage = 6;
+		damage = 5;
 		countPerTime = 12;
 		speed = 2;
-		distance = 4;
+		distance = 1;
 		costEnergy = 10;
 	}
-
+	else if (id == 10)
+	{
+		setAnchorPoint(Vec2(0.3f, 0.5f));
+		damage =4;
+		countPerTime = 1;
+		speed = 2;
+		distance = 2;
+		costEnergy = 3;
+	}
 	if (cate == KnightCate)//避免敌人武器被玩家捡起
 	{
 		trigger = PhysicsBody::createCircle(90.0f, PhysicsMaterial(0.0f, 0.0f, 0.0f));
@@ -222,7 +216,7 @@ void Weapon::AddBullet(float addBullet)
 	}
 }
 
-void Weapon::WeaponAttack(Vec2  faceDir)
+void Weapon::WeaponAttack(Vec2  faceDir,  Room* inRoom, Vec2 pos)
 {
 	if (attackMode == meleeEnum)
 	{
@@ -230,7 +224,7 @@ void Weapon::WeaponAttack(Vec2  faceDir)
 	}
 	else if(attackMode==gunEnum)
 	{
-		GenerateBullet(faceDir);
+		GenerateBullet(faceDir, inRoom,pos);
 	}
 }
 
@@ -290,12 +284,13 @@ void Weapon::MeleeAttack(Vec2  faceDir)
 	
 }
 
-void Weapon::GenerateBullet(Vec2  faceDir)
+
+void Weapon::GenerateBullet(Vec2  faceDir, Room* inRoom,Vec2 pos)
 {
 	auto bull = Bullet::create(bulletType, faceDir, belongCate, 
 		range + rangeBuff, damageBuff + damage,speed+speedBuff,distance+distanceBuff);
-	getParent()->getParent()->addChild(bull);
-	bull->setPosition(getParent()->getPosition());
+	inRoom->addChild(bull);
+	bull->setPosition(pos);
 
 	if (countPerTime > 1)
 	{ 
@@ -315,9 +310,9 @@ void Weapon::GenerateBullet(Vec2  faceDir)
 		{
 			auto bull = Bullet::create(bulletType, Rotate(faceDir, perRradian*(i/2+1)), belongCate, 
 				range + rangeBuff, damageBuff + damage, speed + speedBuff, distance + distanceBuff);
-			getParent()->getParent()->addChild(bull);
+			inRoom->addChild(bull);
 			bull->setRotation(-perAngle * (i / 2 + 1));
-			bull->setPosition(getParent()->getPosition());
+			bull->setPosition(pos);
 			perAngle = -1 * perAngle;
 			perRradian = -1 * perRradian;
 		}

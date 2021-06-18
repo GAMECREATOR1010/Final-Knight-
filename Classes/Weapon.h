@@ -4,10 +4,11 @@
 
 #include "Item.h"
 #include "Bullet.h"
+#include "Room.h"
 
 USING_NS_CC;
 
-Weapon* RandomWeaponCreate();
+//Weapon* RandomWeaponCreate();
 
 class Weapon :public Item
 {
@@ -16,9 +17,9 @@ class Weapon :public Item
     friend class Actor;
 public:
     static Weapon* create(int id = 0,int cate=KnightCate);
-    void GenerateBullet(Vec2 faceDir);
+    void GenerateBullet(Vec2 faceDir,Room* inRoom,Vec2 pos);
     void MeleeAttack(Vec2 faceDir);
-    void WeaponAttack(Vec2 faceDir);
+    void WeaponAttack(Vec2 faceDir, Room* inRoom, Vec2 pos);
 
     void SetSpeedBuff(float sBuff);
     void SetRangeBuff(float rBuff);
@@ -54,10 +55,8 @@ private:
     Sequence* meleeAttack;
     Sprite* attackEffect;
 
-   
-
-    Vec2 meleeFacDir;
-    float meleeStartRot;
+    Vec2 meleeFacDir ;
+    float  meleeStartRot;
     PhysicsBody* trigger;//¼ñÆð¼ì²â
 };
 
