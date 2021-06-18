@@ -1,5 +1,4 @@
 #include "Actor.h"
-#include "Chest.h"
 USING_NS_CC;
 
 Actor* Actor::create()
@@ -358,6 +357,45 @@ void Actor::AttackDistanceMaxChange(float attackDistancechange)
 	wea->SetDistanceBuff(attackDistance);
 }
 
+
+void Actor::InvincibleTimeChange(float invincibleTimechange, float continueTime)
+{
+	if (continueTime == -1.0f)
+	{
+		if (invincibleTime + invincibleTimechange <= invincibleTimeMax)
+		{
+			invincibleTime += invincibleTimechange;
+		}
+		else
+		{
+			invincibleTime = invincibleTimeMax;
+		}
+		wea->SetDistanceBuff(invincibleTime);
+	}
+	else if (continueTime > 0.0f)
+	{
+		auto delay = DelayTime::create(continueTime);
+		tempInvincibleTime = invincibleTime;
+		invincibleTime += invincibleTimechange;
+		wea->SetDistanceBuff(invincibleTime);
+		auto recovery = CallFunc::create([&]() {
+			invincibleTime = tempInvincibleTime;
+			wea->SetDistanceBuff(invincibleTime);
+			});
+		auto seq = Sequence::create(delay, recovery, nullptr);
+		runAction(seq);
+	}
+}
+
+void Actor::InvincibleTimeMaxChange(float invincibleTimechange)
+{
+	invincibleTimeMax += invincibleTimechange;
+	invincibleTime = invincibleTimeMax;
+	wea->SetDistanceBuff(invincibleTime);
+}
+
+
+
 void Actor::AddShade(const Vec2 test)
 {
 	shade = Sprite::create("shade.png");
@@ -410,6 +448,7 @@ Weapon* Actor::GetWea()
 	return wea;
 }
 
+
 void Actor::BindRoom(Room* InR)
 {
 	inRoom = InR;
@@ -419,6 +458,7 @@ Room* Actor::GetRoom()
 {
 	return inRoom;
 }
+
 
 bool Actor::init()
 {
@@ -435,6 +475,21 @@ void Actor::Behit(float otherDam)/*¹¥»÷Ð§¹û*/
 			if (HP <= 0)
 			{
 				DeathEffect();
+			}
+			else
+			{
+				if (getTag() == knightTag)
+				{
+					body->setEnabled(false);
+					pic->setOpacity(200);
+					auto knightBehit = CallFunc::create([&]() {
+						; body->setEnabled(true);
+						pic->setOpacity(255);
+						});
+					auto delay = DelayTime::create(invincibleTime);
+					auto seq = Sequence::create(delay, knightBehit, nullptr);
+					runAction(seq);
+				}
 			}
 		}
 	}
