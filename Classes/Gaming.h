@@ -3,6 +3,7 @@
 #define __GAMING_SCENE_H__
 
 #include "General.h"
+#include "Layer/MainUILayer.h"
 #include <cstdlib> 
 #include <ctime>
 

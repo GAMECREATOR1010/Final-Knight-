@@ -57,6 +57,10 @@ bool Gaming::init(Knight* myknight, int Chapter)
 	transing = false;
 	endGame = false;
 
+	auto mainUILayer = MainUILayer::create();
+	mainUILayer->setGlobalZOrder(uiOrder);
+	this->addChild(mainUILayer);
+
 	auto keyListener = EventListenerKeyboard::create();
 	keyListener->onKeyPressed = CC_CALLBACK_2(Gaming::onKeyPressed, this);
 	keyListener->onKeyReleased = CC_CALLBACK_2(Gaming::onKeyReleased, this);
