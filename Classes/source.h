@@ -15,6 +15,13 @@
 static const char s_P_Start[]                 = "sencePictures/Start.png";
 static const char s_P_StopFrame[]             = "sencePictures/StopFrame.png";
 static const char s_P_InfoFrame[]             = "sencePictures/InfoFrame.png";
+static const char s_P_InfoFrameStart[]        = "sencePictures/InfoFrameStart.png";
+
+static const char s_P_BloodFrame[]            = "mainUI/BloodFrame.png";
+static const char s_P_HPUI[]                  = "mainUI/PlayerHPUI.png";
+static const char s_P_DFUI[]                  = "mainUI/PlayerDFUI.png";
+static const char s_P_MPUI[]                  = "mainUI/PlayerMPUI.png";
+static const char s_P_CoinFrame[]             = "mainUI/CoinFrame.png";
 
 static const char s_P_SetupButton[]           = "buttons/SetupButton.png";
 static const char s_P_SetupButtonSelected[]   = "buttons/SetupButtonSelected.png";
@@ -38,7 +45,13 @@ static const char s_P_HomeButtonSelected[]    = "buttons/HomeButtonSelected.png"
 static const char s_P_InfoButton[]            = "buttons/InfoButton.png";
 static const char s_P_InfoButtonSelected[]    = "buttons/InfoButtonSelected.png";
 
+static const char s_P_SupremeButton[]         = "buttons/SupremeButton.png";
+static const char s_P_SupremeButtonSelected[] = "buttons/SupremeButtonSelected.png";
+
+
 static const char s_P_CloseButton[]           = "buttons/CloseButton.png";
 
+static const char s_P_LackOfCoin[]            = "hint/LackOfCoin.png";
+static const char s_P_SuccessBug[]            = "hint/SuccessBug.png";
 static const char s_M_StartBGM[]              = "bgm/StartBGM.mp3";
 static const char s_M_ButtonSelected[]        = "bgm/ButtonSelected.mp3";
