@@ -94,6 +94,7 @@ void BGMButton::setPostionStartLayer()
     float x = originSize.x + _bgmButton->getContentSize().width / 2+ ButtonWidthGap;
     float y = originSize.y + _bgmButton->getContentSize().height  / 2+ ButtonHeightGap;
     _bgmButton->setPosition(Vec2(x, y));
+    _bgmButton->setGlobalZOrder(uiOrder);
     addChild(_bgmButton);
 }
 
@@ -105,6 +106,7 @@ void BGMButton::setPostionStopLayer(Sprite* sprite)
     float x = originSize.x + visibleSize.width / 2 - _bgmButton->getContentSize().width - ButtonWidthGapInStop;
     float y = originSize.y + visibleSize.height / 2 - sprite->getContentSize().height / 2 + ButtonHeightGapInStop;
     _bgmButton->setPosition(Vec2(x, y));
+    _bgmButton->setGlobalZOrder(uiOrder);
     addChild(_bgmButton);
 }
 
@@ -186,6 +188,7 @@ void SEButton::setPostionStartLayer()
     float x = originSize.x + _seButton->getContentSize().width  / 2 + ButtonWidthGap;
     float y = originSize.y + _seButton->getContentSize().height  * 3 / 2 + ButtonHeightGap * 2;
     _seButton->setPosition(Vec2(x, y));
+    _seButton->setGlobalZOrder(uiOrder);
     addChild(_seButton);
 }
 
@@ -197,6 +200,7 @@ void SEButton::setPostionStopLayer(Sprite* sprite)
     float x = originSize.x + visibleSize.width / 2 - _seButton->getContentSize().width * 2 - ButtonWidthGapInStop * 2;
     float y = originSize.y + visibleSize.height / 2 - sprite->getContentSize().height / 2 + ButtonHeightGapInStop;
     _seButton->setPosition(Vec2(x, y));
+    _seButton->setGlobalZOrder(uiOrder);
     addChild(_seButton);
 }
 
@@ -259,6 +263,7 @@ void InfoButton::setPostionStartLayer()
     float x = originSize.x + _infoButton->getContentSize().width * scaledPre / 2 + ButtonWidthGap;
     float y = originSize.y + _infoButton->getContentSize().height * scaledPre * 5 / 2 + ButtonHeightGap * 3;
     _infoButton->setPosition(Vec2(x, y));
+    _infoButton->setGlobalZOrder(uiOrder);
     addChild(_infoButton);
 }
 
@@ -272,7 +277,8 @@ void InfoButton::setPostionStopLayer(Sprite* sprite)
     float x = originSize.x + visibleSize.width / 2 + _infoButton->getContentSize().width * scaledPre * 2 + ButtonWidthGapInStop * 2;
     float y = originSize.y + visibleSize.height / 2 - sprite->getContentSize().height / 2 + ButtonHeightGapInStop;
     _infoButton->setPosition(Vec2(x, y));
-    addChild(_infoButton, stopLayerStuffTag);
+    _infoButton->setGlobalZOrder(uiOrder);
+    addChild(_infoButton);
 }
 
 
@@ -293,7 +299,7 @@ bool InfoScene::init()
     //ÏÔÊ¾¿ò¼Ü
     auto sprite = Sprite::create(s_P_InfoFrame);
     sprite->setPosition(Vec2(visibleSize / 2) + originSize);
-    _infoScene->addChild(sprite);// , infoLayerTag);
+    _infoScene->addChild(sprite);
 
     float y = originSize.y + visibleSize.height / 2 - sprite->getContentSize().height / 2 + ButtonHeightGapInStop;
 
@@ -309,7 +315,7 @@ bool InfoScene::init()
 
         float x = originSize.x + visibleSize.width / 2;
         closeButton->setPosition(Vec2(x, y));
-        _infoScene->addChild(closeButton);// , infoLayerStuffTag);
+        _infoScene->addChild(closeButton);
     }
 
     this->addChild(_infoScene);
