@@ -1,4 +1,5 @@
 #include "Actor.h"
+#include "Chest.h"
 USING_NS_CC;
 
 Actor* Actor::create()
