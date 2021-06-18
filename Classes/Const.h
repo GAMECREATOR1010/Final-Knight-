@@ -3,39 +3,39 @@
 #ifndef __CONST_H__
 #define __CONST_H__
 
-#define metaOrder 0
-#define floorOrder 1
-#define shadeOrder 2
-#define knightOrder 3 
-#define wallOrder 4
-#define obstaclesOrder 5
-#define uiOrder 6 
+static const int metaOrder = 0;
+static const int floorOrder = 1;
+static const int shadeOrder = 2;
+static const int knightOrder = 3;
+static const int wallOrder = 4;
+static const int obstaclesOrder = 5;
+static const int uiOrder = 6;
 
 
-#define metaGid 41
-#define roomFloorGid 61//enemy可行动处
-#define passageFloorGid 31
-#define doorOpenGid 21
-#define doorCloseGid 1
-#define obstaclesNorm 
+static const int metaGid = 41;
+static const int roomFloorGid = 61;//enemy可行动处
+static const int passageFloorGid = 31;
+static const int doorOpenGid = 21;
+static const int doorCloseGid = 1;
+static const bool obstaclesNorm = true;
 
-#define offSet 2112
+static const int offSet = 2112;
 
-#define knightTag 1
-#define enemyTag 2
-#define weaponTag 3
-#define myAttackTag 4
-#define enemyAttackTag 5
-#define myBulletTag 6
-#define enemyBulletTag 7
-#define itemTag 8
-#define obstaclesNormTag 9
-#define obstaclesRemovableTag 10
-#define emptyTag 11
-#define nextChapterTag 12
-#define hitAllActorTag 13
-#define lowerAllActorSpeadTag 14
-#define explosionTag 15
+static const int knightTag = 1;
+static const int enemyTag = 2;
+static const int weaponTag = 3;
+static const int myAttackTag = 4;
+static const int enemyAttackTag = 5;
+static const int myBulletTag = 6;
+static const int enemyBulletTag = 7;
+static const int itemTag = 8;
+static const int obstaclesNormTag = 9;
+static const int obstaclesRemovableTag = 10;
+static const int emptyTag = 11;
+static const int nextChapterTag = 12;
+static const int hitAllActorTag = 13;
+static const int lowerAllActorSpeadTag = 14;
+static const int explosionTag = 15;
 
 
 static const int chestTag = 19;
@@ -51,12 +51,12 @@ static const double MONEY_LEVEL_MUTI = 1.4;
 static const int MANA_EVERY_ROOM = 20;
 static const double MANA_LEVEL_MUTI = 1.1;
 
-static const bool DEBUG_CHEST_MODE = true;
+static const bool DEBUG_CHEST_MODE = false;
 
-#define KnightCate 1
-#define EnemyCate 2
-#define ObstaclesCate 3
-#define ItemCate 4
+static const int KnightCate = 1;
+static const int EnemyCate = 2;
+static const int ObstaclesCate = 3;
+static const int ItemCate = 4;
 
 #include "cocos2d.h"
 
@@ -92,4 +92,4 @@ enum roomThemeEnum
     iceTheme = 0, darkTheme=1, techTheme=2,forestTheme=3,sandTheme =4
 };
 
-#endif 
+#endif

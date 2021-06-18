@@ -1,4 +1,5 @@
 #include "Actor.h"
+#include "Chest.h"
 USING_NS_CC;
 
 Actor* Actor::create()
@@ -448,13 +449,13 @@ void Actor::DeathEffect()/*ËÀÍöÐ§¹û*/
 		auto delay = DelayTime::create(0.5f);
 		if (getTag() == enemyTag)
 		{
-			/*if (DEBUG_CHEST_MODE)
+			if (DEBUG_CHEST_MODE)
 			{
 				auto enemyDiePos = getPosition();
 				auto wChe = WhiteChest::create();
 				wChe->setPosition(enemyDiePos);
 				this->getParent()->addChild(wChe);
-			}*/
+			}
 			inRoom->enemyCount -= 1;
 			if (inRoom->enemyCount <= 0)
 			{

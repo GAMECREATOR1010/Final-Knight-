@@ -4,39 +4,47 @@
 /// 随机创建武器
 /// </summary>
 /// <returns>武器对象指针</returns>
-/*Weapon* RandomWeaponCreate()
+Weapon* RandomWeaponCreate()
 {
-	/*auto rarity = RandomItemRarity();
+	auto rarity = RandomItemRarity();
 	switch (rarity)
 	{
-	case LEGENDARY:
-		return nullptr;
-	case EPIC:
-		int rId = 9;
-		return Weapon::create(rId, 1);
-	case VERYRARE:
-		int rId = 8;
-		return Weapon::create(rId, 1);
-	case RARE:
-		int rId = 7;
-		return Weapon::create(rId, 1);
-	case UNCOMMON:
-		int rId = 6;
-		return Weapon::create(rId, 1);
-	case COMMON:
-		int rId = random(0, 5);
-		return Weapon::create(rId, 1);
-	default:
-		throw("Weapon random create failed! In func: RandomWeaponCreate");
+		case LEGENDARY:
+			return nullptr;
+		case EPIC:
+		{
+			int rId = 9;
+			return Weapon::create(rId, 1);
+		}
+		case VERYRARE:
+		{
+			int rId = 8;
+			return Weapon::create(rId, 1);
+		}
+		case RARE:
+		{
+			int rId = 7;
+			return Weapon::create(rId, 1);
+		}
+		case UNCOMMON:
+		{
+			int rId = 6;
+			return Weapon::create(rId, 1);
+		}
+		case COMMON:
+		{
+			int rId = random(0, 5);
+			return Weapon::create(rId, 1);
+		}
+		default:
+			throw("Weapon random create failed! In func: RandomWeaponCreate");
 	}
-}*/
-	
-
+}
 
 Weapon* Weapon::create(int id, int cate)
 {
 	Weapon* wea = new Weapon;
-	if (wea != nullptr && wea->init(id,cate))
+	if (wea != nullptr && wea->init(id, cate))
 	{
 		wea->autorelease();
 		return wea;
@@ -60,9 +68,8 @@ bool Weapon::init(int id, int cate)
 		attackEffectbody->addShape(PhysicsShapeEdgePolygon::create(verts, 6));
 		attackEffect->addComponent(attackEffectbody);
 		addChild(attackEffect);
-		attackEffect->setPosition(Vec2(30,60));
+		attackEffect->setPosition(Vec2(30, 60));
 		attackEffect->setGlobalZOrder(wallOrder);
-		
 
 		SetBody(attackEffect->getPhysicsBody(), ItemCate);
 		attackEffect->setVisible(false);
@@ -73,12 +80,12 @@ bool Weapon::init(int id, int cate)
 		else
 			attackEffect->setTag(enemyAttackTag);
 	}
-	else 
+	else
 	{
 		perTime = 0.2f;
 		std::string  name = "weapon/gun_";
-		std::string  number = StringUtils::toString(id-5);
-		bulletType = id-5;
+		std::string  number = StringUtils::toString(id - 5);
+		bulletType = id - 5;
 		std::string gunFilename = name + number + ".png";
 		attackMode = gunEnum;
 		initWithFile(gunFilename);
@@ -94,13 +101,13 @@ bool Weapon::init(int id, int cate)
 		initWithFile("weapon/axe_0.png");
 		costEnergy = 1;
 		damage = 2;
-		range = 1.3; 
+		range = 1.3;
 	}
 	else if (id == 2)
 	{
 		initWithFile("weapon/sword_1.png");
 		costEnergy = 2;
-		damage =3;
+		damage = 3;
 		range = 1.5;
 		speed = 2;
 	}
@@ -117,16 +124,16 @@ bool Weapon::init(int id, int cate)
 		initWithFile("weapon/knife_0.png");
 		bindPoint = Vec2(0, -20);
 		costEnergy = 3;
-		damage =5;
+		damage = 5;
 		range = 2;
 		speed = 3;
 	}
 	else if (id == 5)
 	{
 		setAnchorPoint(Vec2(0.25f, 0.5f));
-		damage =2.5;
+		damage = 2.5;
 	}
-	else if(id == 6)
+	else if (id == 6)
 	{
 		setAnchorPoint(Vec2(0.3f, 0.5f));
 		damage = 2;
@@ -145,7 +152,7 @@ bool Weapon::init(int id, int cate)
 	{
 		setAnchorPoint(Vec2(0.3f, 0.5f));
 		damage = 4;
-		countPerTime =8;
+		countPerTime = 8;
 		speed = 2;
 		distance = 3;
 		costEnergy = 4;
@@ -162,7 +169,7 @@ bool Weapon::init(int id, int cate)
 	else if (id == 10)
 	{
 		setAnchorPoint(Vec2(0.3f, 0.5f));
-		damage =4;
+		damage = 4;
 		countPerTime = 1;
 		speed = 2;
 		distance = 2;
@@ -191,8 +198,8 @@ void Weapon::SetSpeedBuff(float sBuff)
 }
 
 void Weapon::SetRangeBuff(float rBuff)
-{ 
-	rangeBuff=rBuff; 
+{
+	rangeBuff = rBuff;
 }
 
 void Weapon::SetDamageBuff(float dBuff)
@@ -216,21 +223,21 @@ void Weapon::AddBullet(float addBullet)
 	}
 }
 
-void Weapon::WeaponAttack(Vec2  faceDir,  Room* inRoom, Vec2 pos)
+void Weapon::WeaponAttack(Vec2  faceDir, Room* inRoom, Vec2 pos)
 {
 	if (attackMode == meleeEnum)
 	{
-		MeleeAttack( faceDir);
+		MeleeAttack(faceDir);
 	}
-	else if(attackMode==gunEnum)
+	else if (attackMode == gunEnum)
 	{
-		GenerateBullet(faceDir, inRoom,pos);
+		GenerateBullet(faceDir, inRoom, pos);
 	}
 }
 
 void Weapon::MeleeAttack(Vec2  faceDir)
 {
-	if (faceDir == Vec2(1,0) || faceDir == Vec2(-1, 0))
+	if (faceDir == Vec2(1, 0) || faceDir == Vec2(-1, 0))
 	{
 		meleeFacDir = Vec2(30, 0);
 		meleeStartRot = -60.0f;
@@ -242,23 +249,21 @@ void Weapon::MeleeAttack(Vec2  faceDir)
 	}
 	else if (faceDir == Vec2(0, -1))
 	{
-		meleeFacDir = Vec2(30,0);
+		meleeFacDir = Vec2(30, 0);
 		meleeStartRot = -10.0f;
 	}
-	setScale(range+0.2f+rangeBuff*0.2f);
+	setScale(range + 0.2f + rangeBuff * 0.2f);
 	auto moveBy = MoveBy::create(0.01f, meleeFacDir);
 	auto rotateByOne = RotateBy::create(0.1f - speed * 0.01, meleeStartRot);
 	auto rotateByTwo = RotateBy::create(0.2f - speed * 0.05, 35.0f);
 	auto rotateByThird = RotateBy::create(0.2f - speed * 0.05, 100.0f);
 	auto rotateByForth = RotateBy::create(0.1f, -135.0f - meleeStartRot);
-	
 
 	auto meleeStart = CallFunc::create([&]() {
-
-		if (ID >0)
+		if (ID > 0)
 		{
 			int i = random(0, ID);
-			float tempscale = range + ID* 0.1;
+			float tempscale = range + ID * 0.1;
 			attackEffect->setScale(tempscale);
 		}
 		attackEffect->setVisible(true);
@@ -271,29 +276,27 @@ void Weapon::MeleeAttack(Vec2  faceDir)
 		attackEffect->setVisible(false);
 		attackEffect->getPhysicsBody()->setEnabled(false);
 		});
-	
+
 	auto recovery = CallFunc::create([&]() {
 		setScale(1.0f);
 		attackEffect->setScale(1.0f);
 		});
 
 	meleeAttack = Sequence::create(moveBy, rotateByOne, rotateByTwo, meleeStart, rotateByThird,
-		meleeEnd, rotateByForth, recovery,moveBy->reverse(), nullptr);
-	
+		meleeEnd, rotateByForth, recovery, moveBy->reverse(), nullptr);
+
 	runAction(meleeAttack);
-	
 }
 
-
-void Weapon::GenerateBullet(Vec2  faceDir, Room* inRoom,Vec2 pos)
+void Weapon::GenerateBullet(Vec2  faceDir, Room* inRoom, Vec2 pos)
 {
-	auto bull = Bullet::create(bulletType, faceDir, belongCate, 
-		range + rangeBuff, damageBuff + damage,speed+speedBuff,distance+distanceBuff);
+	auto bull = Bullet::create(bulletType, faceDir, belongCate,
+		range + rangeBuff, damageBuff + damage, speed + speedBuff, distance + distanceBuff);
 	inRoom->addChild(bull);
 	bull->setPosition(pos);
 
 	if (countPerTime > 1)
-	{ 
+	{
 		float perAngle = 30;
 		float perRradian = 0.523;
 		if (countPerTime == 4)
@@ -306,9 +309,9 @@ void Weapon::GenerateBullet(Vec2  faceDir, Room* inRoom,Vec2 pos)
 			perAngle = 45.0f;
 			perRradian = 0.785f;
 		}
-		for (int i = 0; i < countPerTime-1 ; ++i)
+		for (int i = 0; i < countPerTime - 1; ++i)
 		{
-			auto bull = Bullet::create(bulletType, Rotate(faceDir, perRradian*(i/2+1)), belongCate, 
+			auto bull = Bullet::create(bulletType, Rotate(faceDir, perRradian * (i / 2 + 1)), belongCate,
 				range + rangeBuff, damageBuff + damage, speed + speedBuff, distance + distanceBuff);
 			inRoom->addChild(bull);
 			bull->setRotation(-perAngle * (i / 2 + 1));
@@ -318,5 +321,3 @@ void Weapon::GenerateBullet(Vec2  faceDir, Room* inRoom,Vec2 pos)
 		}
 	}
 }
-
-

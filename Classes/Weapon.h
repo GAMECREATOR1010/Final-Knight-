@@ -8,7 +8,7 @@
 
 USING_NS_CC;
 
-//Weapon* RandomWeaponCreate();
+Weapon* RandomWeaponCreate();
 
 class Weapon :public Item
 {
@@ -28,9 +28,9 @@ public:
 
     void AddBullet(float addBullet);
     float GetDamage();
-    
-    
-private: 
+
+
+private:
     virtual bool init(int id = 0, int cate = KnightCate);
     attackModeEnum attackMode;
     int costEnergy=0;
@@ -49,7 +49,7 @@ private:
     float distanceBuff = 0;
 
     Vec2 bindPoint;
-   
+
     int ID=0;
     float perTime = 0.5f;
     Sequence* meleeAttack;
@@ -60,4 +60,4 @@ private:
     PhysicsBody* trigger;//¼ñÆð¼ì²â
 };
 
-#endif 
+#endif

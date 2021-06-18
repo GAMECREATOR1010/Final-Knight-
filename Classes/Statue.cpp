@@ -30,13 +30,13 @@ bool Statue::ActiveStatue(Knight* activer)
 		switch (_type)
 		{
 			case WEREWOLF:
-				activer->AddMoveSpeed(SPEED_BUFF);
+				activer->MoveSpeedNowChange(SPEED_BUFF);
 				break;
 			case PRIEST:
-				activer->EnergyMaxChange(MANA_MAXADD_BUFF);
+				activer->EnergyNowChange(MANA_MAXADD_BUFF);
 				break;
 			case KNIGHT:
-				activer->AddDefence(DEFENCE_BUFF);
+				activer->DefenceNowChange(DEFENCE_BUFF);
 				break;
 			case THIEF:
 			{

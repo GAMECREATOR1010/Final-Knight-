@@ -271,10 +271,10 @@ void BuffPotion::Drink(Knight* drinker, float multi)
 			drinker->EnergyMaxChange(MANA_MAXADD_BUFF);
 			break;
 		case SHIELD_MAX_ADD:
-			drinker->AddDefence(DEFENCE_BUFF);
+			drinker->DefenceNowChange(DEFENCE_BUFF);
 			break;
 		case SPEED_ADD:
-			drinker->AddMoveSpeed(SPEED_BUFF);
+			drinker->MoveSpeedMaxChange(SPEED_BUFF);
 			break;
 		case BUFF_COUNT:
 		default:

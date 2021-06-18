@@ -33,6 +33,7 @@
 
 using std::shared_ptr;
 const int MAX_GOODS = 3;
+static const char* SHELF_PATH = "/shop/shelf.png";
 
 class Goods: public Sprite
 {
@@ -52,6 +53,7 @@ public:
 	bool InitGoods(int curLevel);	//初始化商品
 	NPC* SetShopKeeper();	//返回一个商人
 	Goods goodses[3];
+	Sprite* shelfCreate();
 private:
 
 	bool SetPotion(Type type, int curLevel=1);

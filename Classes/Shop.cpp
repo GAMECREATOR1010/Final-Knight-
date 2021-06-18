@@ -190,4 +190,16 @@ NPC* Shop::SetShopKeeper()
 	return skp;
 }
 
+/// <summary>
+/// 创建一个货架，返回货架的指针
+/// </summary>
+/// <returns></returns>
+Sprite* Shop::shelfCreate()
+{
+	auto shelf = Sprite::create("SHELF_PATH");
+	shelf->setGlobalZOrder(shadeOrder);
+
+	return shelf;
+}
+
 #pragma endregion
