@@ -58,6 +58,21 @@ static const int EnemyCate = 2;
 static const int ObstaclesCate = 3;
 static const int ItemCate = 4;
 
+//UI stuff
+#define stopButtonOrder 800
+#define stopLayerOrder  850
+#define stopLayerStuffOrder  900
+#define infoLayerOrder       950
+#define infoLayerStuffOrder  999
+
+#define StopFramePre     0.45f
+
+#define ButtonPre    0.075f
+#define ButtonWidthGap   40
+#define ButtonHeightGap  30
+#define ButtonWidthGapInStop   10
+#define ButtonHeightGapInStop  90
+//UI stuff end
 #include "cocos2d.h"
 
 USING_NS_CC;
