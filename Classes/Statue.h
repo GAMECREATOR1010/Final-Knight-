@@ -51,6 +51,7 @@ protected:
 	virtual bool init(StatueType);
 private:
 	StatueType _type;
+	const double _physicalRange = 80.0;
 };
 
 #endif // !__STATUE_H__

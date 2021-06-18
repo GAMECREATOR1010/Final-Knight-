@@ -49,10 +49,5 @@ int Item::GetRarity() const
 
 bool Item::init()
 {
-	/* Ìí¼ÓÅö×²·¶Î§ */
-	auto phy = PhysicsBody::createCircle(_physicalRange);
-	SetBody(phy, ItemCate);
-	addComponent(phy);
-
 	return true;
 }

@@ -43,22 +43,22 @@ bool Statue::ActiveStatue(Knight* activer)
 				auto curWp = activer->GetWea();
 				curWp->SetDamageBuff(DAMAGE_BUFF);
 			}
-				break;
+			break;
 			case ELF:
 				activer->HPMaxChange(HEALTH_MAXADD_BUFF);
 				break;
-			//case SORCERER:
-			//	break;
-			//case ASSASSIN:
-			//	break;
-			//case PALADIN:
-			//	break;
-			//case ENGINEER:
-			//	break;
-			//case BERSERKER:
-			//	break;
-			//case STATUECOUNT:
-			//	break;
+				//case SORCERER:
+				//	break;
+				//case ASSASSIN:
+				//	break;
+				//case PALADIN:
+				//	break;
+				//case ENGINEER:
+				//	break;
+				//case BERSERKER:
+				//	break;
+				//case STATUECOUNT:
+				//	break;
 			default:
 				throw("Statue::ActiveStatue failed");
 				return false;
@@ -106,6 +106,11 @@ bool Statue::init(StatueType type)
 	}
 	_type = type;
 	this->setTag(statueTag);
+
+	/* Ìí¼ÓÅö×²·¶Î§ */
+	auto phy = PhysicsBody::createCircle(_physicalRange);
+	SetBody(phy, ItemCate);
+	addComponent(phy);
 
 	return true;
 }

@@ -42,10 +42,10 @@ public:
 	int GetRarity() const;	//获取品质
 protected:
 	virtual bool init();
+	static constexpr double _physicalRange = 80.0;
 private:
 	int _id;
 	int _value;
 	int _rarity;
-	static constexpr double _physicalRange = 80.0;
 };
 #endif // !__ITEMS_H__

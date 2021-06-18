@@ -58,7 +58,7 @@ HealPotion* HealPotion::create(Scale scale)
 /// 使用药水，使用之后记得删除对象
 /// </summary>
 /// <param name="multi">附加倍率，大小瓶规模无需附加</param>
-void HealPotion::Drink(Knight* drinker,float multi)
+void HealPotion::Drink(Knight* drinker, float multi)
 {
 	if (_isDrunk)
 	{
@@ -87,6 +87,12 @@ bool HealPotion::initWithScale(Scale scale)
 			return false;
 			break;
 	}
+
+	/* 添加碰撞范围 */
+	auto phy = PhysicsBody::createCircle(_physicalRange);
+	SetBody(phy, ItemCate);
+	addComponent(phy);
+
 	return true;
 }
 
@@ -144,6 +150,12 @@ bool ManaPotion::initWithScale(Scale scale)
 			return false;
 			break;
 	}
+
+	/* 添加碰撞范围 */
+	auto phy = PhysicsBody::createCircle(_physicalRange);
+	SetBody(phy, ItemCate);
+	addComponent(phy);
+
 	return true;
 }
 
@@ -199,6 +211,12 @@ bool FullPotion::initWithScale(Scale scale)
 			return false;
 			break;
 	}
+
+	/* 添加碰撞范围 */
+	auto phy = PhysicsBody::createCircle(_physicalRange);
+	SetBody(phy, ItemCate);
+	addComponent(phy);
+
 	return true;
 }
 
@@ -270,6 +288,12 @@ bool BuffPotion::initWithBuffType(BuffType buffType)
 	Potion::init();
 	_buffType = buffType;
 	initWithFile(BUFF_PATH);
+
+	/* 添加碰撞范围 */
+	auto phy = PhysicsBody::createCircle(_physicalRange);
+	SetBody(phy, ItemCate);
+	addComponent(phy);
+
 	return true;
 }
 
