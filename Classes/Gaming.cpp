@@ -1,6 +1,7 @@
 #include "Gaming.h"
+USING_NS_CC;
 
-Scene* Gaming::createScene(Knight* myknight, int Chapter)
+Scene* Gaming::createScene(Knight* myknight,  int Chapter)
 {
 	Gaming* gaming = new Gaming;
 	if (gaming != nullptr && gaming->init(myknight, Chapter))
@@ -10,6 +11,7 @@ Scene* Gaming::createScene(Knight* myknight, int Chapter)
 	}
 	CC_SAFE_DELETE(gaming);
 	return nullptr;
+	
 }
 
 bool Gaming::init(Knight* myknight, int Chapter)
@@ -25,6 +27,7 @@ bool Gaming::init(Knight* myknight, int Chapter)
 	this->getPhysicsWorld()->setGravity(Vec2(0, 0));
 	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
+
 	srand((unsigned)time(NULL));
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -36,7 +39,8 @@ bool Gaming::init(Knight* myknight, int Chapter)
 	spritecache->addSpriteFramesWithFile("enemy/enemy_1.plist");
 	spritecache->addSpriteFramesWithFile("enemy/enemy_2.plist");
 	spritecache->addSpriteFramesWithFile("enemy/enemy_3.plist");
-
+	spritecache->addSpriteFramesWithFile("enemy/enemy_4.plist");
+	
 	myKnight = myknight;
 	chapter = Chapter;
 	roomThemeEnum theme = roomThemeEnum(rand() % 5);
@@ -44,13 +48,14 @@ bool Gaming::init(Knight* myknight, int Chapter)
 	change = Vec2(0, 0);
 	addChild(battlemap);
 	map = battlemap;
-
+	
 	myKnight->setPosition(Vec2(origin.x + visibleSize.width / 2,
 		origin.y + visibleSize.height / 2));
 	addChild(myKnight);
 	flag = false;//
 	inPassage = false;
 	transing = false;
+	endGame = false;
 
 	auto keyListener = EventListenerKeyboard::create();
 	keyListener->onKeyPressed = CC_CALLBACK_2(Gaming::onKeyPressed, this);
@@ -67,13 +72,6 @@ bool Gaming::init(Knight* myknight, int Chapter)
 	schedule(SEL_SCHEDULE(&Gaming::myUpdate), 0.5f, -1, 0);
 
 	return true;
-}
-void Gaming::Test()
-{
-	auto sprit = Sprite::create("tileSet.png");
-	sprit->setGlobalZOrder(uiOrder);
-	addChild(sprit);
-	sprit->setPosition(Vec2(1500, 800));
 }
 
 bool Gaming::onContactBegin(const PhysicsContact& contact)
@@ -99,7 +97,7 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 			auto attack = static_cast<Weapon*>(nodeA->getParent());
 			if (nodeB->getTag() == knightTag)
 			{
-				auto knight = static_cast<Knight*>(nodeB);
+				auto knight = static_cast<Knight*>(nodeB) ;
 				knight->Behit(attack->GetDamage());
 			}
 		}
@@ -108,11 +106,36 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 		{
 			if (nodeA->getTag() == knightTag)
 			{
-				auto knight = static_cast<Knight*>(nodeA);
-				auto enemy = static_cast<Enemy*>(nodeB);
+				auto knight = static_cast<Knight*>(nodeA); 
+				auto enemy = static_cast<Enemy*>(nodeB); 
 				knight->Behit(enemy->GetDamage());
 			}
+			
 		}
+
+		if (nodeA->getTag() == explosionTag)
+		{
+			auto bullet = static_cast<Bullet*>(nodeA->getParent());
+			if (nodeB->getTag() == enemyTag)
+			{
+				auto enemy = static_cast<Enemy*>(nodeB);
+				enemy->Behit(bullet->damage);
+
+			}
+			if (nodeB->getTag() == knightTag)
+			{
+				auto knight = static_cast<Knight*>(nodeB);
+				knight->Behit(bullet->damage);
+			}
+			if (nodeB->getTag() == obstaclesRemovableTag)
+			{
+				bullet->ShowEffect();
+				auto room = static_cast<Room*>(nodeB->getParent()->getParent()->getParent());
+				room->DeleteObstacles(nodeB->getPosition().x / 64, 32 - nodeB->getPosition().y / 64);
+				nodeB->removeAllComponents();
+			}
+		}
+
 
 		if (nodeA->getTag() == myBulletTag)
 		{
@@ -140,7 +163,7 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 			auto bullet = static_cast<Bullet*>(nodeA);;
 			if (nodeB->getTag() == knightTag)
 			{
-				auto knight = static_cast<Knight*>(nodeB);
+				auto knight = static_cast<Knight*>(nodeB) ;
 				knight->Behit(bullet->damage);
 				bullet->ShowEffect();
 			}
@@ -160,8 +183,8 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 				myKnightForever = myKnight;
 				nodeA->removeAllComponents();
 			}
+			
 		}
-
 		/* ¿ªÆô±¦Ïä */
 		if (nodeA->getTag() == knightTag && nodeB->getTag() == chestTag)
 		{
@@ -170,7 +193,7 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 				_isInteract = false;
 				auto activer = static_cast <Knight*> (nodeA);
 				auto chest = static_cast <Chest*> (nodeB);
-				auto item=chest->open(activer);
+				auto item = chest->open(activer);
 				item->setPosition(chest->getPosition());
 				addChild(item);
 			}
@@ -239,6 +262,8 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 	return true;
 }
 
+
+
 bool Gaming::onKeyReleased(EventKeyboard::KeyCode keycode, Event* event)
 {
 	if (keycode == EventKeyboard::KeyCode::KEY_UP_ARROW)
@@ -261,10 +286,6 @@ bool Gaming::onKeyReleased(EventKeyboard::KeyCode keycode, Event* event)
 		if (change == Vec2(-1, 0))
 			change = Vec2(0, 0);
 	}
-	if (keycode == EventKeyboard::KeyCode::KEY_F)
-	{
-		_isInteract = false;
-	}
 	return true;
 }
 
@@ -274,8 +295,19 @@ bool Gaming::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 	{
 		if (keycode == EventKeyboard::KeyCode::KEY_A)
 		{
+			myKnight->BindRoom(atRoom);
 			myKnight->MyAttack();
 		}
+
+		if (keycode == EventKeyboard::KeyCode::KEY_W)
+		{
+			map->setVisible(true);
+		}
+		if (keycode == EventKeyboard::KeyCode::KEY_S)
+		{
+			map->setVisible(false);
+		}
+
 		if (keycode == EventKeyboard::KeyCode::KEY_UP_ARROW)
 		{
 			myKnight->faceDir = Vec2(0, 1);
@@ -307,8 +339,8 @@ bool Gaming::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 			_isInteract = true;
 		}
 	}
-
 	return true;
+
 }
 
 void Gaming::myUpdate(float delta)
@@ -353,7 +385,9 @@ void Gaming::update(float delta)
 	}
 	else if (!endGame && myKnight->death)/*×ª»»³¡¾°*/
 	{
+		
 		endGame = true;
+
 	}
 	if (transing)
 	{
@@ -363,9 +397,8 @@ void Gaming::update(float delta)
 			auto scene = Gaming::createScene(myKnightForever, chapter);
 			Director::getInstance()->replaceScene(scene);
 			});
-
+		
 		runAction(startNewChapter);
 		unscheduleUpdate();
 	}
 }
-
