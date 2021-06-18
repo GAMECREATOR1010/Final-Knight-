@@ -25,6 +25,7 @@ public:
     void DeleteObstacles(float, float);
     void UpdateObstacles();
     void UpdateDoor();
+    void AddTransDoor();
     bool Movable(Vec2, unsigned int, bool = true);
     void UpdatePlayerEnter(Vec2 );
     Vec2 roomPosition;

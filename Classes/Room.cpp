@@ -146,7 +146,7 @@ void Room::DrawDoor(float x, float y)
 		shade->setTileGID(doorCloseGid+10, Vec2(x, y ));
 		meta->setTileGID(metaGid, Vec2(x, y ));
 		wall->setTileGID(doorCloseGid, Vec2(x, y-1));
-		auto obstaclesbox = PhysicsBody::createBox(Size(64.0f, 64.0f));
+		auto obstaclesbox = PhysicsBody::createBox(Size(55.0f, 55.0f));
 		obstaclesbox->setDynamic(false);
 		SetBody(obstaclesbox, ObstaclesCate);
 		meta->getTileAt(Vec2(x, y))->addComponent(obstaclesbox);
@@ -155,7 +155,7 @@ void Room::DrawDoor(float x, float y)
 
 void Room::UpdateDoor()
 {
-	if (!playerEnter || (playerEnter && enemyCount == 0))
+	if (!playerEnter || (playerEnter && enemyCount<= 0))
 		doorOpen = true;
 	else
 		doorOpen = false;
@@ -199,19 +199,41 @@ void Room::AddThing(float x,float y,float hei,float wid)
 	}
 }
 
+void Room::AddTransDoor()
+{
+	auto frames = GetAnim("gate%02d.png", 8);
+	auto transDoor = Sprite::createWithSpriteFrame(frames.front());
+	auto animation = Animation::createWithSpriteFrames(frames, 1.0f / 8);
+	transDoor->runAction(RepeatForever::create(Animate::create(animation)));
+	transDoor->setPhysicsBody(PhysicsBody::createBox(Size(100.0f, 130.0f)));
+	transDoor->setTag(nextChapterTag);
+	SetBody(transDoor->getPhysicsBody(), ObstaclesCate);
+	transDoor->setGlobalZOrder(shadeOrder);
+	addChild(transDoor);
+	transDoor->setPosition(offSet / 2, offSet / 2);
+	auto particleSystem = ParticleSystemQuad::create("gate/door.plist");
+	addChild(particleSystem);
+	particleSystem->setGlobalZOrder(wallOrder);
+	particleSystem->setPosition(transDoor->getPosition());
+}
+
 void Room::DrawObstacles(float x, float y,bool removable)
 {
-	obstacles->setTileGID(55, Vec2(x, y));
-    meta->setTileGID(metaGid, Vec2(x, y));
-	auto obstaclesbox = PhysicsBody::createBox(Size(55.0f, 55.0f));
-	obstaclesbox->setDynamic(false);
-	SetBody(obstaclesbox, ObstaclesCate);
-	meta->getTileAt(Vec2(x, y))->addComponent(obstaclesbox);
-	if(removable)
-		meta->getTileAt(Vec2(x, y))->setTag(obstaclesRemovableTag);
-	else
-		meta->getTileAt(Vec2(x, y))->setTag(obstaclesNormTag);
-	shade->setTileGID(56, Vec2(x, y + 1));
+	if (meta->getTileGIDAt(Vec2(x, y)) != metaGid)
+	{
+		obstacles->setTileGID(55, Vec2(x, y));
+		meta->setTileGID(metaGid, Vec2(x, y));
+		auto obstaclesbox = PhysicsBody::createBox(Size(55.0f, 55.0f));
+		obstaclesbox->setDynamic(false);
+		SetBody(obstaclesbox, ObstaclesCate);
+		meta->getTileAt(Vec2(x, y))->addComponent(obstaclesbox);
+		if (removable)
+			meta->getTileAt(Vec2(x, y))->setTag(obstaclesRemovableTag);
+		else
+			meta->getTileAt(Vec2(x, y))->setTag(obstaclesNormTag);
+		shade->setTileGID(56, Vec2(x, y + 1));
+	}
+
 }
 
 void Room::DeleteObstacles(float x, float y)
@@ -243,7 +265,8 @@ void Room::UpdateObstacles()//添加障碍物，后期会更改丰富
 		}
 		else if (i == 1)
 		{
-			for (int k = 0; k < 4; k++)
+			int temp = random(4, 8);
+			for (int k = 0; k < temp; k++)
 			{
 				int x = rand() % (width - 3) + 17 - width / 2;
 				int y = rand() % (height - 3) + 17 - height / 2;
