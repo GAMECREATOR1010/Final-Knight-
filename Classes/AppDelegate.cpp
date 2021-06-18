@@ -109,12 +109,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     register_all_packages();
 
-    myKnightForever = Knight::create(0,1);
-    // create a scene. it's an autorelease object
-    auto scene =Gaming::createScene(myKnightForever,1);
-    
-    // run
-    director->runWithScene(scene);
+    director->runWithScene(PreScene::create());
 
     return true;
 }
