@@ -21,7 +21,6 @@ public:
     Knight* targetKnight;
     Room* InRoom(Vec2 position);
     void AddThings(Room* inRoom);
-    void AddTransDoor(Room* inRoom);
 private:
     virtual bool init(int chapter, roomThemeEnum rTheme, Knight* target);
     roomThemeEnum roomTheme;

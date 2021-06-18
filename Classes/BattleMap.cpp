@@ -213,27 +213,26 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 		AddThings(temp);
 	}
 
-
 	return true;
 }
 
 
 void BattleMap::AddThings(Room* inRoom)
 {
+	
     if(inRoom->roomType == normalRoomEnum)
 	{
-		int enemyType = random(0, 3);
+		int enemyType = random(0, 4);
 		int i = 0;
-		
 		if (enemyType < 3)
 			i = random(3, 7);
 		else
-			i = random(2, 5);
+			i = random(2, 4);
 		inRoom->enemyCount = i;
 		for (int j = 0; j < i; ++j)
 		{
-			int x =random(-inRoom->width/2+1,inRoom->width / 2-1);
-			int y = random(-inRoom->height / 2+1, inRoom->height / 2-1);
+			int x =random(-(inRoom->width-2)/2, (inRoom->width - 2) / 2);
+			int y = random(-(inRoom->height - 2)/2, (inRoom->height - 2) / 2);
 			if (inRoom->Movable(Vec2((15 + x) * 64, offSet - (15 + y) * 64), roomFloorGid)&&
 				(inRoom->enemyPos->getTileGIDAt(Vec2(15+x, 15+y)) == passageFloorGid))
 			{
@@ -252,31 +251,10 @@ void BattleMap::AddThings(Room* inRoom)
 	}
 	else if(inRoom->roomType == endRoomEnum)
 	{
-		AddTransDoor(endRoom);
+		inRoom->AddTransDoor();
 	}
 }
 
-
-
-
-void BattleMap::AddTransDoor(Room* inRoom)
-{
-	auto frames = GetAnim("gate%02d.png", 8);
-	auto transDoor = Sprite::createWithSpriteFrame(frames.front());
-	auto animation = Animation::createWithSpriteFrames(frames, 1.0f / 8);
-	transDoor->runAction(RepeatForever::create(Animate::create(animation)));
-	transDoor->setPhysicsBody(PhysicsBody::createBox(Size(80.0f,130.0f)));
-	transDoor->setTag(nextChapterTag);
-	SetBody(transDoor->getPhysicsBody(), ItemCate);
-	transDoor->setGlobalZOrder(shadeOrder);
-
-	inRoom->addChild(transDoor);
-	transDoor->setPosition(offSet / 2, offSet / 2);
-	auto particleSystem = ParticleSystemQuad::create("gate/door.plist");
-	inRoom->addChild(particleSystem);
-	particleSystem->setGlobalZOrder(wallOrder);
-	particleSystem->setPosition(transDoor->getPosition());
-}
 
 Room* BattleMap::InRoom(Vec2 pos)
 {
@@ -291,5 +269,3 @@ Room* BattleMap::InRoom(Vec2 pos)
 	}
 	return nullptr;
 }
-
-
