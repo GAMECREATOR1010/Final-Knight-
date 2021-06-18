@@ -27,7 +27,7 @@ private:
     float  energyMax=150;
     float  energyNow=150;
 
-    float  tempEnergy;
+    float  tempEnergy=150;
 
     int rank = 1;
     int EXP = 0;

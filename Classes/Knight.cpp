@@ -14,7 +14,6 @@ Knight* Knight::create(int type, int rank)
 }
 
 
-
 bool Knight::init(int type, int rank)
 {
 	wea1 = nullptr;
@@ -23,7 +22,7 @@ bool Knight::init(int type, int rank)
 	if (type == 0)
 	{
 		HPMax = 50;
-		HP = 50;
+		defenceMax = 2;
 		pic = Sprite::create("Knight1.png");
 		addChild(pic, 0);
 		auto shape = PhysicsShapeBox::create(Size(45.0f,40.0f));
@@ -43,8 +42,14 @@ bool Knight::init(int type, int rank)
 		wea = Weapon::create(5, KnightCate);
 		addChild(wea);
 		wea->setPosition(wea->bindPoint);
+		wea->trigger->setEnabled(false);
    }
+	HPMax = HP;
 	moveSpeed = moveSpeedMax;
+	defence = defenceMax;
+	energyNow = energyMax;
+
+
 	body->setDynamic(false);
 	addComponent(body);
 	SetBody(body, KnightCate);
@@ -71,8 +76,6 @@ void Knight::EnergyNowChange(float energychange)
 	}
 }
 
-
-
 float Knight::GetEnergyNow()
 {
 	return energyNow;
@@ -82,7 +85,6 @@ float Knight::GetEnergyMax()
 {
 	return energyMax;
 }
-
 
 
 int Knight::GetRank()
@@ -113,7 +115,7 @@ void Knight::MyAttack()
 		this->state = KnightAttack;
 		energyNow -= wea->costEnergy;
 		auto attacking = CallFunc::create([&]() {
-			wea->WeaponAttack(this->faceDir);
+			wea->WeaponAttack(this->faceDir,inRoom, getPosition() -inRoom->roomPosition -inRoom->getParent()->getPosition());
 			});
 		auto attackEnd = CallFunc::create([&]() {
 			this->state = KnightIdle;
