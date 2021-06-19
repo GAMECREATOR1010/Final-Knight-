@@ -22,6 +22,8 @@ public:
     float GetEnergyMax();
     int  GetRank();
 
+    void LaunchSkillTime();
+
 private:
     virtual bool init(int type=0, int rank=1);
     float  energyMax=150;
@@ -29,6 +31,12 @@ private:
     float  tempEnergy=150;
     int rank = 1;
     int EXP = 0;
+    int knightType = 0;
+    float skillTime = 5.0f;
+    float skillCostEnergy = 10;
+    bool launchSkill = false;
+    Sprite* diceSpriteOne;
+    Sprite* diceSpriteTwo;
 };
 static Knight* myKnightForever ;
 #endif 
