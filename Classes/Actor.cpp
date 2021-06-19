@@ -383,16 +383,16 @@ void  Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
 	if ((myWea->costEnergy == 0 && wea->costEnergy == 0) ||
 		(myWea->costEnergy > 0 && wea->costEnergy > 0))
 	{
-		Weapon* temp = wea;
+		weaponForever = wea;
 		wea = myWea;
-		myWea = temp;
+		myWea = weaponForever;
 		wea->setPosition(wea->bindPoint + bindPointOffSet);
 	}
 	else if (wea1 != nullptr)
 	{
-		Weapon* temp = wea1;
+		weaponForever = wea1;
 		wea1 = myWea;
-		myWea = temp;
+		myWea = weaponForever;
 	}
 	else
 	{
@@ -405,10 +405,10 @@ void  Actor::ChangeWea()
 {
 	if (wea1 != nullptr)
 	{
-		Weapon* temp = wea;
+		weaponForever = wea;
 		wea = wea1;
 		SetWeaponBuff(wea);
-		wea1 = temp;
+		wea1 = weaponForever;
 	}
 }
 
