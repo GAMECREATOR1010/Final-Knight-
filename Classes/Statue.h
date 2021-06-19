@@ -52,6 +52,7 @@ protected:
 private:
 	StatueType _type;
 	const double _physicalRange = 80.0;
+	bool isActived = false;
 };
 
 #endif // !__STATUE_H__

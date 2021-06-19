@@ -26,8 +26,13 @@ Statue* Statue::create(StatueType type)
 
 bool Statue::ActiveStatue(Knight* activer)
 {
+	if (isActived)
+	{
+		return false;
+	}
 	if (goldMoney.ChangeBalance(-STATUE_COST));
 	{
+		isActived = true;
 		switch (_type)
 		{
 			case WEREWOLF:
@@ -61,9 +66,11 @@ bool Statue::ActiveStatue(Knight* activer)
 				//case STATUECOUNT:
 				//	break;
 			default:
-				throw("Statue::ActiveStatue failed");
+				CCLOG("Statue::ActiveStatue failed");
 				return false;
 		}
+		CCLOG("Statue::ActiveStatue success, type %d", _type);
+		this->removeComponent(this->getPhysicsBody());
 		return true;
 	}
 
@@ -111,7 +118,7 @@ bool Statue::init(StatueType type)
 	CCLOG("Statue::init: Statue create success, typeid %d", type);
 
 	/* Ìí¼ÓÅö×²·¶Î§ */
-	auto pOffset = Vec2(0, 20);
+	auto pOffset = Vec2(0, -64*1);
 	auto phy = PhysicsBody::createCircle(_physicalRange,PHYSICSBODY_MATERIAL_DEFAULT,pOffset);
 	SetBody(phy, ItemCate);
 	addComponent(phy);
