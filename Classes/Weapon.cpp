@@ -71,6 +71,7 @@ bool Weapon::init(int id, int cate)
 		attackEffect->setPosition(Vec2(30, 60));
 		attackEffect->setGlobalZOrder(wallOrder);
 
+
 		SetBody(attackEffect->getPhysicsBody(), ItemCate);
 		attackEffect->setVisible(false);
 		attackEffect->getPhysicsBody()->setEnabled(false);
@@ -94,20 +95,20 @@ bool Weapon::init(int id, int cate)
 	{
 		initWithFile("weapon/sword_0.png");
 		setAnchorPoint(Vec2(0.2f, 0.5f));
-		damage = 2;
+		damage = 1.5;
 	}
 	else if (id == 1)
 	{
 		initWithFile("weapon/axe_0.png");
 		costEnergy = 1;
-		damage = 2;
+		damage = 1.5;
 		range = 1.3;
 	}
 	else if (id == 2)
 	{
 		initWithFile("weapon/sword_1.png");
 		costEnergy = 2;
-		damage = 3;
+		damage = 2;
 		range = 1.5;
 		speed = 2;
 	}
@@ -115,7 +116,7 @@ bool Weapon::init(int id, int cate)
 	{
 		initWithFile("weapon/sword_2.png");
 		costEnergy = 2;
-		damage = 4;
+		damage = 3;
 		range = 1.8;
 		speed = 2;
 	}
@@ -124,7 +125,7 @@ bool Weapon::init(int id, int cate)
 		initWithFile("weapon/knife_0.png");
 		bindPoint = Vec2(0, -20);
 		costEnergy = 3;
-		damage = 5;
+		damage = 4;
 		range = 2;
 		speed = 3;
 	}
@@ -136,7 +137,7 @@ bool Weapon::init(int id, int cate)
 	else if (id == 6)
 	{
 		setAnchorPoint(Vec2(0.3f, 0.5f));
-		damage = 2;
+		damage = 2.5;
 		countPerTime = 3;
 		costEnergy = 2;
 	}
@@ -151,7 +152,7 @@ bool Weapon::init(int id, int cate)
 	else if (id == 8)
 	{
 		setAnchorPoint(Vec2(0.3f, 0.5f));
-		damage = 4;
+		damage = 3;
 		countPerTime = 8;
 		speed = 2;
 		distance = 3;
@@ -160,7 +161,7 @@ bool Weapon::init(int id, int cate)
 	else if (id == 9)
 	{
 		setAnchorPoint(Vec2(0.3f, 0.5f));
-		damage = 5;
+		damage = 4;
 		countPerTime = 12;
 		speed = 2;
 		distance = 1;
@@ -168,7 +169,7 @@ bool Weapon::init(int id, int cate)
 	}
 	else if (id == 10)
 	{
-		setAnchorPoint(Vec2(0.3f, 0.5f));
+		setAnchorPoint(Vec2(0.3f, 0.6f));
 		damage = 4;
 		countPerTime = 1;
 		speed = 2;
@@ -192,6 +193,28 @@ float Weapon::GetDamage()
 	return damage + damageBuff;
 }
 
+
+/*武器本身属性*/
+void Weapon::SetSpeed(float sChange)
+{
+	speed += sChange;
+}
+void Weapon::SetRange(float rChange)
+{
+	range += rChange;
+}
+void Weapon::SetDamage(float dChange)
+{
+	damage += dChange;
+}
+void Weapon::SetDistance(float dChange)
+{
+	distance += dChange;
+}
+
+
+
+/*knight属性加成*/
 void Weapon::SetSpeedBuff(float sBuff)
 {
 	speedBuff = sBuff;
@@ -254,12 +277,15 @@ void Weapon::MeleeAttack(Vec2  faceDir)
 	}
 	setScale(range + 0.2f + rangeBuff * 0.2f);
 	auto moveBy = MoveBy::create(0.01f, meleeFacDir);
-	auto rotateByOne = RotateBy::create(0.1f - speed * 0.01, meleeStartRot);
-	auto rotateByTwo = RotateBy::create(0.2f - speed * 0.05, 35.0f);
-	auto rotateByThird = RotateBy::create(0.2f - speed * 0.05, 100.0f);
+	auto rotateByOne = RotateBy::create(0.1f - (speed + speedBuff) * 0.01, meleeStartRot);
+	auto rotateByTwo = RotateBy::create(0.2f - (speed + speedBuff) * 0.02, 35.0f);
+	auto rotateByThird = RotateBy::create(0.2f - (speed + speedBuff) * 0.02, 100.0f);
 	auto rotateByForth = RotateBy::create(0.1f, -135.0f - meleeStartRot);
 
+
+
 	auto meleeStart = CallFunc::create([&]() {
+
 		if (ID > 0)
 		{
 			int i = random(0, ID);
@@ -268,7 +294,7 @@ void Weapon::MeleeAttack(Vec2  faceDir)
 		}
 		attackEffect->setVisible(true);
 		attackEffect->getPhysicsBody()->setEnabled(true);
-		auto scaleTo = ScaleTo::create(0.2f, 0.5f);
+		auto scaleTo = ScaleTo::create(0.2f - (speed + speedBuff) * 0.02, 0.5f);
 		attackEffect->runAction(scaleTo);
 		});
 
@@ -286,12 +312,13 @@ void Weapon::MeleeAttack(Vec2  faceDir)
 		meleeEnd, rotateByForth, recovery, moveBy->reverse(), nullptr);
 
 	runAction(meleeAttack);
+
 }
 
 void Weapon::GenerateBullet(Vec2  faceDir, Room* inRoom, Vec2 pos)
 {
 	auto bull = Bullet::create(bulletType, faceDir, belongCate,
-		range + rangeBuff, damageBuff + damage, speed + speedBuff, distance + distanceBuff);
+		range + rangeBuff * 0.2, damageBuff + damage, speed + speedBuff, distance + distanceBuff);
 	inRoom->addChild(bull);
 	bull->setPosition(pos);
 
@@ -312,7 +339,7 @@ void Weapon::GenerateBullet(Vec2  faceDir, Room* inRoom, Vec2 pos)
 		for (int i = 0; i < countPerTime - 1; ++i)
 		{
 			auto bull = Bullet::create(bulletType, Rotate(faceDir, perRradian * (i / 2 + 1)), belongCate,
-				range + rangeBuff, damageBuff + damage, speed + speedBuff, distance + distanceBuff);
+				range + rangeBuff * 0.2, damageBuff + damage, speed + speedBuff, distance + distanceBuff);
 			inRoom->addChild(bull);
 			bull->setRotation(-perAngle * (i / 2 + 1));
 			bull->setPosition(pos);
