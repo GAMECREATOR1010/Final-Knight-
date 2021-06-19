@@ -16,6 +16,7 @@
 
 #include "cocos2d.h"
 #include "Const.h"
+#include "Money.h"
 
 USING_NS_CC;
 
@@ -41,6 +42,7 @@ public:
 	CREATE_FUNC(Item);
 	int GetRarity() const;	//获取品质
 	int GetNowValue(int curLevel = 1);
+	bool Buy();
 protected:
 	virtual bool init();
 	static constexpr double _physicalRange = 80.0;

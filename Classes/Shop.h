@@ -38,7 +38,7 @@ static const char* SHELF_PATH = "/shop/shelf.png";
 class Goods: public Sprite
 {
 public:
-	bool Buy();	//购买商品
+	//bool Buy();	//购买商品
 	void SetGoods(Item*);
 	void SetPrice(int);
 	Item* GetGoods();

@@ -8,33 +8,33 @@
 
 #pragma region Goods
 
-bool Goods::Buy()
-{
-	/* 检测是否有足够的钱 */
-	if (goldMoney.ChangeBalance(-_price))
-	{
-		/* 该对象作为普通对象交互，这样就不会重复购买了 */
-		if (this->getTag() == potionGoodsTag)
-		{
-			this->_pGoods->setTag(potionChestTag);
-		}
-		else if (this->getTag() == weaponGoodsTag)
-		{
-			this->_pGoods->setTag(weaponChestTag);
-		}
-
-		CCLOG("Goods::Buy: Buy thing");
-		return true;
-	}
-	else
-	{
-		/* 没有足够的钱 */
-		CCLOG("Goods::Buy: Can not buy, check money");
-		return false;
-	}
-
-	return false;
-}
+//bool Goods::Buy()
+//{
+//	/* 检测是否有足够的钱 */
+//	if (goldMoney.ChangeBalance(-_price))
+//	{
+//		/* 该对象作为普通对象交互，这样就不会重复购买了 */
+//		if (this->getTag() == potionGoodsTag)
+//		{
+//			this->_pGoods->setTag(potionChestTag);
+//		}
+//		else if (this->getTag() == weaponGoodsTag)
+//		{
+//			this->_pGoods->setTag(weaponChestTag);
+//		}
+//
+//		CCLOG("Goods::Buy: Buy thing");
+//		return true;
+//	}
+//	else
+//	{
+//		/* 没有足够的钱 */
+//		CCLOG("Goods::Buy: Can not buy, check money");
+//		return false;
+//	}
+//
+//	return false;
+//}
 
 void Goods::SetGoods(Item* item)
 {
