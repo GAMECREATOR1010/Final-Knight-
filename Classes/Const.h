@@ -87,14 +87,14 @@ static const int ItemCate = 4;
 #include "cocos2d.h"
 
 USING_NS_CC;
-Vector<SpriteFrame*> GetAnim(const char* , int );
+Vector<SpriteFrame*> GetAnim(const char*, int);
 Vec2 ChangeDir();
-void SetBody(PhysicsBody*,int);
+void SetBody(PhysicsBody*, int);
 Vec2 Rotate(Vec2 faceDir, float angle);
 
 enum  attackModeEnum
 {
-    meleeEnum= 0, gunEnum,touchEnum/*ÎÞÎäÆ÷£¬¿¿½Ó´¥*/
+    meleeEnum = 0, gunEnum, touchEnum/*ÎÞÎäÆ÷£¬¿¿½Ó´¥*/
 };
 
 enum  EnemyState
@@ -110,12 +110,12 @@ enum  KnightState
 
 enum  roomTypeEnum
 {
-    startRoomEnum=0,normalRoomEnum=1,bonusRoomEnum=2,sacrificeRoomEnum=3,bossRoomEnum=4,endRoomEnum =5, ShopRoomEnum=10,StatueRoomEnum=11
+    startRoomEnum = 0, normalRoomEnum = 1, bossRoomEnum = 2, endRoomEnum = 3, ShopRoomEnum = 4, StatueRoomEnum = 5
 };
 
 enum roomThemeEnum
 {
-    iceTheme = 0, darkTheme=1, techTheme=2,forestTheme=3,sandTheme =4
+    iceTheme = 0, darkTheme = 1, techTheme = 2, forestTheme = 3, sandTheme = 4
 };
 
 #endif
