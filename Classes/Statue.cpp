@@ -11,6 +11,7 @@ Statue* Statue::create(StatueType type)
 	auto pRet = new(std::nothrow) Statue();
 	if (pRet && pRet->init(type))
 	{
+		pRet->setGlobalZOrder(obstaclesOrder);
 		pRet->autorelease();
 		return pRet;
 	}
@@ -101,15 +102,16 @@ bool Statue::init(StatueType type)
 			//case STATUECOUNT:
 			//	break;
 		default:
-			throw("Statue create failed");
+			CCLOG("Statue::init: Statue create failed, because it has typeid %d",type);
 			return false;
 	}
 	_type = type;
 	this->setTag(statueTag);
+	CCLOG("Statue::init: Statue create success, typeid %d", type);
 
 	/* Ìí¼ÓÅö×²·¶Î§ */
 	auto phy = PhysicsBody::createCircle(_physicalRange);
-	SetBody(phy, ItemCate);
+	SetBody(phy, ObstaclesCate);
 	addComponent(phy);
 
 	return true;

@@ -33,7 +33,6 @@ WhiteChest* WhiteChest::create()
 /// <returns>生成的物品对象指针，生成金币能量返回空</returns>
 Item* WhiteChest::open(Knight* activer)
 {
-	CCLOG("WhiteChest::open");
 	if (_isOpened)
 	{
 		return nullptr;
@@ -45,29 +44,33 @@ Item* WhiteChest::open(Knight* activer)
 	/* 改变材质 */
 
 	/* 随机生成 */
-	int type = random(1, 5);
+	int type = random(1, 4);
 	switch (type)
 	{
 		case 1:	//生成金币和能量
 			goldMoney.ChangeBalance(MONEY_EVERY_ROOM * MONEY_LEVEL_MUTI);
 			activer->EnergyNowChange(MANA_EVERY_ROOM * MANA_LEVEL_MUTI);
+			CCLOG("WhiteChest::open get gold");
 			return nullptr;
 		case 2:	//生成HP药水
 		{
 			auto hp = HealPotion::create(SMALL);
 			hp->setTag(potionChestTag);
+			CCLOG("WhiteChest::open get hp");
 			return hp;
 		}
 		case 3:	//生成MP药水
 		{
 			auto mp = ManaPotion::create(SMALL);
 			mp->setTag(potionChestTag);
+			CCLOG("WhiteChest::open get mp");
 			return mp;
 		}
 		case 4:	//生成武器
 		{
 			auto wp = RandomWeaponCreate();
-			wp->setTag(weaponTag);
+			wp->setTag(weaponChestTag);
+			CCLOG("WhiteChest::open get wp");
 			return wp;
 		}
 		default:

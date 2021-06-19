@@ -26,11 +26,11 @@ enum StatueType
 	KNIGHT,		//增加护盾
 	THIEF,		//增加伤害
 	ELF,		//增加血量上限
-	SORCERER,
-	ASSASSIN,
-	PALADIN,
-	ENGINEER,
-	BERSERKER,
+	//SORCERER,
+	//ASSASSIN,
+	//PALADIN,
+	//ENGINEER,
+	//BERSERKER,
 	/* 待完善 */
 
 	STATUECOUNT

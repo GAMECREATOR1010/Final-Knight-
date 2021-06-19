@@ -62,7 +62,7 @@ bool Gaming::init(Knight* myknight, int Chapter)
 
 	auto contactListener = EventListenerPhysicsContact::create();
 	contactListener->onContactBegin = CC_CALLBACK_1(Gaming::onContactBegin, this);
-	contactListener->onContactBegin = CC_CALLBACK_1(Gaming::onContactPreSolve, this);
+	contactListener->onContactPreSolve = CC_CALLBACK_1(Gaming::onContactPreSolve, this);
 
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
 
@@ -83,10 +83,8 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 	auto nodeA = contact.getShapeA()->getBody()->getNode();
 	auto nodeB = contact.getShapeB()->getBody()->getNode();
 
-
 	if (nodeA && nodeB)
 	{
-
 		int aTag;
 		int bTag;
 		if (nodeA->getTag() <= nodeB->getTag())
@@ -103,28 +101,28 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 			nodeB = nodeTemp;
 		}
 
-		//CCLOG("onContactBegin %d %d", aTag, bTag);
+		CCLOG("onContactBegin %d %d", aTag, bTag);
 
-		if (aTag == enemyTag && bTag== myAttackTag)
+		if (aTag == enemyTag && bTag == myAttackTag)
 		{
 			auto attack = static_cast<Weapon*>(nodeB->getParent());
-				auto enemy = static_cast<Enemy*>(nodeA);
-				myKnight->AddEXP(enemy->GetEXP());
-				enemy->Behit(attack->GetDamage());
+			auto enemy = static_cast<Enemy*>(nodeA);
+			myKnight->AddEXP(enemy->GetEXP());
+			enemy->Behit(attack->GetDamage());
 		}
 
-		if (aTag== knightTag && bTag== enemyAttackTag)
+		if (aTag == knightTag && bTag == enemyAttackTag)
 		{
 			auto attack = static_cast<Weapon*>(nodeB->getParent());
-				auto knight = static_cast<Knight*>(nodeA);
-				knight->Behit(attack->GetDamage());
+			auto knight = static_cast<Knight*>(nodeA);
+			knight->Behit(attack->GetDamage());
 		}
 
-		if (aTag== knightTag &&bTag == enemyTag)
+		if (aTag == knightTag && bTag == enemyTag)
 		{
-				auto knight = static_cast<Knight*>(nodeA);
-				auto enemy = static_cast<Enemy*>(nodeB);
-				knight->Behit(enemy->GetDamage());
+			auto knight = static_cast<Knight*>(nodeA);
+			auto enemy = static_cast<Enemy*>(nodeB);
+			knight->Behit(enemy->GetDamage());
 		}
 
 		if (bTag == explosionTag)
@@ -173,7 +171,7 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 		if (bTag == enemyBulletTag)
 		{
 			auto bullet = static_cast<Bullet*>(nodeB);
-			if (aTag== knightTag)
+			if (aTag == knightTag)
 			{
 				auto knight = static_cast<Knight*>(nodeA);
 				knight->Behit(bullet->damage);
@@ -184,23 +182,10 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 				bullet->ShowEffect();
 			}
 		}
-
-		if (aTag == knightTag)
-		{
-			if (bTag== nextChapterTag && !transing)
-			{
-				log("onContactBegin");
-				transing = true;
-				chapter += 1;
-				myKnight->retain();
-				myKnight->removeFromParentAndCleanup(false);
-				myKnightForever = myKnight;
-				nodeA->removeAllComponents();
-			}
-		}
-
-
+		CCLOG("onContactEnd %d %d", aTag, bTag);
 	}
+
+
 	return true;
 }
 
@@ -211,7 +196,6 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 
 	if (nodeA && nodeB)
 	{
-
 		int aTag;
 		int bTag;
 		if (nodeA->getTag() <= nodeB->getTag())
@@ -227,11 +211,12 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 			nodeA = nodeB;
 			nodeB = nodeTemp;
 		}
+		//CCLOG("onContactPreSolve, between %d %d", aTag, bTag);
 
 		/* Íæ¼Ò½»»¥¼ì²â */
-		if (aTag == knightTag)
+		if (aTag == knightTag && bTag>=100)
 		{
-			CCLOG("Interact contact begin");
+			CCLOG("Interact contact begin, between %d %d",aTag,bTag);
 			if (bTag == chestTag)			/* ¿ªÆô±¦Ïä */
 			{
 				if (_isInteract)
@@ -240,11 +225,13 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					auto activer = static_cast <Knight*> (nodeA);
 					auto chest = static_cast <Chest*> (nodeB);
 					auto item = chest->open(activer);
-					if (!item)
+					if (item != nullptr)
 					{
 						item->setPosition(chest->getPosition());
-						addChild(item);
+						chest->getParent()->addChild(item);
 					}
+					chest->setVisible(false);
+					chest->removeFromParent();
 				}
 			}
 			else if (bTag == statueTag)			/* ´¥·¢µñÏñ */
@@ -296,12 +283,25 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					}
 				}
 			}
-			CCLOG("Interact contact end");
+			else if (bTag == nextChapterTag && !transing)
+			{
+				if (_isInteract)
+				{
+					_isInteract = false;
+					transing = true;
+					chapter += 1;
+					myKnight->retain();
+					myKnight->removeFromParentAndCleanup(false);
+					myKnightForever = myKnight;
+					nodeA->removeAllComponents();
+				}
+			}
+
+			//CCLOG("Interact contact end");
 		}
-		return true;
 	}
 
-	return false;
+	return true;
 }
 
 bool Gaming::onKeyReleased(EventKeyboard::KeyCode keycode, Event* event)
@@ -383,11 +383,20 @@ bool Gaming::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 		{
 			_isInteract = true;
 			CCLOG("F Pressed");
-
 		}
 		else if (keycode == EventKeyboard::KeyCode::KEY_SPACE)
 		{
 			myKnight->LaunchSkillTime();
+		}
+		else if (keycode == EventKeyboard::KeyCode::KEY_G)
+		{
+			auto hackWea=Weapon::create(8);
+			myKnight->BindWea(hackWea);
+			//myKnight->ChangeWea();
+
+			myKnight->MoveSpeedMaxChange(3);
+			myKnight->AttackDistanceMaxChange(5);
+			myKnight->DamageMaxChange(10);
 		}
 	}
 	return true;
