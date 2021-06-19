@@ -1,9 +1,11 @@
 #include "BattleMap.h"
 USING_NS_CC;
 
-BattleMap* BattleMap::create(int chapter, roomThemeEnum rTheme,  Knight* target) {
+BattleMap* BattleMap::create(int chapter, roomThemeEnum rTheme,  Knight* target) 
+{
 	BattleMap* battleMap = new BattleMap;
-	if (battleMap != nullptr && battleMap->init(chapter, rTheme,target)) {
+	if (battleMap != nullptr && battleMap->init(chapter, rTheme,target))
+	{
 		battleMap->autorelease();
 		return battleMap;
 	}
@@ -11,11 +13,13 @@ BattleMap* BattleMap::create(int chapter, roomThemeEnum rTheme,  Knight* target)
 	return nullptr;
 }
 
-bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target) {
+bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
+{
 	targetKnight = target;
 	roomTheme = rTheme;
 	chapter = cha;
-	if (chapter <= 4) {
+	if (chapter <= 4)
+	{
 		roomNumber = 7;
 	} else
 		roomNumber = rand() % 3 + 8;
@@ -108,25 +112,32 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target) {
 	}
 
 
-	for (auto temp1 : rooms) { /*连接各房间，找到距离较远的房间*/
+	for (auto temp1 : rooms) 
+	{ /*连接各房间，找到距离较远的房间*/
 		Vec2 pos = temp1->getPosition();
-		for (auto temp2 : rooms) {
-			if (temp2->distance > temp1->distance) {
+		for (auto temp2 : rooms) 
+		{
+			if (temp2->distance > temp1->distance)
+			{
 				maxDistance = temp2->distance;
 			}
-			if (temp2->Ifnear(pos + Vec2(0, offSet))) {
+			if (temp2->Ifnear(pos + Vec2(0, offSet))) 
+			{
 				temp1->doorUp = true;
 				temp1->doorNum++;
 			}
-			if (temp2->Ifnear(pos - Vec2(0, offSet))) {
+			if (temp2->Ifnear(pos - Vec2(0, offSet)))
+			{
 				temp1->doorDown = true;
 				temp1->doorNum++;
 			}
-			if (temp2->Ifnear(pos + Vec2(offSet, 0))) {
+			if (temp2->Ifnear(pos + Vec2(offSet, 0))) 
+			{
 				temp1->doorRight = true;
 				temp1->doorNum++;
 			}
-			if (temp2->Ifnear(pos - Vec2(offSet, 0))) {
+			if (temp2->Ifnear(pos - Vec2(offSet, 0))) 
+			{
 				temp1->doorLeft = true;
 				temp1->doorNum++;
 			}
@@ -142,39 +153,48 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target) {
 
 	Vec2 final = Vec2(0, 0);
 	for (auto temp : farRoom) { //Find endRoom
-		if (temp->doorNum == 1) {
+		if (temp->doorNum == 1) 
+		{
 			oneDoorRoom.pushBack(temp);
 			break;
 		}
 	}
 
-	if (oneDoorRoom.size() != 0) {
+	if (oneDoorRoom.size() != 0) 
+	{
 		endRoom = oneDoorRoom.front();
 		endRoom->roomType = endRoomEnum;
 	} else {
 		Vec2 final = Vec2(0, 0);
 		bool doorU = false, doorD = false, doorL = false, doorR = false;
-		if (!farRoom.front()->doorUp) {
+		if (!farRoom.front()->doorUp) 
+		{
 			doorD = true;
 			final = Vec2(0, offSet);
 			farRoom.front()->doorUp = true;
-		} else if (!farRoom.front()->doorDown) {
+		} else if (!farRoom.front()->doorDown) 
+		{
 			doorU = true;
 			final = Vec2(0, -offSet);
 			farRoom.front()->doorDown = true;
-		} else if (!farRoom.front()->doorLeft) {
+		} else if (!farRoom.front()->doorLeft) 
+		{
 			doorR = true;
 			final = Vec2(-offSet, 0);
 			farRoom.front()->doorLeft = true;
-		} else if (!farRoom.front()->doorRight) {
+		} else if (!farRoom.front()->doorRight) 
+		{
 			doorL = true;
 			final = Vec2(offSet, 0);
 			farRoom.front()->doorRight = true;
 		}
-		if (chapter % 3 == 0) {
+		if (chapter % 3 == 0) 
+		{
 			wid = (rand() % 4) * 2 + 14;
 			hei = (rand() % 4) * 2 + 14;
-		} else {
+		} 
+		else 
+		{
 			wid = (rand() % 4) * 2 + 10;
 			hei = (rand() % 4) * 2 + 10;
 		}
@@ -263,13 +283,14 @@ void BattleMap::AddThings(Room* inRoom) {
 			/* 添加商品 */
 			for (int i = 0; i < MAX_GOODS; i++)
 			{
-				auto point = Vec2(offSet / 2 + (i - 1) * 200, offSet / 2 - 150);
+				auto point = Vec2(offSet / 2 + (i - 1) * 250, offSet / 2 - 150);
 
 				auto shelf = shop.shelfCreate();
 				shelf->setPosition(point);
 				inRoom->addChild(shelf);
 
 				auto goods = shop.goodses[i].GetGoods();
+				goods->setScale(1.5);
 				goods->setPosition(point);
 				inRoom->addChild(goods);
 			}
@@ -277,13 +298,13 @@ void BattleMap::AddThings(Room* inRoom) {
 			break;
 		case StatueRoomEnum:
 		{
-			auto sType = static_cast<StatueType>(random(0, static_cast<int>(STATUECOUNT))-1);
+			auto sType = static_cast<StatueType>(random(0, static_cast<int>(STATUECOUNT) - 1));
 			auto statue = Statue::create(sType);
 			if (statue)
 			{
 				statue->setPosition(Vec2(offSet / 2, offSet / 2));
 				inRoom->addChild(statue);
-				inRoom->AddThing((offSet / 2 - 200)/ 64 , (offSet / 2 -200)/ 64,2, 2);
+				inRoom->AddThing((offSet / 2 - 64*0.52)/ 64 , (offSet / 2+64*1)/ 64,2, 2.1);
 				CCLOG("BattleMap::AddThings: Statue create succsee, type %d",sType);
 			}
 		}
