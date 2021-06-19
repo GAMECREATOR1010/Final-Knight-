@@ -214,9 +214,9 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 		//CCLOG("onContactPreSolve, between %d %d", aTag, bTag);
 
 		/* Íæ¼Ò½»»¥¼ì²â */
-		if (aTag == knightTag && bTag>=100)
+		if (aTag == knightTag && bTag >= 100)
 		{
-			CCLOG("Interact contact begin, between %d %d",aTag,bTag);
+			CCLOG("Interact contact begin, between %d %d", aTag, bTag);
 			if (bTag == chestTag)			/* ¿ªÆô±¦Ïä */
 			{
 				if (_isInteract)
@@ -230,7 +230,13 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					{
 						auto room = chest->getParent();
 						room->addChild(item);
-						item->setPosition(chest->getPositionX()-offSet*3, chest->getPositionY() - offSet*3);
+						auto itemPX = chest->getPositionX() - 2112.0;
+						auto itemPY = chest->getPositionY() - 2112.0;
+						item->setPosition(itemPX, itemPY);
+						//item->setPosition(chest->getPosition());
+						CCLOG("Gaming::onContactPreSolve: Interact item at position at %f %f", itemPX, itemPY);
+						CCLOG("Gaming::onContactPreSolve: Knightnow item at position at %f %f", myKnight->getPositionX(), myKnight->getPositionY());
+
 					}
 					chest->setVisible(false);
 					chest->removeFromParent();
@@ -265,6 +271,7 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					_isInteract = false;
 					auto activer = static_cast <Knight*> (nodeA);
 					auto wp = static_cast <Weapon*> (nodeB);
+					wp->setScale(1);
 					activer->BindWea(wp);
 					wp->removeFromParent();
 				}
@@ -297,7 +304,7 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					{
 						static_cast <Potion*>(goodsG->GetGoods())->Drink(activer);
 					}
-					else if(bTag== weaponBoughtGoodsTag)
+					else if (bTag == weaponBoughtGoodsTag)
 					{
 						activer->BindWea(static_cast <Weapon*>(goodsG->GetGoods()));
 						activer->ChangeWea();
@@ -357,21 +364,42 @@ bool Gaming::onKeyReleased(EventKeyboard::KeyCode keycode, Event* event)
 
 bool Gaming::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 {
+	typedef EventKeyboard::KeyCode K;
 	if (!myKnight->death)
 	{
-		if (keycode == EventKeyboard::KeyCode::KEY_A)
+		switch (keycode)
 		{
-			myKnight->BindRoom(atRoom);
-			myKnight->MyAttack();
-		}
-
-		if (keycode == EventKeyboard::KeyCode::KEY_W)
-		{
-			map->setVisible(true);
-		}
-		if (keycode == EventKeyboard::KeyCode::KEY_S)
-		{
-			map->setVisible(false);
+			case K::KEY_A:
+				myKnight->BindRoom(atRoom);
+				myKnight->MyAttack();
+				break;
+			case K::KEY_W:
+				map->setVisible(true);
+				break;
+			case K::KEY_S:
+				map->setVisible(false);
+				break;
+			case K::KEY_E:
+				myKnight->ChangeWea();
+				break;
+			case K::KEY_F:
+				_isInteract = true;
+				break;
+			case K::KEY_G:
+			{
+				auto hackWea = Weapon::create(8);
+				myKnight->BindWea(hackWea);
+				//myKnight->ChangeWea();
+				myKnight->MoveSpeedMaxChange(5);
+				myKnight->AttackDistanceMaxChange(5);
+				myKnight->DamageMaxChange(10);
+			}
+			break;
+			case K::KEY_SPACE:
+				myKnight->LaunchSkillTime();
+				break;
+			default:
+				break;
 		}
 
 		if (keycode == EventKeyboard::KeyCode::KEY_UP_ARROW)
@@ -400,25 +428,7 @@ bool Gaming::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 			myKnight->GetWea()->setRotation(90.0f);
 			change = Vec2(0, 1);
 		}
-		else if (keycode == EventKeyboard::KeyCode::KEY_F)
-		{
-			_isInteract = true;
-			CCLOG("F Pressed");
-		}
-		else if (keycode == EventKeyboard::KeyCode::KEY_SPACE)
-		{
-			myKnight->LaunchSkillTime();
-		}
-		else if (keycode == EventKeyboard::KeyCode::KEY_G)
-		{
-			auto hackWea=Weapon::create(8);
-			myKnight->BindWea(hackWea);
-			//myKnight->ChangeWea();
 
-			myKnight->MoveSpeedMaxChange(5);
-			myKnight->AttackDistanceMaxChange(5);
-			myKnight->DamageMaxChange(10);
-		}
 	}
 	return true;
 }

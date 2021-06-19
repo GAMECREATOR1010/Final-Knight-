@@ -23,7 +23,6 @@ static const int offSet = 2112;
 
 static const int knightTag = 1;
 static const int enemyTag = 2;
-static const int weaponTag = 3;
 static const int myAttackTag = 4;
 static const int enemyAttackTag = 5;
 
@@ -48,6 +47,7 @@ static const int potionBoughtGoodsTag = 123;
 static const int weaponChestTag = 130;
 static const int weaponGoodsTag = 131;
 static const int weaponBoughtGoodsTag = 132;
+static const int weaponGroundTag = 133;
 
 
 static const int nextChapterTag = 200;

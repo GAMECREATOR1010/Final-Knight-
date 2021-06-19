@@ -397,6 +397,7 @@ void  Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
 		wea = myWea;
 		addChild(wea);
 		wea->setPosition(wea->bindPoint + bindPointOffSet);
+		wea->setVisible(true);
 
 		SetWeaponBuff(wea);
 
@@ -418,7 +419,10 @@ void  Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
 	}
 	else
 	{
+		myWea->retain();
+		myWea->removeFromParentAndCleanup(false);
 		wea1 = myWea;
+		wea1->retain();
 	}
 	
 }

@@ -207,7 +207,7 @@ void Room::AddTransDoor()
 	transDoor->runAction(RepeatForever::create(Animate::create(animation)));
 	transDoor->setPhysicsBody(PhysicsBody::createBox(Size(100.0f, 130.0f)));
 	transDoor->setTag(nextChapterTag);
-	SetBody(transDoor->getPhysicsBody(), ObstaclesCate);
+	SetBody(transDoor->getPhysicsBody(), ItemCate);
 	transDoor->setGlobalZOrder(shadeOrder);
 	addChild(transDoor);
 	transDoor->setPosition(offSet / 2, offSet / 2);

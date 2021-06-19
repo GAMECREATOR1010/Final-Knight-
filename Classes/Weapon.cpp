@@ -184,7 +184,7 @@ bool Weapon::init(int id, int cate)
 	}
 
 	setGlobalZOrder(knightOrder);
-	setTag(weaponTag);
+	setTag(weaponGroundTag);
 	return true;
 }
 
