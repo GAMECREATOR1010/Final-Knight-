@@ -387,18 +387,19 @@ void  Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
 		wea = myWea;
 		myWea = weaponForever;
 		wea->setPosition(wea->bindPoint + bindPointOffSet);
+		myWea->trigger->setEnabled(true);
 	}
 	else if (wea1 != nullptr)
 	{
 		weaponForever = wea1;
 		wea1 = myWea;
 		myWea = weaponForever;
+		myWea->trigger->setEnabled(true);
 	}
 	else
 	{
 		wea1 = myWea;
 	}
-	myWea->trigger->setEnabled(true);
 }
 
 void  Actor::ChangeWea()
