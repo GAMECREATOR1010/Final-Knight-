@@ -38,17 +38,17 @@ bool Goods::Buy()
 void Goods::SetGoods(Item* item)
 {
 	_pGoods = item;
-	if (typeid(item) == typeid(Potion*))
+	if (item->getName()=="Potion")
 	{
 		this->setTag(potionGoodsTag);
 	}
-	else if (typeid(item) == typeid(Weapon*))
+	else if (item->getName()=="Weapon")
 	{
 		this->setTag(weaponGoodsTag);
 	}
 	else
 	{
-		throw("Goods::SetGoods set item failed");
+		CCLOG("Goods::SetGoods set item failed");
 	}
 	return;
 }
@@ -147,7 +147,7 @@ bool Shop::SetPotion(Type type, int curLevel)
 	{
 		if (goodses[i].GetGoods() == nullptr)
 		{
-
+			potion->setName("Potion");
 			goodses[i].SetGoods(potion);
 			goodses[i].SetPrice(potion->GetScale() * curLevel);
 
@@ -169,7 +169,7 @@ bool Shop::SetWeapon(int curLevel)
 		if (goodses[i].GetGoods() == nullptr)
 		{
 			auto wp = static_cast <Item*> (RandomWeaponCreate());
-
+			wp->setName("Weapon");
 			goodses[i].SetGoods(wp);
 			goodses[i].SetPrice(wp->GetRarity() * curLevel);
 
@@ -187,6 +187,7 @@ bool Shop::SetWeapon(int curLevel)
 NPC* Shop::SetShopKeeper()
 {
 	auto skp = NPC::create(SHOPKEEPER);
+	skp->setGlobalZOrder(shadeOrder);
 	return skp;
 }
 
@@ -196,7 +197,8 @@ NPC* Shop::SetShopKeeper()
 /// <returns></returns>
 Sprite* Shop::shelfCreate()
 {
-	auto shelf = Sprite::create("SHELF_PATH");
+	auto shelf = Sprite::create(SHELF_PATH);
+	shelf->setScale(0.4);
 	shelf->setGlobalZOrder(shadeOrder);
 
 	return shelf;

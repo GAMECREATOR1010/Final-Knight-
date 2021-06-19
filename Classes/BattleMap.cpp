@@ -75,6 +75,14 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 		{
 			first = false;
 		}
+		else if (i / 3 == 1)
+		{
+			type = ShopRoomEnum;
+		}
+		else if (i / 4 == 1)
+		{
+			type = StatueRoomEnum;
+		}
 		else
 		{
 			type = normalRoomEnum;//待修改
@@ -219,40 +227,85 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 
 void BattleMap::AddThings(Room* inRoom)
 {
-	
-    if(inRoom->roomType == normalRoomEnum)
+	roomTypeEnum rType = inRoom->roomType;
+	switch (rType)
 	{
-		int enemyType = random(0, 4);
-		int i = 0;
-		if (enemyType < 3)
-			i = random(3, 7);
-		else
-			i = random(2, 4);
-		inRoom->enemyCount = i;
-		for (int j = 0; j < i; ++j)
+		case startRoomEnum:
+			break;
+		case normalRoomEnum:
 		{
-			int x =random(-(inRoom->width-2)/2, (inRoom->width - 2) / 2);
-			int y = random(-(inRoom->height - 2)/2, (inRoom->height - 2) / 2);
-			if (inRoom->Movable(Vec2((15 + x) * 64, offSet - (15 + y) * 64), roomFloorGid)&&
-				(inRoom->enemyPos->getTileGIDAt(Vec2(15+x, 15+y)) == passageFloorGid))
-			{
-				inRoom->enemyPos->setTileGID(roomFloorGid, Vec2(15 + x, 15 + y));
-				auto enemy = Enemy::create(enemyType);
-				enemy->target = targetKnight;
-				inRoom->addChild(enemy);
-				enemy->setPosition(Vec2((15 + x)* 64, offSet - (15+y) * 64));
-				enemy->BindRoom(inRoom);
-			}
+			int enemyType = random(0, 4);
+			int i = 0;
+			if (enemyType < 3)
+				i = random(3, 7);
 			else
+				i = random(2, 4);
+			inRoom->enemyCount = i;
+			for (int j = 0; j < i; ++j)
 			{
-				--j;
+				int x = random(-(inRoom->width - 2) / 2, (inRoom->width - 2) / 2);
+				int y = random(-(inRoom->height - 2) / 2, (inRoom->height - 2) / 2);
+				if (inRoom->Movable(Vec2((15 + x) * 64, offSet - (15 + y) * 64), roomFloorGid) &&
+					(inRoom->enemyPos->getTileGIDAt(Vec2(15 + x, 15 + y)) == passageFloorGid))
+				{
+					inRoom->enemyPos->setTileGID(roomFloorGid, Vec2(15 + x, 15 + y));
+					auto enemy = Enemy::create(enemyType);
+					enemy->target = targetKnight;
+					inRoom->addChild(enemy);
+					enemy->setPosition(Vec2((15 + x) * 64, offSet - (15 + y) * 64));
+					enemy->BindRoom(inRoom);
+				}
+				else
+				{
+					--j;
+				}
 			}
 		}
+			break;
+		case bonusRoomEnum:
+			break;
+		case sacrificeRoomEnum:
+			break;
+		case bossRoomEnum:
+			break;
+		case endRoomEnum:
+			inRoom->AddTransDoor();
+			break;
+		case ShopRoomEnum:
+		{
+			Shop shop;
+			shop.InitGoods(chapter);
+
+			/* 添加商人*/
+			auto shopkeeper = shop.SetShopKeeper();
+			shopkeeper->setPosition(Vec2(offSet / 2, offSet / 2+100));
+			inRoom->addChild(shopkeeper);
+
+			/* 添加商品 */
+			for (int i = 0; i < MAX_GOODS; i++)
+			{
+				auto point = Vec2(offSet / 2 + (i - 1) * 100, offSet / 2 - 150);
+
+				auto shelf = shop.shelfCreate();
+				shelf->setPosition(point);
+				inRoom->addChild(shelf);
+
+				auto goods = shop.goodses[i].GetGoods();
+				goods->setPosition(point);
+				inRoom->addChild(goods);
+			}
+		}
+			break;
+		case StatueRoomEnum:
+		{
+			auto sType = static_cast<StatueType>(random(0, static_cast<int>(STATUECOUNT)));
+			auto Statue::create(sType);
+		}
+			break;
+		default:
+			break;
 	}
-	else if(inRoom->roomType == endRoomEnum)
-	{
-		inRoom->AddTransDoor();
-	}
+
 }
 
 

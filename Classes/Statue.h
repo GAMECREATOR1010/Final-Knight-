@@ -45,7 +45,7 @@ static const char* ELF_PATH = "/statues/ElfStatue.png";
 class Statue : public NPC
 {
 public:
-	static Statue* create(StatueType);		//创建雕像
+	static Statue* create(StatueType type);		//创建雕像
 	bool ActiveStatue(Knight* activer);		//触发技能
 protected:
 	virtual bool init(StatueType);

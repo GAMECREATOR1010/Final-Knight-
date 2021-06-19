@@ -33,6 +33,7 @@ WhiteChest* WhiteChest::create()
 /// <returns>生成的物品对象指针，生成金币能量返回空</returns>
 Item* WhiteChest::open(Knight* activer)
 {
+	CCLOG("WhiteChest::open");
 	if (_isOpened)
 	{
 		return nullptr;

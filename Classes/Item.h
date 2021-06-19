@@ -25,7 +25,7 @@ USING_NS_CC;
 //也就是说，uncommon的将会计算5次
 enum ItemProbability
 {
-	LEGENDARY = 0,		//无法通过开宝箱/商店获得
+	LEGENDARY = -1,		//无法通过开宝箱/商店获得
 	EPIC      = 10,
 	VERYRARE  = 20,
 	RARE      = 30,

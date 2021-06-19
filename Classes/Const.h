@@ -26,8 +26,7 @@ static const int enemyTag = 2;
 static const int weaponTag = 3;
 static const int myAttackTag = 4;
 static const int enemyAttackTag = 5;
-static const int myBulletTag = 6;
-static const int enemyBulletTag = 7;
+
 static const int itemTag = 8;
 static const int obstaclesNormTag = 9;
 static const int obstaclesRemovableTag = 10;
@@ -36,7 +35,8 @@ static const int nextChapterTag = 12;
 static const int hitAllActorTag = 13;
 static const int lowerAllActorSpeadTag = 14;
 static const int explosionTag = 15;
-
+static const int myBulletTag = 16;
+static const int enemyBulletTag = 17;
 
 static const int chestTag = 19;
 static const int statueTag = 20;
@@ -44,6 +44,10 @@ static const int potionChestTag = 21;
 static const int potionGoodsTag = 22;
 static const int weaponChestTag = 23;
 static const int weaponGoodsTag = 24;
+
+
+static const int shopkeeperTag = 40;
+
 
 static const int MONEY_EVERY_ENEMY = 2;
 static const int MONEY_EVERY_ROOM = 5;
@@ -99,7 +103,7 @@ enum  KnightState
 
 enum  roomTypeEnum
 {
-    startRoomEnum=0,normalRoomEnum=1,bonusRoomEnum=2,sacrificeRoomEnum=3,bossRoomEnum=4,endRoomEnum =5
+    startRoomEnum=0,normalRoomEnum=1,bonusRoomEnum=2,sacrificeRoomEnum=3,bossRoomEnum=4,endRoomEnum =5, ShopRoomEnum=10,StatueRoomEnum=11
 };
 
 enum roomThemeEnum

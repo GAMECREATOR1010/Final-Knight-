@@ -7,6 +7,8 @@
 #include "Actor.h"
 #include "Enemy.h"
 #include "Knight.h"
+#include "Shop.h"
+#include "Statue.h"
 
 USING_NS_CC;
 class BattleMap :public cocos2d::Node

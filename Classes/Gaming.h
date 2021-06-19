@@ -20,6 +20,7 @@ public:
     bool onKeyPressed(EventKeyboard::KeyCode keycode, Event* event);
     bool onKeyReleased(EventKeyboard::KeyCode keycode, Event* event);
     bool onContactBegin(const PhysicsContact& contact);
+    bool onContactPreSolve(const PhysicsContact& contact);
     void update(float delta);
     int chapter = 1;
     Vec2 change;
