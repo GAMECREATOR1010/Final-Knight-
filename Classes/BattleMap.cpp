@@ -1,11 +1,9 @@
 #include "BattleMap.h"
 USING_NS_CC;
 
-BattleMap* BattleMap::create(int chapter, roomThemeEnum rTheme,  Knight* target)
-{
+BattleMap* BattleMap::create(int chapter, roomThemeEnum rTheme,  Knight* target) {
 	BattleMap* battleMap = new BattleMap;
-	if (battleMap != nullptr && battleMap->init(chapter, rTheme,target))
-	{
+	if (battleMap != nullptr && battleMap->init(chapter, rTheme,target)) {
 		battleMap->autorelease();
 		return battleMap;
 	}
@@ -13,16 +11,13 @@ BattleMap* BattleMap::create(int chapter, roomThemeEnum rTheme,  Knight* target)
 	return nullptr;
 }
 
-bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
-{
+bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target) {
 	targetKnight = target;
 	roomTheme = rTheme;
 	chapter = cha;
-	if (chapter <= 4)
-	{
+	if (chapter <= 4) {
 		roomNumber = 7;
-	}
-	else
+	} else
 		roomNumber = rand() % 3 + 8;
 
 	Vec2 genPoint = Vec2(0, 0);
@@ -31,38 +26,28 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 	int wid = 12, hei = 12;
 	maxDistance = 0;
 	roomTypeEnum type = startRoomEnum;
-	for (int i = 0; i < roomNumber; i++)/*生成房间*/
-	{
-		if (!first)
-		{
-			while (true)
-			{
-				if (dirOne == dirNext)
-				{
+	for (int i = 0; i < roomNumber; i++) { /*生成房间*/
+		if (!first) {
+			while (true) {
+				if (dirOne == dirNext) {
 					dirOne = ChangeDir();
 					continue;
-				}
-				else
-				{
+				} else {
 					dirNext = dirOne;
 					break;
 				}
 			}
 
 			Vec2 tempPos = dirOne * offSet + genPoint;
-			for (auto tempR : rooms)
-			{
+			for (auto tempR : rooms) {
 				Vec2 pos = tempR->getPosition();
-				if (tempPos == pos)
-				{
+				if (tempPos == pos) {
 					flag = true;
 					break;
-				}
-				else
+				} else
 					flag = false;
 			}
-			if (flag)
-			{
+			if (flag) {
 				i--;
 				continue;
 			}
@@ -71,20 +56,13 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 			hei = (rand() % 4) * 2 + 12;
 		}
 
-		if (first)
-		{
+		if (first) {
 			first = false;
-		}
-		else if (i / 3 == 1)
-		{
+		} else if (i / 3 == 1) {
 			type = ShopRoomEnum;
-		}
-		else if (i / 4 == 1)
-		{
+		} else if (i / 4 == 1) {
 			type = StatueRoomEnum;
-		}
-		else
-		{
+		} else {
 			type = normalRoomEnum;//待修改
 		}
 
@@ -99,32 +77,25 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 	}
 
 
-	for (auto temp1 : rooms)/*连接各房间，找到距离较远的房间*/
-	{
+	for (auto temp1 : rooms) { /*连接各房间，找到距离较远的房间*/
 		Vec2 pos = temp1->getPosition();
-		for (auto temp2 : rooms)
-		{
-			if (temp2->distance > temp1->distance)
-			{
+		for (auto temp2 : rooms) {
+			if (temp2->distance > temp1->distance) {
 				maxDistance = temp2->distance;
 			}
-			if (temp2->Ifnear(pos + Vec2(0, offSet)))
-			{
+			if (temp2->Ifnear(pos + Vec2(0, offSet))) {
 				temp1->doorUp = true;
 				temp1->doorNum++;
 			}
-			if (temp2->Ifnear(pos - Vec2(0, offSet)))
-			{
+			if (temp2->Ifnear(pos - Vec2(0, offSet))) {
 				temp1->doorDown = true;
 				temp1->doorNum++;
 			}
-			if (temp2->Ifnear(pos + Vec2(offSet, 0)))
-			{
+			if (temp2->Ifnear(pos + Vec2(offSet, 0))) {
 				temp1->doorRight = true;
 				temp1->doorNum++;
 			}
-			if (temp2->Ifnear(pos - Vec2(offSet, 0)))
-			{
+			if (temp2->Ifnear(pos - Vec2(offSet, 0))) {
 				temp1->doorLeft = true;
 				temp1->doorNum++;
 			}
@@ -139,55 +110,40 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 
 
 	Vec2 final = Vec2(0, 0);
-	for (auto temp : farRoom)//Find endRoom
-	{
-		if (temp->doorNum == 1)
-		{
+	for (auto temp : farRoom) { //Find endRoom
+		if (temp->doorNum == 1) {
 			oneDoorRoom.pushBack(temp);
 			break;
 		}
 	}
 
-	if (oneDoorRoom.size() != 0)
-	{
+	if (oneDoorRoom.size() != 0) {
 		endRoom = oneDoorRoom.front();
 		endRoom->roomType = endRoomEnum;
-	}
-	else
-	{
+	} else {
 		Vec2 final = Vec2(0, 0);
 		bool doorU = false, doorD = false, doorL = false, doorR = false;
-		if (!farRoom.front()->doorUp)
-		{
+		if (!farRoom.front()->doorUp) {
 			doorD = true;
 			final = Vec2(0, offSet);
 			farRoom.front()->doorUp = true;
-		}
-		else if (!farRoom.front()->doorDown)
-		{
+		} else if (!farRoom.front()->doorDown) {
 			doorU = true;
 			final = Vec2(0, -offSet);
 			farRoom.front()->doorDown = true;
-		}
-		else if (!farRoom.front()->doorLeft)
-		{
+		} else if (!farRoom.front()->doorLeft) {
 			doorR = true;
 			final = Vec2(-offSet, 0);
 			farRoom.front()->doorLeft = true;
-		}
-		else if (!farRoom.front()->doorRight)
-		{
+		} else if (!farRoom.front()->doorRight) {
 			doorL = true;
 			final = Vec2(offSet, 0);
 			farRoom.front()->doorRight = true;
 		}
-		if (chapter % 3 == 0)
-		{
+		if (chapter % 3 == 0) {
 			wid = (rand() % 4) * 2 + 14;
 			hei = (rand() % 4) * 2 + 14;
-		}
-		else
-		{
+		} else {
 			wid = (rand() % 4) * 2 + 10;
 			hei = (rand() % 4) * 2 + 10;
 		}
@@ -209,14 +165,12 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 		endRoom = tempRoom;
 	}
 
-	if (chapter % 3 == 0)//boss房放置
-	{
+	if (chapter % 3 == 0) { //boss房放置
 		if (endRoom->width > 14 && endRoom->height > 14)
 			endRoom->roomType = bossRoomEnum;
 	}
 
-	for (auto temp : rooms)
-	{
+	for (auto temp : rooms) {
 		temp->UpdateObstacles();
 		AddThings(temp);
 	}
@@ -225,54 +179,48 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 }
 
 
-void BattleMap::AddThings(Room* inRoom)
-{
+void BattleMap::AddThings(Room* inRoom) {
 	roomTypeEnum rType = inRoom->roomType;
-	switch (rType)
-	{
+	switch (rType) {
 		case startRoomEnum:
 			break;
-		case normalRoomEnum:
-		{
+		case normalRoomEnum: {
 			int enemyType = random(0, 4);
 			int i = 0;
-			if (enemyType < 3)
+			if (enemyType < 2)
 				i = random(3, 7);
-			else
-				i = random(2, 4);
+			else if(enemyType==2) {
+				i = random(5, 7);
+			} else
+				i = random(2, 3);
+
+			i+=(chapter / 3) % 4;
 			inRoom->enemyCount = i;
-			for (int j = 0; j < i; ++j)
-			{
-				int x = random(-(inRoom->width - 2) / 2, (inRoom->width - 2) / 2);
-				int y = random(-(inRoom->height - 2) / 2, (inRoom->height - 2) / 2);
-				if (inRoom->Movable(Vec2((15 + x) * 64, offSet - (15 + y) * 64), roomFloorGid) &&
-					(inRoom->enemyPos->getTileGIDAt(Vec2(15 + x, 15 + y)) == passageFloorGid))
-				{
+
+			for (int j = 0; j < i; ++j) {
+				int x =random(-(inRoom->width-2)/2, (inRoom->width - 2) / 2);
+				int y = random(-(inRoom->height - 2)/2, (inRoom->height - 2) / 2);
+				if (inRoom->Movable(Vec2((15 + x) * 64, offSet - (15 + y) * 64), roomFloorGid)&&
+				        (inRoom->enemyPos->getTileGIDAt(Vec2(15+x, 15+y)) == passageFloorGid)) {
 					inRoom->enemyPos->setTileGID(roomFloorGid, Vec2(15 + x, 15 + y));
 					auto enemy = Enemy::create(enemyType);
 					enemy->target = targetKnight;
 					inRoom->addChild(enemy);
-					enemy->setPosition(Vec2((15 + x) * 64, offSet - (15 + y) * 64));
+					enemy->HPMaxChange(chapter/3);
+					enemy->setPosition(Vec2((15 + x)* 64, offSet - (15+y) * 64));
 					enemy->BindRoom(inRoom);
-				}
-				else
-				{
+				} else {
 					--j;
 				}
 			}
 		}
-			break;
-		case bonusRoomEnum:
-			break;
-		case sacrificeRoomEnum:
-			break;
+		break;
 		case bossRoomEnum:
 			break;
 		case endRoomEnum:
 			inRoom->AddTransDoor();
 			break;
-		case ShopRoomEnum:
-		{
+		case ShopRoomEnum: {
 			Shop shop;
 			shop.InitGoods(chapter);
 
@@ -282,8 +230,7 @@ void BattleMap::AddThings(Room* inRoom)
 			inRoom->addChild(shopkeeper);
 
 			/* 添加商品 */
-			for (int i = 0; i < MAX_GOODS; i++)
-			{
+			for (int i = 0; i < MAX_GOODS; i++) {
 				auto point = Vec2(offSet / 2 + (i - 1) * 100, offSet / 2 - 150);
 
 				auto shelf = shop.shelfCreate();
@@ -295,13 +242,12 @@ void BattleMap::AddThings(Room* inRoom)
 				inRoom->addChild(goods);
 			}
 		}
-			break;
-		case StatueRoomEnum:
-		{
+		break;
+		case StatueRoomEnum: {
 			auto sType = static_cast<StatueType>(random(0, static_cast<int>(STATUECOUNT)));
 			auto Statue::create(sType);
 		}
-			break;
+		break;
 		default:
 			break;
 	}
@@ -309,13 +255,10 @@ void BattleMap::AddThings(Room* inRoom)
 }
 
 
-Room* BattleMap::InRoom(Vec2 pos)
-{
-	for (auto tempR : rooms)
-	{
+Room* BattleMap::InRoom(Vec2 pos) {
+	for (auto tempR : rooms) {
 		Vec2 roomPos = tempR->roomPosition + this->getPosition();
-		if (pos.x - roomPos.x <= offSet && pos.y - roomPos.y <= offSet && pos.x - roomPos.x >= 0 && pos.y - roomPos.y >= 0)
-		{
+		if (pos.x - roomPos.x <= offSet && pos.y - roomPos.y <= offSet && pos.x - roomPos.x >= 0 && pos.y - roomPos.y >= 0) {
 			return tempR;
 			break;
 		}
