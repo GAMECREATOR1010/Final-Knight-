@@ -56,15 +56,46 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target) {
 			hei = (rand() % 4) * 2 + 12;
 		}
 
-		if (first) {
-			first = false;
-		} else if (i / 3 == 1) {
-			type = ShopRoomEnum;
-		} else if (i / 4 == 1) {
-			type = StatueRoomEnum;
-		} else {
-			type = normalRoomEnum;//待修改
+		if (DEBUG_ROOM_MODE)
+		{
+			if (first)
+			{
+				first = false;
+			}
+			else if (i % 3 == 1)
+			{
+				type = ShopRoomEnum;
+			}
+			else if (i % 3 == 2)
+			{
+				type = StatueRoomEnum;
+			}
+			else
+			{
+				type = normalRoomEnum;//待修改
+			}
+
 		}
+		else
+		{
+			if (first)
+			{
+				first = false;
+			}
+			else if (i == 3)
+			{
+				type = ShopRoomEnum;
+			}
+			else if (i == 4)
+			{
+				type = StatueRoomEnum;
+			}
+			else
+			{
+				type = normalRoomEnum;//待修改
+			}
+		}
+
 
 		Room* tempRoom = Room::create(wid, hei, type, roomTheme, genPoint);
 		first = false;
@@ -230,8 +261,9 @@ void BattleMap::AddThings(Room* inRoom) {
 			inRoom->addChild(shopkeeper);
 
 			/* 添加商品 */
-			for (int i = 0; i < MAX_GOODS; i++) {
-				auto point = Vec2(offSet / 2 + (i - 1) * 100, offSet / 2 - 150);
+			for (int i = 0; i < MAX_GOODS; i++)
+			{
+				auto point = Vec2(offSet / 2 + (i - 1) * 200, offSet / 2 - 150);
 
 				auto shelf = shop.shelfCreate();
 				shelf->setPosition(point);
@@ -242,10 +274,17 @@ void BattleMap::AddThings(Room* inRoom) {
 				inRoom->addChild(goods);
 			}
 		}
-		break;
-		case StatueRoomEnum: {
-			auto sType = static_cast<StatueType>(random(0, static_cast<int>(STATUECOUNT)));
-			auto Statue::create(sType);
+			break;
+		case StatueRoomEnum:
+		{
+			auto sType = static_cast<StatueType>(random(0, static_cast<int>(STATUECOUNT))-1);
+			auto statue = Statue::create(sType);
+			if (statue)
+			{
+				statue->setPosition(Vec2(offSet / 2, offSet / 2));
+				inRoom->addChild(statue);
+				CCLOG("BattleMap::AddThings: Statue create succsee, type %d",sType);
+			}
 		}
 		break;
 		default:

@@ -29,6 +29,7 @@ int Potion::GetType() const
 bool Potion::initWithScale(Scale scale)
 {
 	_scale = scale;
+	this->setGlobalZOrder(shadeOrder);
 	Item::init();
 	return true;
 }

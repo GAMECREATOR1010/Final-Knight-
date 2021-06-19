@@ -40,11 +40,11 @@ void Goods::SetGoods(Item* item)
 	_pGoods = item;
 	if (item->getName()=="Potion")
 	{
-		this->setTag(potionGoodsTag);
+		item->setTag(potionGoodsTag);
 	}
 	else if (item->getName()=="Weapon")
 	{
-		this->setTag(weaponGoodsTag);
+		item->setTag(weaponGoodsTag);
 	}
 	else
 	{
