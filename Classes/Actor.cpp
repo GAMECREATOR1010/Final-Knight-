@@ -94,40 +94,19 @@ float  Actor::GetAttackDistanceMax()
 }
 
 
-void Actor::HPNowChange(float hpchange, float continueTime)
+void Actor::HPNowChange(float hpchange)
 {
-	if (continueTime == -1.0f)
+	if (HP + hpchange <= HPMax)
 	{
-		if (HP + hpchange <= HPMax)
-		{
-			HP += hpchange;
-		}
-		else
-		{
-			HP = HPMax;
-		}
-		if (HP <= 0)
-		{
-			DeathEffect();
-		}
-	}
-	else if (continueTime > 0.0f)
-	{
-		auto delay = DelayTime::create(continueTime);
-		tempHP = HP;
 		HP += hpchange;
-		if (HP <= 0)
-		{
-			DeathEffect();
-		}
-		else
-		{
-			auto recovery = CallFunc::create([&]() {
-				HP = tempHP;
-				});
-			auto seq = Sequence::create(delay, recovery, nullptr);
-			runAction(seq);
-		}
+	}
+	else
+	{
+		HP = HPMax;
+	}
+	if (HP <= 0)
+	{
+		DeathEffect();
 	}
 }
 
@@ -155,22 +134,19 @@ void Actor::DefenceNowChange(float defencechange, float continueTime)
 	else if (continueTime > 0.0f)
 	{
 		auto delay = DelayTime::create(continueTime);
-		tempDefence = defence;
 		defence += defencechange;
 		auto recovery = CallFunc::create([&]() {
-			defence = tempDefence;
+			defence = defenceMax;
 			});
 		auto seq = Sequence::create(delay, recovery, nullptr);
 		runAction(seq);
 	}
 }
-
 void Actor::DefenceMaxChange(float defencechange)
 {
 	defenceMax += defencechange;
 	defence = defenceMax;
 }
-
 
 
 void Actor::MoveSpeedNowChange(float moveSpeedchange, float continueTime)
@@ -189,10 +165,9 @@ void Actor::MoveSpeedNowChange(float moveSpeedchange, float continueTime)
 	else if (continueTime > 0.0f)
 	{
 		auto delay = DelayTime::create(continueTime);
-		tempMoveSpeed = moveSpeed;
 		moveSpeed += moveSpeedchange;
 		auto recovery = CallFunc::create([&]() {
-			moveSpeed = tempMoveSpeed;
+			moveSpeed = moveSpeedMax;
 			});
 		auto seq = Sequence::create(delay, recovery, nullptr);
 		runAction(seq);
@@ -204,7 +179,6 @@ void Actor::MoveSpeedMaxChange(float moveSpeedchange)
 	moveSpeedMax += moveSpeedchange;
 	moveSpeed = moveSpeedMax;
 }
-
 
 
 void Actor::DamageNowChange(float damagechange, float continueTime)
@@ -224,11 +198,10 @@ void Actor::DamageNowChange(float damagechange, float continueTime)
 	else if (continueTime > 0.0f)
 	{
 		auto delay = DelayTime::create(continueTime);
-		tempDamage = damage;
 		damage += damagechange;
 		wea->SetDamageBuff(damage);
 		auto recovery = CallFunc::create([&]() {
-			damage = tempDamage;
+			damage = damageMax;
 			wea->SetDamageBuff(damage);
 			});
 		auto seq = Sequence::create(delay, recovery, nullptr);
@@ -263,11 +236,10 @@ void Actor::AttackSpeedChange(float  attackSpeedchange, float continueTime)
 	else if (continueTime > 0.0f)
 	{
 		auto delay = DelayTime::create(continueTime);
-		tempAttackSpeed = attackSpeed;
 		attackSpeed += attackSpeedchange;
 		wea->SetSpeedBuff(attackSpeed);
 		auto recovery = CallFunc::create([&]() {
-			attackSpeed = tempAttackSpeed;
+			attackSpeed = attackSpeedMax;
 			wea->SetSpeedBuff(attackSpeed);
 			});
 		auto seq = Sequence::create(delay, recovery, nullptr);
@@ -301,11 +273,10 @@ void Actor::AttackRangeChange(float attackRangechange, float continueTime)
 	else if (continueTime > 0.0f)
 	{
 		auto delay = DelayTime::create(continueTime);
-		tempAttackRange = attackRange;
 		attackRange += attackRangechange;
 		wea->SetRangeBuff(attackRange);
 		auto recovery = CallFunc::create([&]() {
-			attackRange = tempAttackRange;
+			attackRange = attackRangeMax;
 			wea->SetRangeBuff(attackRange);
 			});
 		auto seq = Sequence::create(delay, recovery, nullptr);
@@ -339,11 +310,10 @@ void Actor::AttackDistanceChange(float attackDistancechange, float continueTime)
 	else if (continueTime > 0.0f)
 	{
 		auto delay = DelayTime::create(continueTime);
-		tempAttackDistance = attackDistance;
 		attackDistance += attackDistancechange;
 		wea->SetDistanceBuff(attackDistance);
 		auto recovery = CallFunc::create([&]() {
-			attackDistance = tempAttackDistance;
+			attackDistance = attackDistanceMax;
 			wea->SetDistanceBuff(attackDistance);
 			});
 		auto seq = Sequence::create(delay, recovery, nullptr);
@@ -371,17 +341,13 @@ void Actor::InvincibleTimeChange(float invincibleTimechange, float continueTime)
 		{
 			invincibleTime = invincibleTimeMax;
 		}
-		wea->SetDistanceBuff(invincibleTime);
 	}
 	else if (continueTime > 0.0f)
 	{
 		auto delay = DelayTime::create(continueTime);
-		tempInvincibleTime = invincibleTime;
 		invincibleTime += invincibleTimechange;
-		wea->SetDistanceBuff(invincibleTime);
 		auto recovery = CallFunc::create([&]() {
-			invincibleTime = tempInvincibleTime;
-			wea->SetDistanceBuff(invincibleTime);
+			invincibleTime = invincibleTimeMax;
 			});
 		auto seq = Sequence::create(delay, recovery, nullptr);
 		runAction(seq);
@@ -392,9 +358,7 @@ void Actor::InvincibleTimeMaxChange(float invincibleTimechange)
 {
 	invincibleTimeMax += invincibleTimechange;
 	invincibleTime = invincibleTimeMax;
-	wea->SetDistanceBuff(invincibleTime);
 }
-
 
 
 void Actor::AddShade(const Vec2 test)
@@ -405,21 +369,24 @@ void Actor::AddShade(const Vec2 test)
 	shade->setGlobalZOrder(floorOrder);
 }
 
-
-void  Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
+void Actor::SetWeaponBuff(Weapon* myWea)
 {
-	myWea->trigger->setEnabled(false);
 	myWea->SetDamageBuff(damage);
 	myWea->SetRangeBuff(attackRange);
 	myWea->SetSpeedBuff(attackSpeed);
 	myWea->SetDistanceBuff(attackDistance);
+}
+void  Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
+{
+	SetWeaponBuff(myWea);
+	myWea->trigger->setEnabled(false);
 	if ((myWea->costEnergy == 0 && wea->costEnergy == 0) ||
 		(myWea->costEnergy > 0 && wea->costEnergy > 0))
 	{
 		Weapon* temp = wea;
 		wea = myWea;
 		myWea = temp;
-		wea->setPosition(wea->bindPoint);
+		wea->setPosition(wea->bindPoint + bindPointOffSet);
 	}
 	else
 	{
@@ -436,10 +403,7 @@ void  Actor::ChangeWea()
 	{
 		Weapon* temp = wea;
 		wea = wea1;
-		wea->SetDamageBuff(damage);
-		wea->SetRangeBuff(attackRange);
-		wea->SetSpeedBuff(attackSpeed);
-		wea->SetDistanceBuff(attackDistance);
+		SetWeaponBuff(wea);
 		wea1 = temp;
 	}
 }
@@ -448,7 +412,6 @@ Weapon* Actor::GetWea()
 {
 	return wea;
 }
-
 
 void Actor::BindRoom(Room* InR)
 {
@@ -459,7 +422,6 @@ Room* Actor::GetRoom()
 {
 	return inRoom;
 }
-
 
 bool Actor::init()
 {
@@ -482,7 +444,7 @@ void Actor::Behit(float otherDam)/*¹¥»÷Ð§¹û*/
 				if (getTag() == knightTag)
 				{
 					body->setEnabled(false);
-					pic->setOpacity(200);
+					pic->setOpacity(150);
 					auto knightBehit = CallFunc::create([&]() {
 						; body->setEnabled(true);
 						pic->setOpacity(255);

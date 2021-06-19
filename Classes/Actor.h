@@ -38,8 +38,7 @@ public:
 	float GetAttackDistance();
 	float GetAttackDistanceMax();
 
-
-	void HPNowChange(float, float continueTime = -1.0f);
+	void HPNowChange(float);
 	void HPMaxChange(float);
 
 	void DefenceNowChange(float, float continueTime = -1.0f);
@@ -66,6 +65,7 @@ public:
 	void BindRoom(Room*);
 	Room* GetRoom();
 
+	void SetWeaponBuff(Weapon*);
 	void BindWea(Weapon*);
 	void ChangeWea();
 	Weapon* GetWea();
@@ -80,16 +80,16 @@ protected:
 	Sprite* shade;
 	Sprite* ghost = nullptr;
 	Room* inRoom;
-
+	Vec2 bindPointOffSet = Vec2(0, 0);
 
 	virtual bool init();
 	attackModeEnum attackMode = gunEnum;
 	float attackSpeed = 1;
 	float attackSpeedMax = 1;
-	float moveSpeed = 20;
-	float moveSpeedMax = 20;
-	float attackRange = 1;
-	float attackRangeMax = 1;
+	float moveSpeed = 17;
+	float moveSpeedMax = 17;
+	float attackRange = 0;
+	float attackRangeMax = 0;
 	float attackDistance = 1;
 	float attackDistanceMax = 1;
 	float invincibleTime =1.5f;//骑士专供无敌时间
@@ -101,8 +101,6 @@ protected:
 	float defenceMax = 1;
 	float HP = 5, HPMax = 5;
 
-	float tempHP, tempEnergy, tempDefence, tempMoveSpeed, tempDamage,
-		tempAttackSpeed, tempAttackRange, tempAttackDistance, tempInvincibleTime;
 	PhysicsBody* body;
 
 };
