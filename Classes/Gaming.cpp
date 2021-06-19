@@ -224,12 +224,13 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					_isInteract = false;
 					auto activer = static_cast <Knight*> (nodeA);
 					auto chest = static_cast <Chest*> (nodeB);
-					CCLOG("Gaming::onContactPreSolve: Interact chest at position at %f %f", chest->getPositionX(), chest->getPositionY());
+					CCLOG("Gaming::onContactPreSolve: Interact activer at position at %f %f", activer->getPositionX(), activer->getPositionY());
 					auto item = chest->open(activer);
 					if (item != nullptr)
 					{
-						item->setPosition(chest->getPosition());
-						chest->getParent()->addChild(item);
+						auto room = chest->getParent();
+						room->addChild(item);
+						item->setPosition(chest->getPositionX()-offSet*3, chest->getPositionY() - offSet*3);
 					}
 					chest->setVisible(false);
 					chest->removeFromParent();
@@ -240,6 +241,7 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 				if (_isInteract)
 				{
 					_isInteract = false;
+					CCLOG("Gaming::onContactPreSolve: Active statue");
 					auto activer = static_cast <Knight*> (nodeA);
 					auto statue = static_cast <Statue*> (nodeB);
 					statue->ActiveStatue(activer);
@@ -273,11 +275,10 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 				{
 					_isInteract = false;
 					auto activer = static_cast <Knight*> (nodeA);
-					auto potionG = static_cast <Goods*> (nodeB);
+					auto potionG = static_cast <Item*> (nodeB);
 					if (potionG->Buy())
 					{
 						/* 提示购买成功 */
-						potionG->removeFromParent();
 					}
 					else
 					{
@@ -299,6 +300,7 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					else if(bTag== weaponBoughtGoodsTag)
 					{
 						activer->BindWea(static_cast <Weapon*>(goodsG->GetGoods()));
+						activer->ChangeWea();
 					}
 				}
 			}
@@ -413,7 +415,7 @@ bool Gaming::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 			myKnight->BindWea(hackWea);
 			//myKnight->ChangeWea();
 
-			myKnight->MoveSpeedMaxChange(3);
+			myKnight->MoveSpeedMaxChange(5);
 			myKnight->AttackDistanceMaxChange(5);
 			myKnight->DamageMaxChange(10);
 		}
