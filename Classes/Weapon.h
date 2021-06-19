@@ -65,5 +65,5 @@ private:
     float  meleeStartRot;
     PhysicsBody* trigger;//¼ñÆð¼ì²â
 };
-
+static Weapon* weaponForever;
 #endif 
