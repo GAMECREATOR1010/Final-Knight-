@@ -15,8 +15,7 @@ WhiteChest* WhiteChest::create()
 	auto pRet = new(std::nothrow) WhiteChest();
 	if (pRet && pRet->init())
 	{
-		pRet->setTag(chestTag);
-		pRet->setGlobalZOrder(shadeOrder);
+
 		pRet->autorelease();
 		return pRet;
 	}
@@ -88,9 +87,11 @@ bool WhiteChest::init()
 	}
 
 	/* Ìí¼ÓÅö×²·¶Î§ */
-	auto phy = PhysicsBody::createCircle(80.0, PhysicsMaterial(0.0, 0.0, 0.0));
+	auto phy = PhysicsBody::createCircle(80.0);
 	SetBody(phy, ItemCate);
-	addComponent(phy);
+	this->addComponent(phy);
 
+	this->setTag(chestTag);
+	this->setGlobalZOrder(shadeOrder);
 	return true;
 }

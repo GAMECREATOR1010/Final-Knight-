@@ -51,7 +51,7 @@ static const double MONEY_LEVEL_MUTI = 1.4;
 static const int MANA_EVERY_ROOM = 20;
 static const double MANA_LEVEL_MUTI = 1.1;
 
-static const bool DEBUG_CHEST_MODE = false;
+static const bool DEBUG_CHEST_MODE = true;
 
 static const int KnightCate = 1;
 static const int EnemyCate = 2;

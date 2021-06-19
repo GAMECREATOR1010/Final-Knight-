@@ -1,7 +1,7 @@
 #include "Gaming.h"
 USING_NS_CC;
 
-Scene* Gaming::createScene(Knight* myknight,  int Chapter)
+Scene* Gaming::createScene(Knight* myknight, int Chapter)
 {
 	Gaming* gaming = new Gaming;
 	if (gaming != nullptr && gaming->init(myknight, Chapter))
@@ -11,7 +11,6 @@ Scene* Gaming::createScene(Knight* myknight,  int Chapter)
 	}
 	CC_SAFE_DELETE(gaming);
 	return nullptr;
-	
 }
 
 bool Gaming::init(Knight* myknight, int Chapter)
@@ -27,7 +26,6 @@ bool Gaming::init(Knight* myknight, int Chapter)
 	this->getPhysicsWorld()->setGravity(Vec2(0, 0));
 	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
-
 	srand((unsigned)time(NULL));
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -40,7 +38,7 @@ bool Gaming::init(Knight* myknight, int Chapter)
 	spritecache->addSpriteFramesWithFile("enemy/enemy_2.plist");
 	spritecache->addSpriteFramesWithFile("enemy/enemy_3.plist");
 	spritecache->addSpriteFramesWithFile("enemy/enemy_4.plist");
-	
+
 	myKnight = myknight;
 	chapter = Chapter;
 	roomThemeEnum theme = roomThemeEnum(rand() % 5);
@@ -48,7 +46,7 @@ bool Gaming::init(Knight* myknight, int Chapter)
 	change = Vec2(0, 0);
 	addChild(battlemap);
 	map = battlemap;
-	
+
 	myKnight->setPosition(Vec2(origin.x + visibleSize.width / 2,
 		origin.y + visibleSize.height / 2));
 	addChild(myKnight);
@@ -83,8 +81,28 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 	auto nodeA = contact.getShapeA()->getBody()->getNode();
 	auto nodeB = contact.getShapeB()->getBody()->getNode();
 
+
 	if (nodeA && nodeB)
 	{
+
+		int aTag;
+		int bTag;
+		if (nodeA->getTag() <= nodeB->getTag())
+		{
+			aTag = nodeA->getTag();
+			bTag = nodeB->getTag();
+		}
+		else
+		{
+			bTag = nodeA->getTag();
+			aTag = nodeB->getTag();
+			auto nodeTemp = nodeA;
+			nodeA = nodeB;
+			nodeB = nodeTemp;
+		}
+
+		CCLOG("onContactBegin %d %d", aTag, bTag);
+
 		if (nodeA->getTag() == myAttackTag)
 		{
 			auto attack = static_cast<Weapon*>(nodeA->getParent());
@@ -101,7 +119,7 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 			auto attack = static_cast<Weapon*>(nodeA->getParent());
 			if (nodeB->getTag() == knightTag)
 			{
-				auto knight = static_cast<Knight*>(nodeB) ;
+				auto knight = static_cast<Knight*>(nodeB);
 				knight->Behit(attack->GetDamage());
 			}
 		}
@@ -110,11 +128,10 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 		{
 			if (nodeA->getTag() == knightTag)
 			{
-				auto knight = static_cast<Knight*>(nodeA); 
-				auto enemy = static_cast<Enemy*>(nodeB); 
+				auto knight = static_cast<Knight*>(nodeA);
+				auto enemy = static_cast<Enemy*>(nodeB);
 				knight->Behit(enemy->GetDamage());
 			}
-			
 		}
 
 		if (nodeA->getTag() == explosionTag)
@@ -124,7 +141,6 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 			{
 				auto enemy = static_cast<Enemy*>(nodeB);
 				enemy->Behit(bullet->damage);
-
 			}
 			if (nodeB->getTag() == knightTag)
 			{
@@ -139,7 +155,6 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 				nodeB->removeAllComponents();
 			}
 		}
-
 
 		if (nodeA->getTag() == myBulletTag)
 		{
@@ -167,7 +182,7 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 			auto bullet = static_cast<Bullet*>(nodeA);;
 			if (nodeB->getTag() == knightTag)
 			{
-				auto knight = static_cast<Knight*>(nodeB) ;
+				auto knight = static_cast<Knight*>(nodeB);
 				knight->Behit(bullet->damage);
 				bullet->ShowEffect();
 			}
@@ -187,86 +202,76 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 				myKnightForever = myKnight;
 				nodeA->removeAllComponents();
 			}
-			
-		}
-		/* 开启宝箱 */
-		if (nodeA->getTag() == knightTag && nodeB->getTag() == chestTag)
-		{
-			if (_isInteract)
-			{
-				_isInteract = false;
-				auto activer = static_cast <Knight*> (nodeA);
-				auto chest = static_cast <Chest*> (nodeB);
-				auto item = chest->open(activer);
-				item->setPosition(chest->getPosition());
-				addChild(item);
-			}
-
 		}
 
-		/* 触发雕像 */
-		if (nodeA->getTag() == knightTag && nodeB->getTag() == statueTag)
+		/* 玩家交互检测 */
+		if (aTag == knightTag)
 		{
-			if (_isInteract)
+			if (bTag == chestTag)			/* 开启宝箱 */
 			{
-				_isInteract = false;
-				auto activer = static_cast <Knight*> (nodeA);
-				auto statue = static_cast <Statue*> (nodeB);
-				statue->ActiveStatue(activer);
-			}
-
-		}
-
-		/* 宝箱中/掉落的药水交互 */
-		if (nodeA->getTag() == knightTag && nodeB->getTag() == potionChestTag)
-		{
-			if (_isInteract)
-			{
-				_isInteract = false;
-				auto activer = static_cast <Knight*> (nodeA);
-				auto potion = static_cast <Potion*> (nodeB);
-				potion->Drink(activer);
-				removeChild(potion);
-			}
-		}
-
-		/* 宝箱中/掉落的武器交互 */
-		if (nodeA->getTag() == knightTag && nodeB->getTag() == weaponChestTag)
-		{
-			if (_isInteract)
-			{
-				_isInteract = false;
-				auto activer = static_cast <Knight*> (nodeA);
-				auto wp = static_cast <Weapon*> (nodeB);
-				activer->BindWea(wp);
-				removeChild(wp);
-			}
-		}
-
-		/* 商店物品交互 */
-		if (nodeA->getTag() == knightTag && ((nodeB->getTag() == potionGoodsTag) || (nodeB->getTag() == weaponGoodsTag)))
-		{
-			if (_isInteract)
-			{
-				_isInteract = false;
-				auto activer = static_cast <Knight*> (nodeA);
-				auto potionG = static_cast <Goods*> (nodeB);
-				if (potionG->Buy())
+				if (_isInteract)
 				{
-					/* 提示购买成功 */
+					_isInteract = false;
+					auto activer = static_cast <Knight*> (nodeA);
+					auto chest = static_cast <Chest*> (nodeB);
+					auto item = chest->open(activer);
+					item->setPosition(chest->getPosition());
+					addChild(item);
 				}
-				else
+			}
+			else if (bTag == statueTag)			/* 触发雕像 */
+			{
+				if (_isInteract)
 				{
-					/* 提示没有足够的钱 */
+					_isInteract = false;
+					auto activer = static_cast <Knight*> (nodeA);
+					auto statue = static_cast <Statue*> (nodeB);
+					statue->ActiveStatue(activer);
+				}
+			}
+			else if (bTag == potionChestTag)			/* 宝箱中/掉落的药水交互 */
+			{
+				if (_isInteract)
+				{
+					_isInteract = false;
+					auto activer = static_cast <Knight*> (nodeA);
+					auto potion = static_cast <Potion*> (nodeB);
+					potion->Drink(activer);
+					removeChild(potion);
+				}
+			}
+			else if (bTag == weaponChestTag)			/* 宝箱中/掉落的武器交互 */
+			{
+				if (_isInteract)
+				{
+					_isInteract = false;
+					auto activer = static_cast <Knight*> (nodeA);
+					auto wp = static_cast <Weapon*> (nodeB);
+					activer->BindWea(wp);
+					removeChild(wp);
+				}
+			}
+			else if (bTag == potionGoodsTag || bTag == weaponGoodsTag)		/* 商店物品交互 */
+			{
+				if (_isInteract)
+				{
+					_isInteract = false;
+					auto activer = static_cast <Knight*> (nodeA);
+					auto potionG = static_cast <Goods*> (nodeB);
+					if (potionG->Buy())
+					{
+						/* 提示购买成功 */
+					}
+					else
+					{
+						/* 提示没有足够的钱 */
+					}
 				}
 			}
 		}
 	}
-
 	return true;
 }
-
-
 
 bool Gaming::onKeyReleased(EventKeyboard::KeyCode keycode, Event* event)
 {
@@ -312,7 +317,6 @@ bool Gaming::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 			map->setVisible(false);
 		}
 
-
 		if (keycode == EventKeyboard::KeyCode::KEY_UP_ARROW)
 		{
 			myKnight->faceDir = Vec2(0, 1);
@@ -345,7 +349,6 @@ bool Gaming::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 		}
 	}
 	return true;
-
 }
 
 void Gaming::myUpdate(float delta)
@@ -390,9 +393,7 @@ void Gaming::update(float delta)
 	}
 	else if (!endGame && myKnight->death)/*转换场景*/
 	{
-		
 		endGame = true;
-
 	}
 	if (transing)
 	{
@@ -402,7 +403,7 @@ void Gaming::update(float delta)
 			auto scene = Gaming::createScene(myKnightForever, chapter);
 			Director::getInstance()->replaceScene(scene);
 			});
-		
+
 		runAction(startNewChapter);
 		unscheduleUpdate();
 	}
