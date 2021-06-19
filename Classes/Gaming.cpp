@@ -385,6 +385,10 @@ bool Gaming::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 			CCLOG("F Pressed");
 
 		}
+		else if (keycode == EventKeyboard::KeyCode::KEY_SPACE)
+		{
+			myKnight->LaunchSkillTime();
+		}
 	}
 	return true;
 }
