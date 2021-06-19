@@ -25,7 +25,7 @@ bool Enemy::init(int type, bool ifboss)
 		auto animation = Animation::createWithSpriteFrames(frames, 1.0f / 8);
 		pic = Sprite::createWithSpriteFrame(frames.front());
 		pic->runAction(RepeatForever::create(Animate::create(animation)));
-
+		damage = 2;
 		moveSpeedMax = 200;
 		attackMode = touchEnum;
 		wea = nullptr;
@@ -38,7 +38,7 @@ bool Enemy::init(int type, bool ifboss)
 		pic = Sprite::createWithSpriteFrame(frames.front());
 		pic->runAction(RepeatForever::create(Animate::create(animation)));
 
-		damage = 2.2f;
+		damage = 2.5f;
 		chaseDistance = 64 * 10;
 		moveSpeedMax = 280;
 		HPMax = 6;
