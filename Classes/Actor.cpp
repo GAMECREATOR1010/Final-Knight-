@@ -388,11 +388,15 @@ void  Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
 		myWea = temp;
 		wea->setPosition(wea->bindPoint + bindPointOffSet);
 	}
-	else
+	else if (wea1 != nullptr)
 	{
 		Weapon* temp = wea1;
 		wea1 = myWea;
 		myWea = temp;
+	}
+	else
+	{
+		wea1 = myWea;
 	}
 	myWea->trigger->setEnabled(true);
 }
@@ -473,6 +477,7 @@ void Actor::DeathEffect()/*ËÀÍöÐ§¹û*/
 				auto wChe = WhiteChest::create();
 				wChe->setPosition(enemyDiePos);
 				this->getParent()->addChild(wChe);
+				inRoom->UpdateDoor();
 			}
 			inRoom->enemyCount -= 1;
 			if (inRoom->enemyCount <= 0)
