@@ -376,6 +376,7 @@ void Actor::SetWeaponBuff(Weapon* myWea)
 	myWea->SetSpeedBuff(attackSpeed);
 	myWea->SetDistanceBuff(attackDistance);
 }
+
 void  Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
 {
 	SetWeaponBuff(myWea);
@@ -383,31 +384,55 @@ void  Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
 	if ((myWea->costEnergy == 0 && wea->costEnergy == 0) ||
 		(myWea->costEnergy > 0 && wea->costEnergy > 0))
 	{
-		weaponForever = wea;
+		wea->retain();
+		wea->removeFromParentAndCleanup(false);
+		Weapon* tempWea = wea;
+		tempWea->setVisible(false);
+		myWea->getParent()->addChild(tempWea);
+		tempWea->setPosition(myWea->getPosition());
+
+		myWea->retain();
+		myWea->removeFromParentAndCleanup(false);
+		
 		wea = myWea;
-		myWea = weaponForever;
+		addChild(wea);
 		wea->setPosition(wea->bindPoint + bindPointOffSet);
-		myWea->trigger->setEnabled(true);
+
+		SetWeaponBuff(wea);
+
+		tempWea->setVisible(true);
+		tempWea->trigger->setEnabled(true);
 	}
 	else if (wea1 != nullptr)
 	{
-		weaponForever = wea1;
+		Weapon* tempWea = wea1;
+		tempWea->setVisible(false);
+		myWea->getParent()->addChild(tempWea);
+		tempWea->setPosition(myWea->getPosition());
+
+		myWea->retain();
+		myWea->removeFromParentAndCleanup(false);
 		wea1 = myWea;
-		myWea = weaponForever;
-		myWea->trigger->setEnabled(true);
+		tempWea->setVisible(true);
+		tempWea->trigger->setEnabled(true);
 	}
 	else
 	{
 		wea1 = myWea;
 	}
+	
 }
 
 void  Actor::ChangeWea()
 {
 	if (wea1 != nullptr)
 	{
+		wea->retain();
+		wea->removeFromParentAndCleanup(false);
 		weaponForever = wea;
 		wea = wea1;
+		addChild(wea);
+		wea->setPosition(wea->bindPoint + bindPointOffSet);
 		SetWeaponBuff(wea);
 		wea1 = weaponForever;
 	}
