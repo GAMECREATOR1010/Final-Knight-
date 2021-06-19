@@ -56,21 +56,21 @@ Item* WhiteChest::open(Knight* activer)
 		{
 			auto hp = HealPotion::create(SMALL);
 			hp->setTag(potionChestTag);
-			CCLOG("WhiteChest::open get hp");
+			CCLOG("WhiteChest::open get hp, position at %f %f",this->getPositionX(),this->getPositionY());
 			return hp;
 		}
 		case 3:	//生成MP药水
 		{
 			auto mp = ManaPotion::create(SMALL);
 			mp->setTag(potionChestTag);
-			CCLOG("WhiteChest::open get mp");
+			CCLOG("WhiteChest::open get mp, position at %f %f", this->getPositionX(), this->getPositionY());
 			return mp;
 		}
 		case 4:	//生成武器
 		{
 			auto wp = RandomWeaponCreate();
 			wp->setTag(weaponChestTag);
-			CCLOG("WhiteChest::open get wp");
+			CCLOG("WhiteChest::open get wp, position at %f %f", this->getPositionX(), this->getPositionY());
 			return wp;
 		}
 		default:

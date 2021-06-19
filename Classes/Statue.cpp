@@ -106,6 +106,7 @@ bool Statue::init(StatueType type)
 			return false;
 	}
 	_type = type;
+	this->setScale(1.5);
 	this->setTag(statueTag);
 	CCLOG("Statue::init: Statue create success, typeid %d", type);
 

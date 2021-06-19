@@ -224,6 +224,7 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					_isInteract = false;
 					auto activer = static_cast <Knight*> (nodeA);
 					auto chest = static_cast <Chest*> (nodeB);
+					CCLOG("Gaming::onContactPreSolve: Interact chest at position at %f %f", chest->getPositionX(), chest->getPositionY());
 					auto item = chest->open(activer);
 					if (item != nullptr)
 					{
@@ -252,7 +253,7 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					auto activer = static_cast <Knight*> (nodeA);
 					auto potion = static_cast <Potion*> (nodeB);
 					potion->Drink(activer);
-					removeChild(potion);
+					potion->removeFromParent();
 				}
 			}
 			else if (bTag == weaponChestTag)			/* 宝箱中/掉落的武器交互 */
@@ -263,7 +264,7 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					auto activer = static_cast <Knight*> (nodeA);
 					auto wp = static_cast <Weapon*> (nodeB);
 					activer->BindWea(wp);
-					removeChild(wp);
+					wp->removeFromParent();
 				}
 			}
 			else if (bTag == potionGoodsTag || bTag == weaponGoodsTag)		/* 商店物品交互 */
@@ -276,10 +277,28 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					if (potionG->Buy())
 					{
 						/* 提示购买成功 */
+						potionG->removeFromParent();
 					}
 					else
 					{
 						/* 提示没有足够的钱 */
+					}
+				}
+			}
+			else if (bTag == potionBoughtGoodsTag || bTag == weaponBoughtGoodsTag)		/* 已购买物品交互 */
+			{
+				if (_isInteract)
+				{
+					_isInteract = false;
+					auto activer = static_cast <Knight*> (nodeA);
+					auto goodsG = static_cast <Goods*> (nodeB);
+					if (bTag == potionBoughtGoodsTag)
+					{
+						static_cast <Potion*>(goodsG->GetGoods())->Drink(activer);
+					}
+					else if(bTag== weaponBoughtGoodsTag)
+					{
+						activer->BindWea(static_cast <Weapon*>(goodsG->GetGoods()));
 					}
 				}
 			}

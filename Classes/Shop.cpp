@@ -13,22 +13,23 @@ bool Goods::Buy()
 	/* 检测是否有足够的钱 */
 	if (goldMoney.ChangeBalance(-_price))
 	{
-		/* 删除该对象，贴图？设置bool判断？ */
 		/* 该对象作为普通对象交互，这样就不会重复购买了 */
-		if (typeid(this) == typeid(Potion*))
+		if (this->getTag() == potionGoodsTag)
 		{
-			this->setTag(potionChestTag);
+			this->_pGoods->setTag(potionChestTag);
 		}
-		else if (typeid(this) == typeid(Weapon*))
+		else if (this->getTag() == weaponGoodsTag)
 		{
-			this->setTag(weaponChestTag);
+			this->_pGoods->setTag(weaponChestTag);
 		}
-		//参考墙体消失的代码
+
+		CCLOG("Goods::Buy: Buy thing");
 		return true;
 	}
 	else
 	{
 		/* 没有足够的钱 */
+		CCLOG("Goods::Buy: Can not buy, check money");
 		return false;
 	}
 

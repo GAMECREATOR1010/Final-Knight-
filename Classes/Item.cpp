@@ -47,6 +47,11 @@ int Item::GetRarity() const
 	return _rarity;
 }
 
+int Item::GetNowValue(int curLevel)
+{
+	return _value*curLevel;
+}
+
 bool Item::init()
 {
 	return true;

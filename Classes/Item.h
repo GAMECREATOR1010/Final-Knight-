@@ -40,6 +40,7 @@ class Item :public Sprite
 public:
 	CREATE_FUNC(Item);
 	int GetRarity() const;	//获取品质
+	int GetNowValue(int curLevel = 1);
 protected:
 	virtual bool init();
 	static constexpr double _physicalRange = 80.0;

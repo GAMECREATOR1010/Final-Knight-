@@ -44,8 +44,10 @@ static const int chestTag = 119;
 static const int statueTag = 120;
 static const int potionChestTag = 121;
 static const int potionGoodsTag = 122;
-static const int weaponChestTag = 123;
-static const int weaponGoodsTag = 124;
+static const int potionBoughtGoodsTag = 123;
+static const int weaponChestTag = 130;
+static const int weaponGoodsTag = 131;
+static const int weaponBoughtGoodsTag = 132;
 
 
 static const int nextChapterTag = 200;

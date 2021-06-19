@@ -283,6 +283,7 @@ void BattleMap::AddThings(Room* inRoom) {
 			{
 				statue->setPosition(Vec2(offSet / 2, offSet / 2));
 				inRoom->addChild(statue);
+				inRoom->AddThing((offSet / 2 - 200)/ 64 , (offSet / 2 -200)/ 64,2, 2);
 				CCLOG("BattleMap::AddThings: Statue create succsee, type %d",sType);
 			}
 		}
