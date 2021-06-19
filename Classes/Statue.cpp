@@ -111,8 +111,9 @@ bool Statue::init(StatueType type)
 	CCLOG("Statue::init: Statue create success, typeid %d", type);
 
 	/* Ìí¼ÓÅö×²·¶Î§ */
-	auto phy = PhysicsBody::createCircle(_physicalRange);
-	SetBody(phy, ObstaclesCate);
+	auto pOffset = Vec2(0, 20);
+	auto phy = PhysicsBody::createCircle(_physicalRange,PHYSICSBODY_MATERIAL_DEFAULT,pOffset);
+	SetBody(phy, ItemCate);
 	addComponent(phy);
 
 	return true;

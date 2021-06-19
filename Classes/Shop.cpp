@@ -199,7 +199,7 @@ NPC* Shop::SetShopKeeper()
 Sprite* Shop::shelfCreate()
 {
 	auto shelf = Sprite::create(SHELF_PATH);
-	shelf->setScale(0.4);
+	shelf->setScale(0.5);
 	shelf->setGlobalZOrder(shadeOrder);
 
 	return shelf;
