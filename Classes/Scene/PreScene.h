@@ -11,11 +11,8 @@
 #ifndef __PRE_SCENE_H__
 #define __PRE_SCENE_H__
 
-#include "BGM.h"
-#include "StartScene.h"
-#include "source.h" 
-#include "cocos2d.h"
-#include "ui/CocosGUI.h"
+#include "General.h"
+#include "Scene/StartScene.h"
 
 class PreScene :public cocos2d::Scene
 {
@@ -23,9 +20,11 @@ class PreScene :public cocos2d::Scene
 public:
     virtual bool init() override;
 
+    void problemLoading(const char* filename);
+
     static cocos2d::Scene* createScene();
 
-    void touchEvent(Ref* pSender, Widget::TouchEventType type);
+    void TouchEvent(Ref* pSender, Widget::TouchEventType type);
 
     CREATE_FUNC(PreScene);
 };

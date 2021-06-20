@@ -13,16 +13,17 @@ USING_NS_CC;
 using namespace cocos2d::ui;
 
 
+void PreScene::problemLoading(const char* filename)
+{
+    printf("Error while loading: %s\n", filename);
+    printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
+}
+
 Scene* PreScene::createScene()
 {
     return PreScene::create();
 }
 
-static void problemLoading(const char* filename)
-{
-    printf("Error while loading: %s\n", filename);
-    printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
-}
 
 bool PreScene::init()
 {
@@ -76,7 +77,7 @@ bool PreScene::init()
         closeButton->ignoreContentAdaptWithSize(false);
         closeButton->setScale9Enabled(true);
         closeButton->setPressedActionEnabled(false);
-        closeButton->addTouchEventListener(CC_CALLBACK_2(PreScene::touchEvent, this));
+        closeButton->addTouchEventListener(CC_CALLBACK_2(PreScene::TouchEvent, this));
 
         float x = originSize.x + visibleSize.width / 2;
         closeButton->setPosition(Vec2(x, y));
@@ -88,7 +89,7 @@ bool PreScene::init()
 }
 
 
-void PreScene::touchEvent(Ref* pSender, Widget::TouchEventType type)
+void PreScene::TouchEvent(Ref* pSender, Widget::TouchEventType type)
 {
     switch (type)
     {
