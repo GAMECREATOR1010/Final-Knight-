@@ -1,5 +1,4 @@
 #include "Const.h"
-
 Vector<SpriteFrame*> GetAnim(const char* format, int count)
 {
 	auto spritecache = SpriteFrameCache::getInstance();
