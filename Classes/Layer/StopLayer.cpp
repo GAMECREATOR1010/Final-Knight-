@@ -18,12 +18,6 @@ USING_NS_CC;
 using namespace cocos2d::ui;
 
 
-static void problemLoading(const char* filename)
-{
-    printf("Error while loading: %s\n", filename);
-    printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
-}
-
 
 
 bool StopLayer::init()
@@ -54,7 +48,7 @@ bool StopLayer::init()
         resumeButton->ignoreContentAdaptWithSize(false);
         resumeButton->setScale9Enabled(true);
         resumeButton->setPressedActionEnabled(false);
-        resumeButton->addTouchEventListener(CC_CALLBACK_2(StopLayer::touchEventResumeButton, this));
+        resumeButton->addTouchEventListener(CC_CALLBACK_2(StopLayer::TouchEventResumeButton, this));
 
         float x = originSize.x + visibleSize.width / 2;
         resumeButton->setPosition(Vec2(x, y));
@@ -64,13 +58,13 @@ bool StopLayer::init()
 
     {
         auto seButton = SEButton::create();
-        seButton->setPostionStopLayer(sprite);
+        seButton->SetPostionStopLayer(sprite);
         _stopLayer->addChild(seButton);
         auto bgmButton = BGMButton::create();
-        bgmButton->setPostionStopLayer(sprite);
+        bgmButton->SetPostionStopLayer(sprite);
         _stopLayer->addChild(bgmButton);
         auto infoButton = InfoButton::create();
-        infoButton->setPostionStopLayer(sprite);
+        infoButton->SetPostionStopLayer(sprite);
         _stopLayer->addChild(infoButton);
     }
 
@@ -83,7 +77,7 @@ bool StopLayer::init()
         homeButton->ignoreContentAdaptWithSize(false);
         homeButton->setScale9Enabled(true);
         homeButton->setPressedActionEnabled(false);
-        homeButton->addTouchEventListener(CC_CALLBACK_2(StopLayer::touchEventHomeButton, this));
+        homeButton->addTouchEventListener(CC_CALLBACK_2(StopLayer::TouchEventHomeButton, this));
 
         float x = originSize.x + visibleSize.width / 2 + homeButton->getContentSize().width * scaledPre + ButtonWidthGapInStop;
         homeButton->setPosition(Vec2(x, y));
@@ -104,7 +98,7 @@ bool StopLayer::init()
         supremeButton->ignoreContentAdaptWithSize(false);
         supremeButton->setScale9Enabled(true);
         supremeButton->setPressedActionEnabled(false);
-        supremeButton->addTouchEventListener(CC_CALLBACK_2(StopLayer::touchEventSupremeButton, this));
+        supremeButton->addTouchEventListener(CC_CALLBACK_2(StopLayer::TouchEventSupremeButton, this));
 
         float x = originSize.x + visibleSize.width / 2 - supremeButton->getContentSize().width * 3 - ButtonWidthGapInStop;
         y += ButtonHeightGapInStop * 2;
@@ -121,7 +115,7 @@ bool StopLayer::init()
 }
 
 
-void StopLayer::touchEventResumeButton(Ref* pSender, Widget::TouchEventType type)
+void StopLayer::TouchEventResumeButton(Ref* pSender, Widget::TouchEventType type)
 {
     switch (type)
     {
@@ -142,7 +136,7 @@ void StopLayer::touchEventResumeButton(Ref* pSender, Widget::TouchEventType type
 }
 
 
-void StopLayer::touchEventHomeButton(Ref* pSender, Widget::TouchEventType type)
+void StopLayer::TouchEventHomeButton(Ref* pSender, Widget::TouchEventType type)
 {
     switch (type)
     {
@@ -163,7 +157,7 @@ void StopLayer::touchEventHomeButton(Ref* pSender, Widget::TouchEventType type)
 
 
 
-void StopLayer::touchEventSupremeButton(Ref* pSender, Widget::TouchEventType type)
+void StopLayer::TouchEventSupremeButton(Ref* pSender, Widget::TouchEventType type)
 {
     switch (type)
     {
