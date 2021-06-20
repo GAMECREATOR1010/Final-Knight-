@@ -435,10 +435,7 @@ bool Gaming::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 				break;
 			case K::KEY_G:
 			{
-				auto hackWea = Weapon::create(9);
-				myKnight->BindWea(hackWea);
-				//myKnight->ChangeWea();
-				myKnight->MoveSpeedMaxChange(8);
+				myKnight->MoveSpeedMaxChange(10);
 				myKnight->HPMaxChange(1000);
 				myKnight->HPNowChange(-600);
 				myKnight->EnergyMaxChange(5000);

@@ -38,13 +38,11 @@ Item* WhiteChest::open(Knight* activer)
 		return nullptr;
 	}
 	_isOpened = true;
-	//this->setVisible(false);
+
 	/* ¶¯»­Ð§¹û */
 	auto frames = GetAnim("WhiteChest%02d.png", 4);
 	auto animation = Animation::createWithSpriteFrames(frames, 1.0f / 5);
-	//runAction(Repeat::create(Animate::create(animation),1));
 
-	//auto delay = Animation::create(0.5);
 	auto recovery = CallFunc::create([&]() {
 		this->removeFromParent();
 		});
@@ -60,6 +58,7 @@ Item* WhiteChest::open(Knight* activer)
 	{
 		auto potion = FullPotion::create(SMALL);
 	}
+
 	goldMoney.ChangeBalance(MONEY_EVERY_ROOM * MONEY_LEVEL_MUTI);
 	activer->EnergyNowChange(MANA_EVERY_ROOM * MANA_LEVEL_MUTI);
 	CCLOG("WhiteChest::open get gold %d", MONEY_EVERY_ROOM * MONEY_LEVEL_MUTI);
