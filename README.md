@@ -8,6 +8,9 @@
 
 好吧原版请移步[这里](http://www.chillyroom.com/zh)，这只是一个基于 *元气骑士* 的课程大项目  
 
+## How to play?
+进入开始界面，按操作提示操作，进入安全界面选择骑士，进入游戏场景后按上下左右控制骑士移动，按A攻击，E切换武器，F交互，G开挂
+
 ## License
 单击[这里](https://github.com/GAMECREATOR1010/Final-Knight-/blob/main/LICENSE)查看开源协议  
 任何 *元气骑士 Soul Knight* 游戏的原版素材著作权均属于 *深圳市凉屋游戏科技有限公司* 。本项目仅供学习与参考，请勿用于商业用途  
