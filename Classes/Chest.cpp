@@ -38,10 +38,18 @@ Item* WhiteChest::open(Knight* activer)
 		return nullptr;
 	}
 	_isOpened = true;
-	this->setVisible(false);
-	/* 动画效果（待定） */
+	//this->setVisible(false);
+	/* 动画效果 */
+	auto frames = GetAnim("WhiteChest%02d.png", 4);
+	auto animation = Animation::createWithSpriteFrames(frames, 1.0f / 5);
+	//runAction(Repeat::create(Animate::create(animation),1));
 
-	/* 改变材质 */
+	//auto delay = Animation::create(0.5);
+	auto recovery = CallFunc::create([&]() {
+		this->removeFromParent();
+		});
+	auto seq = Sequence::create(Animate::create(animation) , recovery, nullptr);
+	this->runAction(seq);
 
 	/* 随机生成 */
 	int type = random(1, 4);

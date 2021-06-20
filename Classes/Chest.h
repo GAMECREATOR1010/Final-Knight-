@@ -24,7 +24,7 @@
 
 USING_NS_CC;
 
-static const char* WHITE_CHEST_PATH = "/chests/WhiteChest.png";
+static const char* WHITE_CHEST_PATH = "/chests/WhiteChestInit.png";
 static const char* BLUE_CHEST_PATH  = "/chests/BlueChest.png";
 static const char* BROWN_CHEST_PATH = "/chests/BrownChest.png";
 
