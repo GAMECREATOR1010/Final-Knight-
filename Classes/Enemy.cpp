@@ -134,6 +134,26 @@ bool Enemy::init(int type, bool ifboss)
 		wea->setPosition(wea->bindPoint);
 		AddShade(Vec2(0, -30));
 	}
+	else if (type == 5)
+	{
+		auto frames = GetAnim("enemy5%02d.png", 6);
+		auto animation = Animation::createWithSpriteFrames(frames, 1.0f / 5);
+		pic = Sprite::createWithSpriteFrame(frames.front());
+		pic->runAction(RepeatForever::create(Animate::create(animation)));
+
+		HPMax = 60;
+		chaseDistance = 64 * 12;
+		attackDistance = 64 *10;
+		attackSpeed = -2.0f;
+		moveSpeedMax = 170;
+		attackDelayTime = 3.0f;
+		damage = 4;
+		wea = Weapon::create(random(7, 9), EnemyCate);
+		addChild(wea);
+		wea->setPosition(wea->bindPoint);
+		wea->setVisible(false);
+		AddShade(Vec2(0, -50));
+	}
 
 	defence = defenceMax;
 	HP = HPMax;
@@ -165,7 +185,7 @@ void Enemy::Movement()
 {
 	if (inRoom->playerEnter && !death)
 	{
-		if (!inRoom->Movable(getPosition() + faceDir *170, roomFloorGid))
+		if (!inRoom->Movable(getPosition() + faceDir * 170, roomFloorGid))
 		{
 
 			body->setVelocity(Vec2(0, 0));
@@ -184,8 +204,8 @@ void Enemy::Movement()
 				setScaleX(-1.0f);
 
 			Vec2 pos = getPosition() + getParent()->getPosition() + getParent()->getParent()->getPosition();
-			Vec2 farDistance = target->getPosition()-pos  ;
-			float dis = sqrt(farDistance.x * farDistance.x + farDistance.y* farDistance.y);
+			Vec2 farDistance = target->getPosition() - pos;
+			float dis = sqrt(farDistance.x * farDistance.x + farDistance.y * farDistance.y);
 
 			if (dis >= chaseDistance)
 			{
@@ -200,8 +220,8 @@ void Enemy::Movement()
 			else if (dis < chaseDistance)
 			{
 				state = EnemyChase;
-				
-				faceDir=farDistance/dis;
+
+				faceDir = farDistance / dis;
 				body->setVelocity(faceDir * moveSpeed);
 				if (dis < attackDistance)
 				{
