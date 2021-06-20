@@ -16,17 +16,23 @@ static void problemLoading(const char* filename)
     printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
 
-bool MainUILayer::init(EventListenerKeyboard& eventListener, Node& node)
+bool MainUILayer::init()
 {
     if (!Layer::init())
     {
         return false;
     }
+    return true;
+}
+
+
+void MainUILayer::AddStuff(EventListenerKeyboard& eventListener, Node& node, Knight& kinght)
+{
+    bgm._audioID = bgm.play2d(s_M_StartBGM);
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto originSize = Director::getInstance()->getVisibleOrigin();
 
-    bgm._audioID = bgm.play2d(s_M_StartBGM);
 
     {
         auto stopButton = StopButton::create(eventListener, node);
@@ -34,9 +40,9 @@ bool MainUILayer::init(EventListenerKeyboard& eventListener, Node& node)
         this->addChild(stopButton);
     }
     {
-        auto bloodLayer = BloodLayer::create();
-        bloodLayer->setGlobalZOrder(uiOrder);
-        this->addChild(bloodLayer);
+        _bloodLayer->SetKnight(kinght);
+        _bloodLayer->setGlobalZOrder(uiOrder);
+        this->addChild(_bloodLayer);
     }
     {
         auto coinFrame = Sprite::create(s_P_CoinFrame);
@@ -45,6 +51,37 @@ bool MainUILayer::init(EventListenerKeyboard& eventListener, Node& node)
         coinFrame->setPosition(x, y);
         coinFrame->setGlobalZOrder(uiOrder);
         this->addChild(coinFrame);
+
+        if (coinLabel.GetLabel() == nullptr)
+        {
+            coinLabel.AddStuff(coinFrame);
+        }
+        coinLabel.Change();
+        this->addChild(coinLabel.GetLabel());
     }
-    return true;
+}
+
+
+void CoinLabel::AddStuff(Sprite* coinFrame)
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    auto originSize = Director::getInstance()->getVisibleOrigin();
+    _x = visibleSize.width - coinFrame->getContentSize().width * 15 / 8 + originSize.x;
+    _y = visibleSize.height - coinFrame->getContentSize().height + originSize.y;
+    char string[30] = { 0 };
+    sprintf(string, "%d", goldMoney.GetBalance());
+    _label = Label::createWithTTF(string, s_T_Pixeboy, 25);
+    _label->setPosition(_x, _y);
+    _label->setGlobalZOrder(uiOrder);
+}
+void CoinLabel::Change()
+{
+    char string[30] = { 0 };
+    sprintf(string, "%d", goldMoney.GetBalance());
+    _label->setString(string);
+}
+
+void MainUILayer :: ChangeCoinLabel()
+{
+    coinLabel.Change();
 }
