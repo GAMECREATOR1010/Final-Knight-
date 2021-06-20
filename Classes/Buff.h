@@ -8,7 +8,6 @@
 #ifndef __BUFF_H__
 #define __BUFF_H__
 
-const int STATUE_COST = 20;		//激活雕像花费
 const double STATUE_TIME = 5.0;	//持续性状态持续时间
 const double SPEED_BUFF = 0.7;	//速度buff
 const int MANA_MAXADD_BUFF = 50;//蓝上限buff

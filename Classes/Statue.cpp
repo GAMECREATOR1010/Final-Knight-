@@ -30,7 +30,7 @@ bool Statue::ActiveStatue(Knight* activer)
 	{
 		return false;
 	}
-	if (goldMoney.ChangeBalance(-STATUE_COST));
+	if (goldMoney.ChangeBalance(-statueValue));
 	{
 		isActived = true;
 		switch (_type)
