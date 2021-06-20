@@ -109,7 +109,7 @@ bool Statue::init(StatueType type)
 			//case STATUECOUNT:
 			//	break;
 		default:
-			CCLOG("Statue::init: Statue create failed, because it has typeid %d",type);
+			CCLOG("Statue::init: Statue create failed, because it has typeid %d", type);
 			return false;
 	}
 	_type = type;
@@ -118,8 +118,8 @@ bool Statue::init(StatueType type)
 	CCLOG("Statue::init: Statue create success, typeid %d", type);
 
 	/* Ìí¼ÓÅö×²·¶Î§ */
-	auto pOffset = Vec2(0, -64*1);
-	auto phy = PhysicsBody::createCircle(_physicalRange,PHYSICSBODY_MATERIAL_DEFAULT,pOffset);
+	auto pOffset = Vec2(0, -64 * 1);
+	auto phy = PhysicsBody::createCircle(_physicalRange, PHYSICSBODY_MATERIAL_DEFAULT, pOffset);
 	SetBody(phy, ItemCate);
 	addComponent(phy);
 

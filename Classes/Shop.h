@@ -35,14 +35,14 @@ using std::shared_ptr;
 const int MAX_GOODS = 3;
 static const char* SHELF_PATH = "/shop/shelf.png";
 
-class Goods: public Sprite
+class Goods : public Sprite
 {
 public:
 	void SetGoods(Item*);
 	void SetPrice(int);
 	Item* GetGoods();
 private:
-	Item* _pGoods=nullptr;
+	Item* _pGoods = nullptr;
 	int _price;
 };
 
@@ -55,7 +55,7 @@ public:
 	Sprite* shelfCreate();
 private:
 
-	bool SetPotion(Type type, int curLevel=1);
+	bool SetPotion(Type type, int curLevel = 1);
 	bool SetWeapon(int curLevel = 1);
 };
 

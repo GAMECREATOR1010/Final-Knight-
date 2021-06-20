@@ -3,7 +3,7 @@
 Bullet* Bullet::create(int bulletType, Vec2 dir, int cate, float range, float damage, float speed, float distance)
 {
 	Bullet* bullet = new Bullet;
-	if (bullet != nullptr && bullet->init(bulletType, dir,  cate, range, damage, speed, distance))
+	if (bullet != nullptr && bullet->init(bulletType, dir, cate, range, damage, speed, distance))
 	{
 		bullet->autorelease();
 		return bullet;
@@ -89,22 +89,22 @@ bool Bullet::init(int bulletType, Vec2 dir, int cate, float rangeW, float damage
 
 	if (type > 4)
 	{
-		auto delayPre = DelayTime::create(2.0f-(type-5)*0.1f);
+		auto delayPre = DelayTime::create(2.0f - (type - 5) * 0.1f);
 		auto explosion = Sprite::create("weapon/empty.png");
 		addChild(explosion);
 		explosion->setPosition(Vec2(15, 30));
 		explosionEffect = PhysicsBody::create();
 		explosionEffect->addShape(PhysicsShapeCircle::create(25 * type));
-		SetBody(explosionEffect,ItemCate);
+		SetBody(explosionEffect, ItemCate);
 		explosion->addComponent(explosionEffect);
 		explosion->setTag(explosionTag);
-	
+
 		explosionEffect->setEnabled(false);
 		auto bomp = CallFunc::create([&]() {
 			explosionEffect->setEnabled(true);
 			});
 		auto continueExplosion = DelayTime::create(0.3f);
-		auto mySeq = Sequence::create(delayPre, bomp, continueExplosion, bulletEffect,nullptr);
+		auto mySeq = Sequence::create(delayPre, bomp, continueExplosion, bulletEffect, nullptr);
 		this->runAction(mySeq);
 	}
 	else

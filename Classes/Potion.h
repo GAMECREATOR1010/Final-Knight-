@@ -57,10 +57,10 @@ class Potion : public Item
 public:
 	int GetScale() const;
 	int GetType() const;
-	virtual void Drink(Knight* drinker,float multi = 1) = 0;	//使用药水
+	virtual void Drink(Knight* drinker, float multi = 1) = 0;	//使用药水
 protected:
 	bool initWithScale(Scale scale);
-	bool _isDrunk=false;
+	bool _isDrunk = false;
 	bool _isFullPotion = false;
 private:
 	Scale _scale;
@@ -74,7 +74,7 @@ public:
 	static HealPotion* create(Scale);
 	virtual void Drink(Knight* drinker, float multi = 1);
 private:
-	int _baseHealValue=5;
+	int _baseHealValue = 5;
 	virtual bool initWithScale(Scale _scale = SMALL);
 };
 
@@ -84,7 +84,7 @@ public:
 	static ManaPotion* create(Scale);
 	virtual void Drink(Knight* drinker, float multi = 1);
 private:
-	int _baseHealValue=30;
+	int _baseHealValue = 30;
 	virtual bool initWithScale(Scale _scale = SMALL);
 };
 
@@ -92,7 +92,7 @@ class FullPotion :public HealPotion, public ManaPotion
 {
 public:
 	static FullPotion* create(Scale);
-	virtual void Drink(Knight* drinker,float multi = 0.5);
+	virtual void Drink(Knight* drinker, float multi = 0.5);
 private:
 	virtual bool initWithScale(Scale _scale = SMALL);
 };

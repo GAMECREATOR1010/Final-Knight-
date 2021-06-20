@@ -21,17 +21,18 @@
 
 class StartScene :public cocos2d::Scene
 {
-
 public:
-    virtual bool init() override;
+	virtual bool init() override;
 
-    void problemLoading(const char* filename);
+	void problemLoading(const char* filename);
 
-    static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene();
 
-    void StartCallback(Ref* sender);
+	void StartCallback(Ref* sender);
 
-    CREATE_FUNC(StartScene);
+	void sliderEvent(Ref* pSender, Slider::EventType type);
+
+	CREATE_FUNC(StartScene);
 };
 
 #endif  __START_SCENE_H__

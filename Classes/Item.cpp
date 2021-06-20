@@ -60,29 +60,29 @@ void Item::SetValue(int value)
 
 bool Item::Buy()
 {
-	auto price=this->GetValue();
-		/* 检测是否有足够的钱 */
-		if (goldMoney.ChangeBalance(-price))
+	auto price = this->GetValue();
+	/* 检测是否有足够的钱 */
+	if (goldMoney.ChangeBalance(-price))
+	{
+		/* 该对象作为普通对象交互，这样就不会重复购买了 */
+		if (this->getTag() == potionGoodsTag)
 		{
-			/* 该对象作为普通对象交互，这样就不会重复购买了 */
-			if (this->getTag() == potionGoodsTag)
-			{
-				this->setTag(potionChestTag);
-			}
-			else if (this->getTag() == weaponGoodsTag)
-			{
-				this->setTag(weaponChestTag);
-			}
+			this->setTag(potionChestTag);
+		}
+		else if (this->getTag() == weaponGoodsTag)
+		{
+			this->setTag(weaponChestTag);
+		}
 
-			CCLOG("Item::Buy: Buy thing");
-			return true;
-		}
-		else
-		{
-			/* 没有足够的钱 */
-			CCLOG("Item::Buy: Can not buy, check money");
-			return false;
-		}
+		CCLOG("Item::Buy: Buy thing");
+		return true;
+	}
+	else
+	{
+		/* 没有足够的钱 */
+		CCLOG("Item::Buy: Can not buy, check money");
+		return false;
+	}
 
 	return false;
 }

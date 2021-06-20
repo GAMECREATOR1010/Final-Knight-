@@ -28,10 +28,8 @@ USING_NS_CC;
 
 Scene* HelloWorld::createScene()
 {
-
 	return HelloWorld::create();
 }
-
 
 // Print useful error message instead of segfaulting when files are not there.
 static void problemLoading(const char* filename)
@@ -39,7 +37,6 @@ static void problemLoading(const char* filename)
 	printf("Error while loading: %s\n", filename);
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
-
 
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
@@ -56,14 +53,9 @@ bool HelloWorld::init()
 	this->getPhysicsWorld()->setGravity(Vec2(0, 0));
 	this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
-
 	srand((unsigned)time(NULL));
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	return true;
 }
-
-
-
-

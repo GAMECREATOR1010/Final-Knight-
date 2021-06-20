@@ -68,13 +68,101 @@ bool Gaming::init(Knight* myknight, int Chapter)
 
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
 
-	//MainUILayer* mainUILayer = MainUILayer::create();
-	//mainUILayer->AddStuff(*keyListener, *this, *myKnight);
-	//mainUILayer->setGlobalZOrder(uiOrder);
-	//this->addChild(mainUILayer);
+	MainUILayer* mainUILayer = MainUILayer::create();
+	mainUILayer->AddStuff(*keyListener, *this, *myKnight);
+	mainUILayer->setGlobalZOrder(uiOrder);
+	this->addChild(mainUILayer);
 
-	//this->setScale(0.2f);
-	//map->setVisible(false);
+	{
+		HP = Sprite::create(s_P_HPUI);
+		char string[30] = { 0 };
+		sprintf(string, "%d/%d", (int)myKnight->GetHP(), (int)myKnight->GetHPMax());
+		HPlabel = Label::createWithTTF(string, s_T_Pixeboy, 25);
+
+		float precen = myKnight->GetHP() / myKnight->GetHPMax();
+		HP->setScaleX(precen);
+		HP->setGlobalZOrder(uiOrder);
+		HP->setAnchorPoint(Vec2(0, 1));
+
+		HPlabel->setGlobalZOrder(uiOrder);
+
+		float x = BloodUIx + origin.x;
+		float y = visibleSize.height - BloodUIy + origin.y;
+		HP->setPosition(x, y);
+
+		float x_lab = x + HP->getContentSize().width / 2;
+		float y_lab = y - HP->getContentSize().height / 2;
+		HPlabel->setPosition(x_lab, y_lab);
+		addChild(HP);
+		addChild(HPlabel);
+	}
+	{
+		DF = Sprite::create(s_P_DFUI);
+		char string[30] = { 0 };
+		sprintf(string, "%d/%d", (int)myKnight->GetDefence(), (int)myKnight->GetDefenceMax());
+		DFlabel = Label::createWithTTF(string, s_T_Pixeboy, 25);
+
+		float precen = myKnight->GetDefence() / myKnight->GetDefenceMax();
+		DF->setScaleX(precen);
+		DF->setGlobalZOrder(uiOrder);
+		DF->setAnchorPoint(Vec2(0, 1));
+
+		DFlabel->setGlobalZOrder(uiOrder);
+
+		float x = BloodUIx + origin.x;
+		float y = visibleSize.height - BloodUIy + origin.y - BloodUIGap;
+		DF->setPosition(x, y);
+
+		float x_lab = x + DF->getContentSize().width / 2;
+		float y_lab = y - DF->getContentSize().height / 2;
+		DFlabel->setPosition(x_lab, y_lab);
+		addChild(DF);
+		addChild(DFlabel);
+	}
+	{
+		MP = Sprite::create(s_P_MPUI);
+		char string[30] = { 0 };
+		sprintf(string, "%d/%d", (int)myKnight->GetEnergyNow(), (int)myKnight->GetEnergyMax());
+		MPlabel = Label::createWithTTF(string, s_T_Pixeboy, 25);
+
+		float precen = myKnight->GetEnergyNow() / myKnight->GetEnergyMax();
+		MP->setScaleX(precen);
+		MP->setGlobalZOrder(uiOrder);
+		MP->setAnchorPoint(Vec2(0, 1));
+
+		MPlabel->setGlobalZOrder(uiOrder);
+
+		float x = BloodUIx + origin.x;
+		float y = visibleSize.height - BloodUIy + origin.y - BloodUIGap * 2;
+		MP->setPosition(x, y);
+
+		float x_lab = x + MP->getContentSize().width / 2;
+		float y_lab = y - MP->getContentSize().height / 2;
+		MPlabel->setPosition(x_lab, y_lab);
+		addChild(MP);
+		addChild(MPlabel);
+	}
+
+	{
+		char string[30] = { 0 };
+		sprintf(string, "%d", goldMoney.GetBalance());
+		coinlabel = Label::createWithTTF(string, s_T_Pixeboy, 25);
+		float x = visibleSize.width - Sprite::create(s_P_CoinFrame)->getContentSize().width * 15 / 8 + origin.x;
+		float y = visibleSize.height - Sprite::create(s_P_CoinFrame)->getContentSize().height + origin.y;
+		coinlabel->setPosition(x, y);
+		coinlabel->setGlobalZOrder(uiOrder);
+		this->addChild(coinlabel);
+	}
+	{
+		char string[30] = { 0 };
+		sprintf(string, "%d", myKnight->GetRank());
+		ranklabel = Label::createWithTTF(string, s_T_Pixeboy, 25);
+		float x = Sprite::create(s_P_BloodFrame)->getContentSize().width + Sprite::create(s_P_CoinFrame)->getContentSize().width / 2 + origin.x + 40;
+		float y = visibleSize.height - Sprite::create(s_P_CoinFrame)->getContentSize().height + origin.y;
+		ranklabel->setPosition(x, y);
+		ranklabel->setGlobalZOrder(uiOrder);
+		this->addChild(ranklabel);
+	}
 	this->scheduleUpdate();
 	schedule(SEL_SCHEDULE(&Gaming::myUpdate), 0.5f, -1, 0);
 
@@ -250,7 +338,6 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 						//CCLOG("Gaming::onContactPreSolve: Interact item at position at %f %f", itemPX, itemPY);
 						//CCLOG("Gaming::onContactPreSolve: Knightnow item at position at %f %f", myKnight->getPositionX(), myKnight->getPositionY());
 					}
-
 				}
 			}
 			else if (bTag == statueTag)			/* ´¥·¢µñÏñ */
@@ -532,16 +619,37 @@ void Gaming::update(float delta)
 			sprintf(string, "%d", goldMoney.GetBalance());
 			CCLOG(string);
 		}
+		float precen = myKnight->GetHP() / myKnight->GetHPMax();
+		HP->setScaleX(precen);
+		char string[30] = { 0 };
+		sprintf(string, "%d/%d", (int)myKnight->GetHP(), (int)myKnight->GetHPMax());
+		HPlabel->setString(string);
 
-		//BloodLayer::Change(*myKnight);
-		//MainUILayer::ChangeCoinLabel();
+		precen = myKnight->GetDefence() / myKnight->GetDefenceMax();
+		DF->setScaleX(precen);
+		sprintf(string, "%d/%d", (int)myKnight->GetDefence(), (int)myKnight->GetDefenceMax());
+		DFlabel->setString(string);
+
+		precen = myKnight->GetEnergyNow() / myKnight->GetEnergyMax();
+		MP->setScaleX(precen);
+		sprintf(string, "%d/%d", (int)myKnight->GetEnergyNow(), (int)myKnight->GetEnergyMax());
+		MPlabel->setString(string);
+
+		sprintf(string, "%d", goldMoney.GetBalance());
+		coinlabel->setString(string);
+
+		sprintf(string, "%d", myKnight->GetRank());
+		ranklabel->setString(string);
 	}
 	else if (!endGame && myKnight->death)/*×ª»»³¡¾°*/
 	{
+		AudioEngine::stopAll();
 		endGame = true;
+		Director::getInstance()->replaceScene(SafeScene::create());
 	}
 	if (transing)
 	{
+		AudioEngine::stopAll();
 		transing = false;
 		endGame = true;
 		auto startNewChapter = CallFunc::create([&]() {

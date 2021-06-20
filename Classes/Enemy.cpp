@@ -143,7 +143,7 @@ bool Enemy::init(int type, bool ifboss)
 
 		HPMax = 60;
 		chaseDistance = 64 * 12;
-		attackDistance = 64 *10;
+		attackDistance = 64 * 10;
 		attackSpeed = -2.0f;
 		moveSpeedMax = 170;
 		attackDelayTime = 3.0f;
@@ -187,14 +187,12 @@ void Enemy::Movement()
 	{
 		if (!inRoom->Movable(getPosition() + faceDir * 170, roomFloorGid))
 		{
-
 			body->setVelocity(Vec2(0, 0));
 			faceDir = ChangeDir();
 			if ((inRoom->Movable(getPosition() + faceDir * 200, roomFloorGid)) || (inRoom->Movable(getPosition() + faceDir * 60, roomFloorGid)))
 			{
 				body->setVelocity(faceDir * moveSpeed);
 			}
-
 		}
 		else if (!target->death)
 		{
@@ -239,4 +237,3 @@ void Enemy::Movement()
 			timeCount = 0;
 	}
 }
-

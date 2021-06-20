@@ -7,7 +7,6 @@
 #include "Const.h"
 #include "Weapon.h"
 
-
 USING_NS_CC;
 class Actor :public Node
 {
@@ -92,7 +91,7 @@ protected:
 	float attackRangeMax = 0;
 	float attackDistance = 1;
 	float attackDistanceMax = 1;
-	float invincibleTime =1.5f;//骑士专供无敌时间
+	float invincibleTime = 1.5f;//骑士专供无敌时间
 	float invincibleTimeMax = 1.5f;
 
 	float damage = 2;//接触伤害
@@ -102,7 +101,6 @@ protected:
 	float HP = 5, HPMax = 5;
 
 	PhysicsBody* body;
-
 };
 
-#endif 
+#endif

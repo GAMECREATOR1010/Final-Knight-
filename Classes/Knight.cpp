@@ -13,7 +13,6 @@ Knight* Knight::create(int type, int rank)
 	return nullptr;
 }
 
-
 bool Knight::init(int type, int Firstrank)
 {
 	rank = Firstrank;
@@ -42,7 +41,6 @@ bool Knight::init(int type, int Firstrank)
 
 		AddShade(Vec2(-5, -40));
 		wea = Weapon::create(5, KnightCate);
-
 	}
 	else if (type == 1)
 	{
@@ -56,7 +54,7 @@ bool Knight::init(int type, int Firstrank)
 		pic->setAnchorPoint(Vec2(0.5f, 0.65f));
 		HPMax = 60;
 		moveSpeedMax = 19;
-		defenceMax =2;
+		defenceMax = 2;
 		attackRange = 1;
 		attackMode = gunEnum;
 		Vec2 verts[] = { Vec2(-27, -35), Vec2(-27,27), Vec2(27, 27),Vec2(27, -35) };
@@ -105,7 +103,7 @@ bool Knight::init(int type, int Firstrank)
 		attackMode = gunEnum;
 		Vec2 verts[] = { Vec2(-27, -40), Vec2(-27,20), Vec2(27,20),Vec2(27, -40) };
 		body->addShape(PhysicsShapeEdgePolygon::create(verts, 4));
-		
+
 		bindPointOffSet = Vec2(0, -5);
 		wea = Weapon::create(8, KnightCate);
 		wea->costEnergy = 2;
@@ -143,7 +141,7 @@ bool Knight::init(int type, int Firstrank)
 		pic->runAction(RepeatForever::create(Animate::create(animation)));
 		addChild(pic);
 
-		pic->setAnchorPoint(Vec2(0.5f,0.7f));
+		pic->setAnchorPoint(Vec2(0.5f, 0.7f));
 
 		HPMax = 70;
 		moveSpeedMax = 21;
@@ -201,7 +199,7 @@ bool Knight::init(int type, int Firstrank)
 
 		Vec2 verts[] = { Vec2(-27, -40), Vec2(-27,20), Vec2(27,20),Vec2(27, -40) };
 		body->addShape(PhysicsShapeEdgePolygon::create(verts, 4));
-		
+
 		bindPointOffSet = Vec2(0, -5);
 		wea = Weapon::create(10, KnightCate);
 		AddShade(Vec2(0, -45));
@@ -211,7 +209,6 @@ bool Knight::init(int type, int Firstrank)
 	wea->setPosition(wea->bindPoint + bindPointOffSet);
 	wea->trigger->setEnabled(false);
 	SetWeaponBuff(wea);
-
 
 	energyMax += (rank - 1) * 5;
 
@@ -228,7 +225,6 @@ bool Knight::init(int type, int Firstrank)
 	setTag(knightTag);
 	return true;
 }
-
 
 void Knight::EnergyMaxChange(float energychange)
 {
@@ -272,7 +268,7 @@ void Knight::LevelUp()
 void Knight::AddEXP(int addEXP)
 {
 	EXP += addEXP;
-	if (EXP / 20 > rank * 20)
+	if (EXP / 20 > rank)
 	{
 		rank += 1;
 		LevelUp();
@@ -309,7 +305,7 @@ Sprite* CreateDice(int dice)
 
 void Knight::LaunchSkillTime()
 {
-	if (knightType > 0&& energyNow>= skillCostEnergy)
+	if (knightType > 0 && energyNow >= skillCostEnergy)
 	{
 		if (launchSkill == false)
 		{
@@ -331,7 +327,7 @@ void Knight::LaunchSkillTime()
 				diceSpriteOne->removeFromParentAndCleanup(true);
 				diceSpriteTwo->removeFromParentAndCleanup(true);
 				});
-			auto diceAction= Sequence::create(diceDelay, diceRecovery, nullptr);
+			auto diceAction = Sequence::create(diceDelay, diceRecovery, nullptr);
 			runAction(diceAction);
 
 			if (knightType == 1)
@@ -340,7 +336,7 @@ void Knight::LaunchSkillTime()
 			}
 			else if (knightType == 2)
 			{
-				HPNowChange(diceOne* diceTwo);
+				HPNowChange(diceOne * diceTwo);
 			}
 			else if (knightType == 3)
 			{
@@ -352,7 +348,7 @@ void Knight::LaunchSkillTime()
 			}
 			else if (knightType == 5)
 			{
-				EnergyNowChange(diceOne +diceTwo);
+				EnergyNowChange(diceOne + diceTwo);
 			}
 			else if (knightType == 6)
 			{
@@ -360,7 +356,7 @@ void Knight::LaunchSkillTime()
 			}
 			else if (knightType == 7)
 			{
-				InvincibleTimeChange((diceOne + diceTwo) * 0.1,10.0f);
+				InvincibleTimeChange((diceOne + diceTwo) * 0.1, 10.0f);
 			}
 
 			auto delay = DelayTime::create(skillTime);

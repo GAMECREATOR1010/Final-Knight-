@@ -16,17 +16,16 @@
 
 class PreScene :public cocos2d::Scene
 {
-
 public:
-    virtual bool init() override;
+	virtual bool init() override;
 
-    void problemLoading(const char* filename);
+	void problemLoading(const char* filename);
 
-    static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene();
 
-    void TouchEvent(Ref* pSender, Widget::TouchEventType type);
+	void TouchEvent(Ref* pSender, Widget::TouchEventType type);
 
-    CREATE_FUNC(PreScene);
+	CREATE_FUNC(PreScene);
 };
 
 #endif  __PRE_SCENE_H__

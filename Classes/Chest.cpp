@@ -15,7 +15,6 @@ WhiteChest* WhiteChest::create()
 	auto pRet = new(std::nothrow) WhiteChest();
 	if (pRet && pRet->init())
 	{
-
 		pRet->autorelease();
 		return pRet;
 	}

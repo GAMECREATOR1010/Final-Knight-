@@ -8,7 +8,6 @@
  ****************************************************************************/
 #pragma once
 
-
 #include "General.h"
 #include "Money.h"
 #include "Layer/BloodLayer.h"
@@ -19,47 +18,20 @@ class MainUILayer : public cocos2d::Layer
 {
 public:
 
-    virtual bool init();
+	virtual bool init();
 
-    static MainUILayer* create()
-    {
-        auto ret = new (std::nothrow) MainUILayer();
-        if (ret && ret->init())
-        {
-            ret->autorelease();
-        }
-        else
-        {
-            CC_SAFE_DELETE(ret);
-        }
-        return ret;
-    }
-    static void ChangeCoinLabel();
-    void AddStuff(EventListenerKeyboard& eventListener, Node& node, Knight& kinght);
-    BloodLayer* _bloodLayer;
-
-protected:
-    MainUILayer()
-        : _bloodLayer(BloodLayer::create())
-    {
-    }
-
+	static MainUILayer* create()
+	{
+		auto ret = new (std::nothrow) MainUILayer();
+		if (ret && ret->init())
+		{
+			ret->autorelease();
+		}
+		else
+		{
+			CC_SAFE_DELETE(ret);
+		}
+		return ret;
+	}
+	void AddStuff(EventListenerKeyboard& eventListener, Node& node, Knight& kinght);
 };
-
-static class CoinLabel
-{
-public:
-    void AddStuff(Sprite* coinFrame);
-    void Change();
-    Label* GetLabel()
-    {
-        return _label;
-    }
-private:
-    Label* _label;
-    float _x;
-    float _y;
-}coinLabel;
-
-
-

@@ -13,22 +13,22 @@
 USING_NS_CC;
 class BattleMap :public cocos2d::Node
 {
-    friend class Gaming;
+	friend class Gaming;
 public:
-    static  BattleMap* create(int chapter, roomThemeEnum rTheme,Knight* target);
-    Vector<Room*> rooms;
-    Vector<Room*> farRoom;
-    Vector<Room*> oneDoorRoom;
-    int chapter = 1;
-    Knight* targetKnight;
-    Room* InRoom(Vec2 position);
-    void AddThings(Room* inRoom);
+	static  BattleMap* create(int chapter, roomThemeEnum rTheme, Knight* target);
+	Vector<Room*> rooms;
+	Vector<Room*> farRoom;
+	Vector<Room*> oneDoorRoom;
+	int chapter = 1;
+	Knight* targetKnight;
+	Room* InRoom(Vec2 position);
+	void AddThings(Room* inRoom);
 private:
-    virtual bool init(int chapter, roomThemeEnum rTheme, Knight* target);
-    roomThemeEnum roomTheme;
-    int roomNumber;
-    Room* endRoom;
-    float maxDistance;
+	virtual bool init(int chapter, roomThemeEnum rTheme, Knight* target);
+	roomThemeEnum roomTheme;
+	int roomNumber;
+	Room* endRoom;
+	float maxDistance;
 };
 
 #endif 

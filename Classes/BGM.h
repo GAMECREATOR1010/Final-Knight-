@@ -41,6 +41,4 @@ public:
 	void Change();
 }se;
 
-
-
 #endif  __BGM_H_H__

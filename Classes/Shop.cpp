@@ -11,11 +11,11 @@
 void Goods::SetGoods(Item* item)
 {
 	_pGoods = item;
-	if (item->getName()=="Potion")
+	if (item->getName() == "Potion")
 	{
 		item->setTag(potionGoodsTag);
 	}
-	else if (item->getName()=="Weapon")
+	else if (item->getName() == "Weapon")
 	{
 		item->setTag(weaponGoodsTag);
 	}
@@ -49,7 +49,7 @@ bool Shop::InitGoods(int curLevel)
 	int ran = rand() % MAX_POTION_SCALE;
 	if (ran == 0)	//Á½ÖÖÒ©
 	{
-		if (SetPotion(HEAL,curLevel) && SetPotion(MANA, curLevel) && SetWeapon(curLevel))
+		if (SetPotion(HEAL, curLevel) && SetPotion(MANA, curLevel) && SetWeapon(curLevel))
 		{
 			return true;
 		}
@@ -122,7 +122,7 @@ bool Shop::SetPotion(Type type, int curLevel)
 		{
 			potion->setName("Potion");
 			goodses[i].SetGoods(potion);
-			goodses[i].SetPrice(potion->GetValue()*curLevel);
+			goodses[i].SetPrice(potion->GetValue() * curLevel);
 
 			return true;
 		}

@@ -70,7 +70,7 @@ void HealPotion::Drink(Knight* drinker, float multi)
 	/* 调用增加生命接口 */
 	auto beforeHp = drinker->GetHP();
 	drinker->HPNowChange(heal);
-	CCLOG("HealPotion::Drink: Before Hp %f, now Hp %f", beforeHp,drinker->GetHP());
+	CCLOG("HealPotion::Drink: Before Hp %f, now Hp %f", beforeHp, drinker->GetHP());
 	this->setVisible(false);
 	return;
 }
@@ -275,7 +275,7 @@ void BuffPotion::Drink(Knight* drinker, float multi)
 	int buff = _buffType;
 	if (buff == RANDOM)
 	{
-		buff = random(0, static_cast <int>(_buffType)-1);
+		buff = random(0, static_cast <int>(_buffType) - 1);
 	}
 	switch (buff)
 	{
@@ -293,7 +293,7 @@ void BuffPotion::Drink(Knight* drinker, float multi)
 			break;
 		case BUFF_COUNT:
 		default:
-			CCLOG("BuffPotion::Drink; no this type %d",buff);
+			CCLOG("BuffPotion::Drink; no this type %d", buff);
 			break;
 	}
 }
@@ -304,7 +304,7 @@ bool BuffPotion::initWithBuffType(BuffType buffType)
 	_buffType = buffType;
 	initWithFile(BUFF_PATH);
 
-	this->SetValue(buffPotionValue*this->GetScale());
+	this->SetValue(buffPotionValue * this->GetScale());
 
 	/* 添加碰撞范围 */
 	auto phy = PhysicsBody::createCircle(_physicalRange);

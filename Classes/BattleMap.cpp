@@ -225,7 +225,6 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 	}
 
 	for (auto temp : rooms) {
-
 		temp->DrwaWallRigidBody();
 		temp->UpdateObstacles();
 		AddThings(temp);

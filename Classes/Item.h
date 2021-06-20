@@ -27,11 +27,11 @@ USING_NS_CC;
 enum ItemProbability
 {
 	LEGENDARY = -1,		//无法通过开宝箱/商店获得
-	EPIC      = 10,
-	VERYRARE  = 20,
-	RARE      = 30,
-	UNCOMMON  = 50,
-	COMMON    = 100		//必定获得
+	EPIC = 10,
+	VERYRARE = 20,
+	RARE = 30,
+	UNCOMMON = 50,
+	COMMON = 100		//必定获得
 };
 
 ItemProbability RandomItemRarity();
@@ -42,7 +42,7 @@ public:
 	CREATE_FUNC(Item);
 	int GetRarity() const;	//获取品质
 	int GetValue() const;
-void SetValue(int value);
+	void SetValue(int value);
 	bool Buy();
 protected:
 	virtual bool init();

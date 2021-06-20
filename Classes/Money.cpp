@@ -35,7 +35,7 @@ void Money::SetBalance(int setValue)
 /// <returns>是否改变成功</returns>
 bool Money::ChangeBalance(int changeValue)
 {
-	auto beforeBalance =this->_balances;
+	auto beforeBalance = this->_balances;
 	if (this->_balances + changeValue >= 0)
 	{
 		this->_balances = _balances + changeValue;
@@ -97,10 +97,8 @@ void GoldMoney::ChangeBalanceWhileEnemyDied(int roomLevel, int enemyLevel, int d
 	return;
 }
 
-
 #pragma endregion
 
 #pragma region BlueMoney
 
 //#pragma endregion
-

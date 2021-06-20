@@ -89,8 +89,10 @@ static const int ItemCate = 4;
 static const int BloodUIx = 82;
 static const int BloodUIy = 15;
 static const int BloodUIGap = 60;
-
+static const float Pad1 = 200.0f;
+static const float Pad2 = 300.0f;
 static const float StopFramePre = 0.45f;
+static const float KnightPre = 0.1f;
 
 static const float  ButtonPre = 0.075f;
 static const int ButtonWidthGap = 40;
@@ -98,7 +100,6 @@ static const int  ButtonHeightGap = 30;
 static const int  ButtonWidthGapInStop = 10;
 static const int ButtonHeightGapInStop = 90;
 //UI stuff end
-
 #include "cocos2d.h"
 USING_NS_CC;
 Vector<SpriteFrame*> GetAnim(const char*, int);

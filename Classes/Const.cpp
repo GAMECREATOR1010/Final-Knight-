@@ -38,7 +38,6 @@ void SetBody(PhysicsBody* body, int category)
 	{
 		body->setCategoryBitmask(0x01); //1
 		body->setCollisionBitmask(0x06); //110
-		
 	}
 	else if (category == EnemyCate)
 	{
@@ -53,7 +52,7 @@ void SetBody(PhysicsBody* body, int category)
 	else if (category == ItemCate)
 	{
 		body->setCategoryBitmask(0x04);//100 //²»Åö×²,½ö´¥·¢
-		body->setCollisionBitmask(0x01); 
+		body->setCollisionBitmask(0x01);
 		body->setDynamic(false);
 	}
 	body->setContactTestBitmask(0xff);

@@ -432,6 +432,15 @@ void  Actor::ChangeWea()
 		SetWeaponBuff(wea);
 		wea1 = weaponForever;
 	}
+	else
+	{
+		wea->retain();
+		wea->removeFromParentAndCleanup(false);
+		addChild(wea);
+		wea->setPosition(wea->bindPoint + bindPointOffSet);
+		SetWeaponBuff(wea);
+		wea1 = nullptr;
+	}
 	CCLOG("Actor::ChangeWea: weapon change");
 }
 
@@ -494,25 +503,25 @@ void Actor::DeathEffect()/*ËÀÍöÐ§¹û*/
 		auto delay = DelayTime::create(0.5f);
 		if (getTag() == enemyTag)
 		{
+			goldMoney.ChangeBalanceWhileEnemyDied(1);
+
 			if (DEBUG_CHEST_MODE)
 			{
 				auto enemyDiePos = getPosition();
 				auto wChe = WhiteChest::create();
+				inRoom->addChild(wChe);
 				wChe->setPosition(enemyDiePos);
-				this->getParent()->addChild(wChe);
 				inRoom->UpdateDoor();
 			}
-			goldMoney.ChangeBalanceWhileEnemyDied(1);
 			inRoom->enemyCount -= 1;
 			if (inRoom->enemyCount <= 0)
 			{
 				auto enemyDiePos = getPosition();
 				auto wChe = WhiteChest::create();
+				inRoom->addChild(wChe);
 				wChe->setPosition(enemyDiePos);
-				this->getParent()->addChild(wChe);
-
 				inRoom->UpdateDoor();
-				if (inRoom->roomType == endRoomEnum)
+				if (inRoom->roomType == bossRoomEnum)
 				{
 					inRoom->AddTransDoor();
 				}

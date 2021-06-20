@@ -21,14 +21,14 @@
 
 #include "Const.h"
 
-// 金钱账户,抽象基类
+ // 金钱账户,抽象基类
 class Money
 {
 public:
-	virtual int GetBalance()=0;					//获取金额
-	virtual void SetBalance(int setValue)=0;		//设置余额
+	virtual int GetBalance() = 0;					//获取金额
+	virtual void SetBalance(int setValue) = 0;		//设置余额
 	virtual bool ChangeBalance(int changeValue);	//改变余额
-	bool create(int initValue=0);
+	bool create(int initValue = 0);
 
 protected:
 	int _balances;

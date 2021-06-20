@@ -13,10 +13,9 @@ Room* Room::create(int  wid, int hei, roomTypeEnum rType, roomThemeEnum rTheme, 
 	return nullptr;
 }
 
-
 void Room::DrawRoom()
 {
-	for (float x = 15- width / 2; x < 18 + width / 2; x++)
+	for (float x = 15 - width / 2; x < 18 + width / 2; x++)
 	{
 		for (float y = 15 - height / 2; y < 18 + height / 2; y++)
 		{
@@ -36,7 +35,6 @@ void Room::DrawRoom()
 			}
 		}
 	}
-
 }
 
 void Room::DrawFloor(float x, float y, bool flag)
@@ -135,7 +133,7 @@ void Room::DrawDoor(float x, float y)
 	shade->setTileGID(passageFloorGid, Vec2(x, y + 1));
 	meta->setTileGID(passageFloorGid, Vec2(x, y));
 	meta->getTileAt(Vec2(x, y))->removeAllComponents();
-	
+
 	if (doorOpen)
 	{
 		shade->setTileGID(doorOpenGid, Vec2(x, y));
@@ -143,9 +141,9 @@ void Room::DrawDoor(float x, float y)
 	}
 	else
 	{
-		shade->setTileGID(doorCloseGid+10, Vec2(x, y ));
-		meta->setTileGID(metaGid, Vec2(x, y ));
-		wall->setTileGID(doorCloseGid, Vec2(x, y-1));
+		shade->setTileGID(doorCloseGid + 10, Vec2(x, y));
+		meta->setTileGID(metaGid, Vec2(x, y));
+		wall->setTileGID(doorCloseGid, Vec2(x, y - 1));
 		auto obstaclesbox = PhysicsBody::createBox(Size(55.0f, 55.0f));
 		obstaclesbox->setDynamic(false);
 		SetBody(obstaclesbox, ObstaclesCate);
@@ -155,7 +153,7 @@ void Room::DrawDoor(float x, float y)
 
 void Room::UpdateDoor()
 {
-	if (!playerEnter || (playerEnter && enemyCount<= 0))
+	if (!playerEnter || (playerEnter && enemyCount <= 0))
 		doorOpen = true;
 	else
 		doorOpen = false;
@@ -194,7 +192,7 @@ void Room::DrwaWallRigidBody()
 	{
 		for (float y = 0; y < 33; y++)
 		{
-			if (meta->getTileGIDAt(Vec2(x,y))==metaGid)
+			if (meta->getTileGIDAt(Vec2(x, y)) == metaGid)
 			{
 				auto obstaclesbox = PhysicsBody::createBox(Size(55.0f, 55.0f));
 				obstaclesbox->setDynamic(false);
@@ -202,13 +200,11 @@ void Room::DrwaWallRigidBody()
 				meta->getTileAt(Vec2(x, y))->addComponent(obstaclesbox);
 				meta->getTileAt(Vec2(x, y))->setTag(obstaclesNormTag);
 			}
-			
 		}
 	}
 }
 
-
-void Room::AddThing(float x,float y,float hei,float wid)
+void Room::AddThing(float x, float y, float hei, float wid)
 {
 	for (float i = x; i < x + wid; ++i)
 	{
@@ -237,7 +233,7 @@ void Room::AddTransDoor()
 	particleSystem->setPosition(transDoor->getPosition());
 }
 
-void Room::DrawObstacles(float x, float y,bool removable)
+void Room::DrawObstacles(float x, float y, bool removable)
 {
 	if (meta->getTileGIDAt(Vec2(x, y)) != metaGid)
 	{
@@ -253,7 +249,6 @@ void Room::DrawObstacles(float x, float y,bool removable)
 			meta->getTileAt(Vec2(x, y))->setTag(obstaclesNormTag);
 		shade->setTileGID(56, Vec2(x, y + 1));
 	}
-
 }
 
 void Room::DeleteObstacles(float x, float y)
@@ -275,7 +270,7 @@ void Room::UpdateObstacles()
 			int hei = height - 3 - rand() % 3;
 			for (float y = 16 - height / 2; y < 16 - height / 2 + hei; y++)
 			{
-				DrawObstacles(x, y,true);
+				DrawObstacles(x, y, true);
 			}
 			x = rand() % 2 + 19;
 			for (float y = 17 + height / 2 - hei; y < 17 + height / 2; y++)
@@ -299,7 +294,6 @@ void Room::UpdateObstacles()
 				}
 			}
 		}
-
 	}
 }
 
@@ -363,10 +357,9 @@ bool Room::init(int wid, int hei, roomTypeEnum rType, roomThemeEnum rTheme, Vec2
 	wall->setGlobalZOrder(wallOrder);
 	obstacles = roomMap->getLayer("obstacles");
 	obstacles->setGlobalZOrder(obstaclesOrder);
-	enemyPos= roomMap->getLayer("enemyPos");
+	enemyPos = roomMap->getLayer("enemyPos");
 	DrawRoom();
 	addChild(roomMap);
 
 	return true;
 }
-

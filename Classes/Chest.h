@@ -25,7 +25,7 @@
 USING_NS_CC;
 
 static const char* WHITE_CHEST_PATH = "/chests/WhiteChestInit.png";
-static const char* BLUE_CHEST_PATH  = "/chests/BlueChest.png";
+static const char* BLUE_CHEST_PATH = "/chests/BlueChest.png";
 static const char* BROWN_CHEST_PATH = "/chests/BrownChest.png";
 
 enum ChestType
@@ -40,7 +40,7 @@ enum ChestType
 class Chest : public Sprite
 {
 public:
-	virtual Item* open(Knight * activer) = 0;
+	virtual Item* open(Knight* activer) = 0;
 protected:
 	virtual bool init();
 	bool _isOpened = false;
@@ -59,4 +59,3 @@ private:
 };
 
 #endif // !__CHEST_H__
-

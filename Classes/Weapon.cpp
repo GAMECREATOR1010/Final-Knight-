@@ -71,7 +71,6 @@ bool Weapon::init(int id, int cate)
 		attackEffect->setPosition(Vec2(30, 60));
 		attackEffect->setGlobalZOrder(wallOrder);
 
-
 		SetBody(attackEffect->getPhysicsBody(), ItemCate);
 		attackEffect->setVisible(false);
 		attackEffect->getPhysicsBody()->setEnabled(false);
@@ -194,7 +193,6 @@ float Weapon::GetDamage()
 	return damage + damageBuff;
 }
 
-
 /*武器本身属性*/
 void Weapon::SetSpeed(float sChange)
 {
@@ -212,8 +210,6 @@ void Weapon::SetDistance(float dChange)
 {
 	distance += dChange;
 }
-
-
 
 /*knight属性加成*/
 void Weapon::SetSpeedBuff(float sBuff)
@@ -283,10 +279,7 @@ void Weapon::MeleeAttack(Vec2  faceDir)
 	auto rotateByThird = RotateBy::create(0.2f - (speed + speedBuff) * 0.02, 100.0f);
 	auto rotateByForth = RotateBy::create(0.1f, -135.0f - meleeStartRot);
 
-
-
 	auto meleeStart = CallFunc::create([&]() {
-
 		if (ID > 0)
 		{
 			int i = random(0, ID);
@@ -313,7 +306,6 @@ void Weapon::MeleeAttack(Vec2  faceDir)
 		meleeEnd, rotateByForth, recovery, moveBy->reverse(), nullptr);
 
 	runAction(meleeAttack);
-
 }
 
 void Weapon::GenerateBullet(Vec2  faceDir, Room* inRoom, Vec2 pos)
