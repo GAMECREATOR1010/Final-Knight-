@@ -225,6 +225,8 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 	}
 
 	for (auto temp : rooms) {
+
+		temp->DrwaWallRigidBody();
 		temp->UpdateObstacles();
 		AddThings(temp);
 	}
@@ -254,8 +256,8 @@ void BattleMap::AddThings(Room* inRoom) {
 			inRoom->enemyCount = i;
 
 			for (int j = 0; j < i; ++j) {
-				int x = random(-(inRoom->width - 2) / 2, (inRoom->width - 2) / 2);
-				int y = random(-(inRoom->height - 2) / 2, (inRoom->height - 2) / 2);
+				int x = random(-(inRoom->width - 3) / 2, (inRoom->width - 3) / 2);
+				int y = random(-(inRoom->height - 3) / 2, (inRoom->height - 3) / 2);
 				if (inRoom->Movable(Vec2((15 + x) * 64, offSet - (15 + y) * 64), roomFloorGid) &&
 					(inRoom->enemyPos->getTileGIDAt(Vec2(15 + x, 15 + y)) == passageFloorGid)) {
 					inRoom->enemyPos->setTileGID(roomFloorGid, Vec2(15 + x, 15 + y));

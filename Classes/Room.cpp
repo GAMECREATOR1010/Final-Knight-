@@ -188,6 +188,26 @@ void Room::UpdateDoor()
 	}
 }
 
+void Room::DrwaWallRigidBody()
+{
+	for (float x = 0; x < 33; x++)
+	{
+		for (float y = 0; y < 33; y++)
+		{
+			if (meta->getTileGIDAt(Vec2(x,y))==metaGid)
+			{
+				auto obstaclesbox = PhysicsBody::createBox(Size(55.0f, 55.0f));
+				obstaclesbox->setDynamic(false);
+				SetBody(obstaclesbox, ObstaclesCate);
+				meta->getTileAt(Vec2(x, y))->addComponent(obstaclesbox);
+				meta->getTileAt(Vec2(x, y))->setTag(obstaclesNormTag);
+			}
+			
+		}
+	}
+}
+
+
 void Room::AddThing(float x,float y,float hei,float wid)
 {
 	for (float i = x; i < x + wid; ++i)
@@ -244,7 +264,7 @@ void Room::DeleteObstacles(float x, float y)
 	meta->getTileAt(Vec2(x, y))->setTag(emptyTag);
 }
 
-void Room::UpdateObstacles()//添加障碍物，后期会更改丰富
+void Room::UpdateObstacles()
 {
 	if (roomType == normalRoomEnum)
 	{
@@ -279,6 +299,7 @@ void Room::UpdateObstacles()//添加障碍物，后期会更改丰富
 				}
 			}
 		}
+
 	}
 }
 

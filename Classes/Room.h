@@ -24,6 +24,7 @@ public:
     void AddThing(float, float,float, float);
     void DeleteObstacles(float, float);
     void UpdateObstacles();
+    void DrwaWallRigidBody();
     void UpdateDoor();
     void AddTransDoor();
     bool Movable(Vec2, unsigned int, bool = true);
