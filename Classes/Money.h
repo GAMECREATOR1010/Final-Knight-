@@ -10,8 +10,6 @@
 	static bool ChangeBalance(int changeValue);	//改变余额
  GoldMoney
 	static void ChangeBalanceWhileEnemyDied(int roomLevel, int enemyLevel = 1, int difficult = 1, bool isElite = false);
- 需要外部全局宏定义
- * 存档路径PATH
 
  To Do list:
 
@@ -27,29 +25,33 @@
 class Money
 {
 public:
-	int GetBalance();					//获取金额
-	void SetBalance(int setValue);		//设置余额
-	bool ChangeBalance(int changeValue);	//改变余额
+	virtual int GetBalance()=0;					//获取金额
+	virtual void SetBalance(int setValue)=0;		//设置余额
+	virtual bool ChangeBalance(int changeValue);	//改变余额
 	bool create(int initValue=0);
 
+protected:
+	int _balances;
 
 private:
-	int _balances;
 };
 
 // 局内金币账户，继承自Money
-static class GoldMoney :public virtual Money
+static class GoldMoney :public Money
 {
 public:
+	virtual int GetBalance();					//获取金额
+	virtual bool ChangeBalance(int changeValue);	//改变余额
+	virtual void SetBalance(int setValue);		//设置余额
 	void ChangeBalanceWhileEnemyDied(int roomLevel, int enemyLevel = 1, int difficult = 1, bool isElite = false);
 private:
 }goldMoney;
 
-// 局外蓝币账户，继承自Money
-static class BlueMoney : public virtual Money
-{
-public:
-private:
-}blueMoney;
+//// 局外蓝币账户，继承自Money
+//static class BlueMoney : public Money
+//{
+//public:
+//private:
+//}blueMoney;
 
 #endif // !__MONEY_H__

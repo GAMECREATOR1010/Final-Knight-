@@ -35,12 +35,14 @@ void Money::SetBalance(int setValue)
 /// <returns>是否改变成功</returns>
 bool Money::ChangeBalance(int changeValue)
 {
-	if (_balances + changeValue >= 0)
+	auto beforeBalance =this->_balances;
+	if (this->_balances + changeValue >= 0)
 	{
-		_balances = _balances + changeValue;
+		this->_balances = _balances + changeValue;
+		CCLOG("Money::ChangeBalance: from %d to %d", beforeBalance, _balances);
 		return true;
 	}
-
+	CCLOG("Money::ChangeBalance: from %d to %d", beforeBalance, _balances);
 	return false;
 }
 
@@ -53,6 +55,27 @@ bool Money::create(int initValue)
 #pragma endregion
 
 #pragma region GoldMoney
+int GoldMoney::GetBalance()
+{
+	return goldMoney._balances;
+}
+bool GoldMoney::ChangeBalance(int changeValue)
+{
+	auto beforeBalance = goldMoney._balances;
+	if (goldMoney._balances + changeValue >= 0)
+	{
+		goldMoney._balances = goldMoney._balances + changeValue;
+		CCLOG("Money::ChangeBalance: from %d to %d", beforeBalance, goldMoney._balances);
+		return true;
+	}
+	CCLOG("Money::ChangeBalance: from %d to %d", beforeBalance, goldMoney._balances);
+	return false;
+}
+void GoldMoney::SetBalance(int setValue)
+{
+	goldMoney._balances = setValue;
+	return;
+}
 /// <summary>
 /// 怪物死时概率加金币，精英怪必加
 /// </summary>
@@ -69,7 +92,7 @@ void GoldMoney::ChangeBalanceWhileEnemyDied(int roomLevel, int enemyLevel, int d
 			return;
 		}
 	}
-	ChangeBalance(MONEY_EVERY_ENEMY * roomLevel * enemyLevel * difficult * (isElite ? 3 : 1));
+	this->ChangeBalance(MONEY_EVERY_ENEMY * roomLevel * enemyLevel * difficult * (isElite ? 3 : 1));
 	return;
 }
 
@@ -78,5 +101,5 @@ void GoldMoney::ChangeBalanceWhileEnemyDied(int roomLevel, int enemyLevel, int d
 
 #pragma region BlueMoney
 
-#pragma endregion
+//#pragma endregion
 
