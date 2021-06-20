@@ -11,7 +11,7 @@
 #ifndef __PRE_SCENE_H__
 #define __PRE_SCENE_H__
 
-#include "General.h"
+#include "Global/General.h"
 #include "Scene/StartScene.h"
 
 class PreScene :public cocos2d::Scene

@@ -13,8 +13,8 @@
 #define __BLOOD_LAYER_H__
 
 #include "cocos2d.h"
-#include "Knight.h"
-#include "source.h"
+#include "PlayerAndMonster/Knight.h"
+#include "Global/source.h"
 
  /*
  class UIItem

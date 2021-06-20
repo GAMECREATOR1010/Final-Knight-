@@ -8,8 +8,8 @@
  ****************************************************************************/
 #pragma once
 
-#include "General.h"
-#include "Money.h"
+#include "Global/General.h"
+#include "Global/Money.h"
 #include "Layer/BloodLayer.h"
 #include "Layer/ContactLayer.h"
 #include "Layer/StopLayer.h"

@@ -20,8 +20,8 @@
 #include "cocos2d.h"
 #include "Layer/TwoUseButtonsLayer.h"
 #include "Scene/StartScene.h"
-#include "source.h"
-#include "Const.h"
+#include "Global/source.h"
+#include "Global/Const.h"
 
 using namespace cocos2d::ui;
 

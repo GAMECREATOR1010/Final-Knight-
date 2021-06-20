@@ -13,10 +13,10 @@
 #define __CONTACT_LAYER_H__
 
 #include "cocos2d.h"
-#include "source.h"
+#include "Global/source.h"
 #include "audio/include/AudioEngine.h"
 #include "ui/CocosGUI.h"
-#include "Knight.h"
+#include "PlayerAndMonster/Knight.h"
 
 class LackOfCoinLayer : public cocos2d::Layer
 {

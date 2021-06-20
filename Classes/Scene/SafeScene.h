@@ -9,12 +9,12 @@
 #ifndef __SAFE_SCENE_H__
 #define __SAFE_SCENE_H__
 
-#include "source.h"
+#include "Global/source.h"
 #include "cocos2d.h"
 #include "audio/include/AudioEngine.h"
 #include "ui/CocosGUI.h"
-#include "Const.h"
-#include "Gaming.h"
+#include "Global/Const.h"
+#include "RoomAndMap/Gaming.h"
 
 class SafeScene :public cocos2d::Scene
 {

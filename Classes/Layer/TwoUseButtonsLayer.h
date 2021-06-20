@@ -13,9 +13,9 @@
 #ifndef __TWOUSE_BUTTONS_LAYER_H__
 #define __TWOUSE_BUTTONS_LAYER_H__
 
-#include "BGM.h"
-#include "source.h"
-#include "Const.h"
+#include "Global/BGM.h"
+#include "Global/source.h"
+#include "Global/Const.h"
 #include "cocos2d.h"
 #include "audio/include/AudioEngine.h"
 #include "ui/CocosGUI.h"

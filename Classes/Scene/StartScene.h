@@ -10,12 +10,12 @@
 #ifndef __START_SCENE_H__
 #define __START_SCENE_H__
 
-#include "source.h"
+#include "Global/source.h"
 #include "cocos2d.h"
 #include "audio/include/AudioEngine.h"
 #include "ui/CocosGUI.h"
-#include "Const.h"
-#include "Gaming.h"
+#include "Global/Const.h"
+#include "RoomAndMap/Gaming.h"
 #include "SafeScene.h"
 #include "Layer/TwoUseButtonsLayer.h"
 
