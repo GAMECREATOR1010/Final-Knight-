@@ -38,6 +38,7 @@ bool Gaming::init(Knight* myknight, int Chapter)
 	spritecache->addSpriteFramesWithFile("enemy/enemy_2.plist");
 	spritecache->addSpriteFramesWithFile("enemy/enemy_3.plist");
 	spritecache->addSpriteFramesWithFile("enemy/enemy_4.plist");
+	spritecache->addSpriteFramesWithFile("enemy/enemy_5.plist");
 	spritecache->addSpriteFramesWithFile("chests/whiteChest.plist");
 
 
@@ -403,38 +404,38 @@ bool Gaming::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 	{
 		switch (keycode)
 		{
-			case K::KEY_A:
-				myKnight->BindRoom(atRoom);
-				myKnight->MyAttack();
-				break;
-			case K::KEY_W:
-				map->setVisible(true);
-				break;
-			case K::KEY_S:
-				map->setVisible(false);
-				break;
-			case K::KEY_E:
-				myKnight->ChangeWea();
-				break;
-			case K::KEY_F:
-				_isInteract = true;
-				break;
-			case K::KEY_G:
-			{
-				auto hackWea = Weapon::create(9);
-				myKnight->BindWea(hackWea);
-				//myKnight->ChangeWea();
-				myKnight->MoveSpeedMaxChange(8);
-				myKnight->AttackDistanceMaxChange(10);
-				myKnight->DamageMaxChange(10);
-				goldMoney.ChangeBalance(1000);
-			}
+		case K::KEY_A:
+			myKnight->BindRoom(atRoom);
+			myKnight->MyAttack();
 			break;
-			case K::KEY_SPACE:
-				myKnight->LaunchSkillTime();
-				break;
-			default:
-				break;
+		case K::KEY_W:
+			map->setVisible(true);
+			break;
+		case K::KEY_S:
+			map->setVisible(false);
+			break;
+		case K::KEY_E:
+			myKnight->ChangeWea();
+			break;
+		case K::KEY_F:
+			_isInteract = true;
+			break;
+		case K::KEY_G:
+		{
+			auto hackWea = Weapon::create(9);
+			myKnight->BindWea(hackWea);
+			//myKnight->ChangeWea();
+			myKnight->MoveSpeedMaxChange(8);
+			myKnight->AttackDistanceMaxChange(10);
+			myKnight->DamageMaxChange(10);
+			goldMoney.ChangeBalance(1000);
+		}
+		break;
+		case K::KEY_SPACE:
+			myKnight->LaunchSkillTime();
+			break;
+		default:
+			break;
 		}
 
 		if (keycode == EventKeyboard::KeyCode::KEY_UP_ARROW)
