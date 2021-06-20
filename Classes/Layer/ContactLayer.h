@@ -14,17 +14,32 @@
 #define __CONTACT_LAYER_H__
 
 #include "cocos2d.h"
-#include "Knight.h"
 #include "source.h" 
+#include "audio/include/AudioEngine.h"
+#include "ui/CocosGUI.h"
+#include "Knight.h"
 
 
 class LackOfCoinLayer : public cocos2d::Layer
 {
 public:
+    void problemLoading(const char* filename);
 
-    virtual bool init();
+    virtual bool init(Knight* kinght);
 
-    CREATE_FUNC(LackOfCoinLayer);
+    static LackOfCoinLayer* create( Knight* kinght)
+    {
+        auto ret = new (std::nothrow) LackOfCoinLayer();
+        if (ret && ret->init( kinght))
+        {
+            ret->autorelease();
+        }
+        else
+        {
+            CC_SAFE_DELETE(ret);
+        }
+        return ret;
+    }
 
 };
 
@@ -32,10 +47,23 @@ public:
 class SuccessBugLayer : public cocos2d::Layer
 {
 public:
+    void problemLoading(const char* filename);
 
-    virtual bool init();
+    virtual bool init(Knight* kinght);
 
-    CREATE_FUNC(SuccessBugLayer);
+    static SuccessBugLayer* create(Knight* kinght)
+    {
+        auto ret = new (std::nothrow) SuccessBugLayer();
+        if (ret && ret->init(kinght))
+        {
+            ret->autorelease();
+        }
+        else
+        {
+            CC_SAFE_DELETE(ret);
+        }
+        return ret;
+    }
 
 };
 
