@@ -43,7 +43,7 @@ static const int weaponChestTag = 130;
 static const int weaponGoodsTag = 131;
 static const int weaponBoughtGoodsTag = 132;
 static const int weaponGroundTag = 133;
-
+static const int weaponEquipedTag = 134;
 static const int nextChapterTag = 200;
 
 #pragma endregion
@@ -56,7 +56,6 @@ static const int fullPotionValue = 15;
 static const int buffPotionValue = 30;
 static const int statueValue = 30;
 static const int weaponValue = 50;
-
 
 #pragma endregion
 

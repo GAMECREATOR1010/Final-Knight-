@@ -41,7 +41,6 @@ bool Gaming::init(Knight* myknight, int Chapter)
 	spritecache->addSpriteFramesWithFile("enemy/enemy_5.plist");
 	spritecache->addSpriteFramesWithFile("chests/whiteChest.plist");
 
-
 	myKnight = myknight;
 	chapter = Chapter;
 	roomThemeEnum theme = roomThemeEnum(rand() % 5);
@@ -251,8 +250,7 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 						//CCLOG("Gaming::onContactPreSolve: Interact item at position at %f %f", itemPX, itemPY);
 						//CCLOG("Gaming::onContactPreSolve: Knightnow item at position at %f %f", myKnight->getPositionX(), myKnight->getPositionY());
 					}
-					chest->setVisible(false);
-					chest->removeFromParent();
+
 				}
 			}
 			else if (bTag == statueTag)			/* 触发雕像 */
@@ -266,14 +264,14 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					if (statue->ActiveStatue(activer))
 					{
 						/* 激活成功 */
-						auto successStatueLayer = SuccessStatueLayer::create(myKnight);
-						 successStatue->setGlobalZOrder(uiOrder);
-						this->addChild( successStatue);
+						auto successStatue = SuccessStatueLayer::create(myKnight);
+						successStatue->setGlobalZOrder(uiOrder);
+						this->addChild(successStatue);
 					}
 					else
 					{
 						/* 激活失败 */
-						auto failStatueLayer = FailStatueLayer::create(myKnight);
+						auto failStatue = FailStatueLayer::create(myKnight);
 						failStatue->setGlobalZOrder(uiOrder);
 						this->addChild(failStatue);
 					}
@@ -299,7 +297,6 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					auto wp = static_cast <Weapon*> (nodeB);
 					wp->setScale(1);
 					activer->BindWea(wp);
-					wp->removeFromParent();
 				}
 			}
 			else if (bTag == potionGoodsTag || bTag == weaponGoodsTag)		/* 商店物品交互 */
@@ -353,6 +350,16 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					auto wp = static_cast <Weapon*> (nodeB);
 					activer->BindWea(wp);
 				}
+			}
+			else if (bTag == weaponEquipedTag)
+			{
+				myKnight->ChangeWea();
+				auto delay = DelayTime::create(0.1);
+				auto recovery = CallFunc::create([&]() {
+					myKnight->ChangeWea();
+					});
+				auto seq = Sequence::create(delay, recovery, nullptr);
+				runAction(seq);
 			}
 			else if (bTag == nextChapterTag && !transing)
 			{
@@ -410,38 +417,44 @@ bool Gaming::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 	{
 		switch (keycode)
 		{
-		case K::KEY_A:
-			myKnight->BindRoom(atRoom);
-			myKnight->MyAttack();
+			case K::KEY_A:
+				myKnight->BindRoom(atRoom);
+				myKnight->MyAttack();
+				break;
+			case K::KEY_W:
+				map->setVisible(true);
+				break;
+			case K::KEY_S:
+				map->setVisible(false);
+				break;
+			case K::KEY_E:
+				myKnight->ChangeWea();
+				break;
+			case K::KEY_F:
+				_isInteract = true;
+				break;
+			case K::KEY_G:
+			{
+				auto hackWea = Weapon::create(9);
+				myKnight->BindWea(hackWea);
+				//myKnight->ChangeWea();
+				myKnight->MoveSpeedMaxChange(8);
+				myKnight->HPMaxChange(1000);
+				myKnight->HPNowChange(-600);
+				myKnight->EnergyMaxChange(5000);
+				myKnight->EnergyNowChange(-4000);
+				myKnight->DefenceMaxChange(1000);
+				myKnight->DefenceNowChange(-500);
+				myKnight->AttackDistanceMaxChange(10);
+				myKnight->DamageMaxChange(10);
+				goldMoney.ChangeBalance(1000);
+			}
 			break;
-		case K::KEY_W:
-			map->setVisible(true);
-			break;
-		case K::KEY_S:
-			map->setVisible(false);
-			break;
-		case K::KEY_E:
-			myKnight->ChangeWea();
-			break;
-		case K::KEY_F:
-			_isInteract = true;
-			break;
-		case K::KEY_G:
-		{
-			auto hackWea = Weapon::create(9);
-			myKnight->BindWea(hackWea);
-			//myKnight->ChangeWea();
-			myKnight->MoveSpeedMaxChange(8);
-			myKnight->AttackDistanceMaxChange(10);
-			myKnight->DamageMaxChange(10);
-			goldMoney.ChangeBalance(1000);
-		}
-		break;
-		case K::KEY_SPACE:
-			myKnight->LaunchSkillTime();
-			break;
-		default:
-			break;
+			case K::KEY_SPACE:
+				myKnight->LaunchSkillTime();
+				break;
+			default:
+				break;
 		}
 
 		if (keycode == EventKeyboard::KeyCode::KEY_UP_ARROW)
