@@ -374,12 +374,10 @@ void  Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
 		myWea->retain();
 		myWea->removeFromParentAndCleanup(false);
 
-
 		wea = myWea;
 		addChild(wea);
 		wea->setPosition(wea->bindPoint + bindPointOffSet);
 		wea->setVisible(true);
-
 
 		myWea = weaponForever;
 		weaParent->addChild(myWea);
@@ -388,7 +386,6 @@ void  Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
 
 		wea->trigger->setEnabled(false);
 		SetWeaponBuff(wea);
-
 	}
 	else if (wea1 != nullptr)
 	{
@@ -401,7 +398,6 @@ void  Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
 		myWea->removeFromParentAndCleanup(false);
 
 		wea1 = myWea;
-
 
 		myWea = weaponForever;
 		weaParent->addChild(myWea);
@@ -506,6 +502,7 @@ void Actor::DeathEffect()/*ËÀÍöÐ§¹û*/
 				this->getParent()->addChild(wChe);
 				inRoom->UpdateDoor();
 			}
+			goldMoney.ChangeBalanceWhileEnemyDied(1);
 			inRoom->enemyCount -= 1;
 			if (inRoom->enemyCount <= 0)
 			{
