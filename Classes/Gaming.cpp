@@ -38,6 +38,8 @@ bool Gaming::init(Knight* myknight, int Chapter)
 	spritecache->addSpriteFramesWithFile("enemy/enemy_2.plist");
 	spritecache->addSpriteFramesWithFile("enemy/enemy_3.plist");
 	spritecache->addSpriteFramesWithFile("enemy/enemy_4.plist");
+	spritecache->addSpriteFramesWithFile("chests/whiteChest.plist");
+
 
 	myKnight = myknight;
 	chapter = Chapter;
@@ -260,7 +262,14 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					CCLOG("Gaming::onContactPreSolve: Active statue");
 					auto activer = static_cast <Knight*> (nodeA);
 					auto statue = static_cast <Statue*> (nodeB);
-					statue->ActiveStatue(activer);
+					if (statue->ActiveStatue(activer))
+					{
+						/* 激活成功 */
+					}
+					else
+					{
+						/* 激活失败 */
+					}
 				}
 			}
 			else if (bTag == potionChestTag)			/* 宝箱中/掉落的药水交互 */
@@ -326,6 +335,16 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 						activer->BindWea(static_cast <Weapon*>(goodsG->GetGoods()));
 						activer->ChangeWea();
 					}
+				}
+			}
+			else if (bTag == weaponGroundTag)			/* 地面武器交互 */
+			{
+				if (_isInteract)
+				{
+					_isInteract = false;
+					auto activer = static_cast <Knight*> (nodeA);
+					auto wp = static_cast <Weapon*> (nodeB);
+					activer->BindWea(wp);
 				}
 			}
 			else if (bTag == nextChapterTag && !transing)
