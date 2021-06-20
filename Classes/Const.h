@@ -70,19 +70,19 @@ static const int ObstaclesCate = 3;
 static const int ItemCate = 4;
 
 //UI stuff
-#define stopButtonOrder 800
-#define stopLayerOrder  850
-#define stopLayerStuffOrder  900
-#define infoLayerOrder       950
-#define infoLayerStuffOrder  999
 
-#define StopFramePre     0.45f
+static const int BloodUIx = 82;
+static const int BloodUIy = 15;
+static const int BloodUIGap = 60;
 
-#define ButtonPre    0.075f
-#define ButtonWidthGap   40
-#define ButtonHeightGap  30
-#define ButtonWidthGapInStop   10
-#define ButtonHeightGapInStop  90
+
+static const float StopFramePre = 0.45f;
+
+static const float  ButtonPre = 0.075f;
+static const int ButtonWidthGap = 40;
+static const int  ButtonHeightGap = 30;
+static const int  ButtonWidthGapInStop = 10;
+static const int ButtonHeightGapInStop = 90;
 //UI stuff end
 #include "cocos2d.h"
 
