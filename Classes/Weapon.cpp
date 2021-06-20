@@ -182,6 +182,7 @@ bool Weapon::init(int id, int cate)
 		SetBody(trigger, ItemCate);
 		addComponent(trigger);
 	}
+	this->SetValue(weaponValue);
 
 	setGlobalZOrder(knightOrder);
 	setTag(weaponGroundTag);

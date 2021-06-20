@@ -2,6 +2,7 @@
 
 #ifndef __CONST_H__
 #define __CONST_H__
+
 #pragma region GlobalZOrder_È«¾Ö»æÍ¼Ë³Ðò
 
 static const int metaOrder = 0;
@@ -54,6 +55,8 @@ static const int manaPotionValue = 10;
 static const int fullPotionValue = 15;
 static const int buffPotionValue = 30;
 static const int statueValue = 30;
+static const int weaponValue = 50;
+
 
 #pragma endregion
 
@@ -73,7 +76,7 @@ static const int MANA_EVERY_ROOM = 20;
 static const double MANA_LEVEL_MUTI = 1.1;
 
 static const bool DEBUG_CHEST_MODE = true;
-static const bool DEBUG_INTERACT_MODE = false;
+static const bool DEBUG_INTERACT_MODE = true;
 static const bool DEBUG_ROOM_MODE = true;
 static const bool DEBUG_UI_MODE = false;
 
