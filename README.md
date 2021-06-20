@@ -9,7 +9,10 @@
 好吧原版请移步[这里](http://www.chillyroom.com/zh)，这只是一个基于 *元气骑士* 的课程大项目  
 
 ## How to play?
-进入开始界面，按操作提示操作，进入安全界面选择骑士，进入游戏场景后按上下左右控制骑士移动，按A攻击，E切换武器，F交互，G开挂
+点击[这里下载](https://github.com/GAMECREATOR1010/Final-Knight-/releases/download/v2.0.0/Final-Knight-.7z)压缩包，解压，然后运行exe！  
+进入开始界面，按操作提示操作，进入安全界面选择骑士，进入游戏场景后按上下左右控制骑士移动，按A攻击，E切换武器，F交互，G开挂，更多说明请点击游戏内帮助按钮~
+如果报错，请检查依赖库。不知道怎么解决？我们已经和服务10亿互联网用户的公司开展合作，请移步[此处](https://www.baidu.com/)联系我们的技术支持  
+如果您在游玩过程中发现bug，或者有任何新的想法，都欢迎在[这里](https://github.com/GAMECREATOR1010/Final-Knight-/issues)分享  
 
 ## License
 单击[这里](https://github.com/GAMECREATOR1010/Final-Knight-/blob/main/LICENSE)查看开源协议  
