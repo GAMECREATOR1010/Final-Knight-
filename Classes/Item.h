@@ -41,7 +41,8 @@ class Item :public Sprite
 public:
 	CREATE_FUNC(Item);
 	int GetRarity() const;	//获取品质
-	int GetNowValue(int curLevel = 1);
+	int GetValue() const;
+void SetValue(int value);
 	bool Buy();
 protected:
 	virtual bool init();

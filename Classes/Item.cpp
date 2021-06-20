@@ -47,14 +47,20 @@ int Item::GetRarity() const
 	return _rarity;
 }
 
-int Item::GetNowValue(int curLevel)
+int Item::GetValue() const
 {
-	return _value*curLevel;
+	return _value;
+}
+
+void Item::SetValue(int value)
+{
+	_value = value;
+	return;
 }
 
 bool Item::Buy()
 {
-	auto price=this->GetNowValue();
+	auto price=this->GetValue();
 		/* ¼ì²âÊÇ·ñÓÐ×ã¹»µÄÇ® */
 		if (goldMoney.ChangeBalance(-price))
 		{

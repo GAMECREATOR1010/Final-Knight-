@@ -122,7 +122,7 @@ bool Shop::SetPotion(Type type, int curLevel)
 		{
 			potion->setName("Potion");
 			goodses[i].SetGoods(potion);
-			goodses[i].SetPrice(potion->GetScale() * curLevel);
+			goodses[i].SetPrice(potion->GetValue()*curLevel);
 
 			return true;
 		}
@@ -144,7 +144,7 @@ bool Shop::SetWeapon(int curLevel)
 			auto wp = static_cast <Item*> (RandomWeaponCreate());
 			wp->setName("Weapon");
 			goodses[i].SetGoods(wp);
-			goodses[i].SetPrice(wp->GetRarity() * curLevel);
+			goodses[i].SetPrice(wp->GetValue() * curLevel);
 
 			return true;
 		}

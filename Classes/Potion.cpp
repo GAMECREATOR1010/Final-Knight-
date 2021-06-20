@@ -91,6 +91,8 @@ bool HealPotion::initWithScale(Scale scale)
 			break;
 	}
 
+	this->SetValue(healPotionValue * this->GetScale());
+
 	/* Ìí¼ÓÅö×²·¶Î§ */
 	auto phy = PhysicsBody::createCircle(_physicalRange);
 	SetBody(phy, ItemCate);
@@ -156,6 +158,8 @@ bool ManaPotion::initWithScale(Scale scale)
 			break;
 	}
 
+	this->SetValue(manaPotionValue * this->GetScale());
+
 	/* Ìí¼ÓÅö×²·¶Î§ */
 	auto phy = PhysicsBody::createCircle(_physicalRange);
 	SetBody(phy, ItemCate);
@@ -219,6 +223,8 @@ bool FullPotion::initWithScale(Scale scale)
 			return false;
 			break;
 	}
+
+	this->SetValue(fullPotionValue * this->GetScale());
 
 	/* Ìí¼ÓÅö×²·¶Î§ */
 	auto phy = PhysicsBody::createCircle(_physicalRange);
@@ -296,6 +302,8 @@ bool BuffPotion::initWithBuffType(BuffType buffType)
 	Potion::init();
 	_buffType = buffType;
 	initWithFile(BUFF_PATH);
+
+	this->SetValue(buffPotionValue*this->GetScale());
 
 	/* Ìí¼ÓÅö×²·¶Î§ */
 	auto phy = PhysicsBody::createCircle(_physicalRange);
