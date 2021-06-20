@@ -68,7 +68,7 @@ bool GoldMoney::ChangeBalance(int changeValue)
 		CCLOG("Money::ChangeBalance: from %d to %d", beforeBalance, goldMoney._balances);
 		return true;
 	}
-	CCLOG("Money::ChangeBalance: from %d to %d", beforeBalance, goldMoney._balances);
+	CCLOG("Money::ChangeBalance: from %d to %d£¬false", beforeBalance, goldMoney._balances + changeValue);
 	return false;
 }
 void GoldMoney::SetBalance(int setValue)
