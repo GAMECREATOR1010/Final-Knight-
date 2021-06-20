@@ -50,7 +50,7 @@ Item* WhiteChest::open(Knight* activer)
 		case 1:	//生成金币和能量
 			goldMoney.ChangeBalance(MONEY_EVERY_ROOM * MONEY_LEVEL_MUTI);
 			activer->EnergyNowChange(MANA_EVERY_ROOM * MANA_LEVEL_MUTI);
-			CCLOG("WhiteChest::open get gold");
+			CCLOG("WhiteChest::open get gold %d", MONEY_EVERY_ROOM * MONEY_LEVEL_MUTI);
 			return nullptr;
 		case 2:	//生成HP药水
 		{

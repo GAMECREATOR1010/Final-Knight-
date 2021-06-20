@@ -71,7 +71,6 @@ bool Gaming::init(Knight* myknight, int Chapter)
 	mainUILayer->setGlobalZOrder(uiOrder);
 	this->addChild(mainUILayer);
 
-
 	//this->setScale(0.2f);
 	//map->setVisible(false);
 	this->scheduleUpdate();
@@ -103,7 +102,10 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 			nodeB = nodeTemp;
 		}
 
-		CCLOG("onContactBegin %d %d", aTag, bTag);
+		if (DEBUG_INTERACT_MODE)
+		{
+			CCLOG("onContactBegin %d %d", aTag, bTag);
+		}
 
 		if (aTag == enemyTag && bTag == myAttackTag)
 		{
@@ -184,9 +186,12 @@ bool Gaming::onContactBegin(const PhysicsContact& contact)
 				bullet->ShowEffect();
 			}
 		}
-		CCLOG("onContactEnd %d %d", aTag, bTag);
-	}
 
+		if (DEBUG_INTERACT_MODE)
+		{
+			CCLOG("onContactEnd %d %d", aTag, bTag);
+		}
+	}
 
 	return true;
 }
@@ -218,7 +223,11 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 		/* Íæ¼Ò½»»¥¼ì²â */
 		if (aTag == knightTag && bTag >= 100)
 		{
-			CCLOG("Interact contact begin, between %d %d", aTag, bTag);
+			if (DEBUG_INTERACT_MODE)
+			{
+				CCLOG("Interact contact begin, between %d %d", aTag, bTag);
+			}
+
 			if (bTag == chestTag)			/* ¿ªÆô±¦Ïä */
 			{
 				if (_isInteract)
@@ -226,7 +235,7 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					_isInteract = false;
 					auto activer = static_cast <Knight*> (nodeA);
 					auto chest = static_cast <Chest*> (nodeB);
-					CCLOG("Gaming::onContactPreSolve: Interact activer at position at %f %f", activer->getPositionX(), activer->getPositionY());
+					//CCLOG("Gaming::onContactPreSolve: Interact activer at position at %f %f", activer->getPositionX(), activer->getPositionY());
 					auto item = chest->open(activer);
 					if (item != nullptr)
 					{
@@ -236,9 +245,8 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 						auto itemPY = chest->getPositionY() - 2112.0;
 						item->setPosition(itemPX, itemPY);
 						//item->setPosition(chest->getPosition());
-						CCLOG("Gaming::onContactPreSolve: Interact item at position at %f %f", itemPX, itemPY);
-						CCLOG("Gaming::onContactPreSolve: Knightnow item at position at %f %f", myKnight->getPositionX(), myKnight->getPositionY());
-
+						//CCLOG("Gaming::onContactPreSolve: Interact item at position at %f %f", itemPX, itemPY);
+						//CCLOG("Gaming::onContactPreSolve: Knightnow item at position at %f %f", myKnight->getPositionX(), myKnight->getPositionY());
 					}
 					chest->setVisible(false);
 					chest->removeFromParent();
@@ -333,8 +341,6 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					nodeA->removeAllComponents();
 				}
 			}
-
-			//CCLOG("Interact contact end");
 		}
 	}
 
@@ -378,37 +384,38 @@ bool Gaming::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 	{
 		switch (keycode)
 		{
-		case K::KEY_A:
-			myKnight->BindRoom(atRoom);
-			myKnight->MyAttack();
+			case K::KEY_A:
+				myKnight->BindRoom(atRoom);
+				myKnight->MyAttack();
+				break;
+			case K::KEY_W:
+				map->setVisible(true);
+				break;
+			case K::KEY_S:
+				map->setVisible(false);
+				break;
+			case K::KEY_E:
+				myKnight->ChangeWea();
+				break;
+			case K::KEY_F:
+				_isInteract = true;
+				break;
+			case K::KEY_G:
+			{
+				auto hackWea = Weapon::create(9);
+				myKnight->BindWea(hackWea);
+				//myKnight->ChangeWea();
+				myKnight->MoveSpeedMaxChange(8);
+				myKnight->AttackDistanceMaxChange(10);
+				myKnight->DamageMaxChange(10);
+				goldMoney.ChangeBalance(1000);
+			}
 			break;
-		case K::KEY_W:
-			map->setVisible(true);
-			break;
-		case K::KEY_S:
-			map->setVisible(false);
-			break;
-		case K::KEY_E:
-			myKnight->ChangeWea();
-			break;
-		case K::KEY_F:
-			_isInteract = true;
-			break;
-		case K::KEY_G:
-		{
-			auto hackWea = Weapon::create(8);
-			myKnight->BindWea(hackWea);
-			//myKnight->ChangeWea();
-			myKnight->MoveSpeedMaxChange(5);
-			myKnight->AttackDistanceMaxChange(5);
-			myKnight->DamageMaxChange(10);
-		}
-		break;
-		case K::KEY_SPACE:
-			myKnight->LaunchSkillTime();
-			break;
-		default:
-			break;
+			case K::KEY_SPACE:
+				myKnight->LaunchSkillTime();
+				break;
+			default:
+				break;
 		}
 
 		if (keycode == EventKeyboard::KeyCode::KEY_UP_ARROW)
@@ -437,7 +444,6 @@ bool Gaming::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 			myKnight->GetWea()->setRotation(90.0f);
 			change = Vec2(0, 1);
 		}
-
 	}
 	return true;
 }
@@ -481,11 +487,16 @@ void Gaming::update(float delta)
 			else
 				map->setPosition(map->getPosition() + change * move);
 		}
-		char string[30] = { 0 };
-		sprintf(string, "HP:%.2f/%.2f", myKnight->GetHP(), myKnight->GetHPMax());
-		CCLOG(string);
-		sprintf(string, "%d", goldMoney.GetBalance());
-		CCLOG(string);
+
+		if (DEBUG_UI_MODE)
+		{
+			char string[30] = { 0 };
+			sprintf(string, "HP:%.2f/%.2f", myKnight->GetHP(), myKnight->GetHPMax());
+			CCLOG(string);
+			sprintf(string, "%d", goldMoney.GetBalance());
+			CCLOG(string);
+		}
+
 		BloodLayer::Change(*myKnight);
 		MainUILayer::ChangeCoinLabel();
 	}
