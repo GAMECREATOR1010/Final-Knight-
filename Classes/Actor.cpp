@@ -27,7 +27,6 @@ float Actor::GetDamageMax()
 	return damageMax;
 }
 
-
 float Actor::GetMoveSpeed()
 {
 	return moveSpeed;
@@ -37,7 +36,6 @@ float Actor::GetMoveSpeedMax()
 {
 	return moveSpeedMax;
 }
-
 
 float Actor::GetHP()
 {
@@ -49,7 +47,6 @@ float Actor::GetHPMax()
 	return HPMax;
 }
 
-
 float Actor::GetDefence()
 {
 	return defence;
@@ -59,7 +56,6 @@ float Actor::GetDefenceMax()
 {
 	return defenceMax;
 }
-
 
 float Actor::GetAttackRange()
 {
@@ -71,7 +67,6 @@ float Actor::GetAttackRangeMax()
 	return attackRangeMax;
 }
 
-
 float Actor::GetAttackSpeed()
 {
 	return attackSpeed;
@@ -82,7 +77,6 @@ float Actor::GetAttackSpeedMax()
 	return attackSpeedMax;
 }
 
-
 float  Actor::GetAttackDistance()
 {
 	return attackDistance;
@@ -92,7 +86,6 @@ float  Actor::GetAttackDistanceMax()
 {
 	return attackDistanceMax;
 }
-
 
 void Actor::HPNowChange(float hpchange)
 {
@@ -115,8 +108,6 @@ void Actor::HPMaxChange(float hpchange)
 	HPMax += hpchange;
 	HP = HPMax;
 }
-
-
 
 void Actor::DefenceNowChange(float defencechange, float continueTime)
 {
@@ -148,7 +139,6 @@ void Actor::DefenceMaxChange(float defencechange)
 	defence = defenceMax;
 }
 
-
 void Actor::MoveSpeedNowChange(float moveSpeedchange, float continueTime)
 {
 	if (continueTime == -1.0f)
@@ -179,7 +169,6 @@ void Actor::MoveSpeedMaxChange(float moveSpeedchange)
 	moveSpeedMax += moveSpeedchange;
 	moveSpeed = moveSpeedMax;
 }
-
 
 void Actor::DamageNowChange(float damagechange, float continueTime)
 {
@@ -214,10 +203,7 @@ void Actor::DamageMaxChange(float damagechange)
 	damageMax += damagechange;
 	damage = damageMax;
 	wea->SetDamageBuff(damage);
-
 }
-
-
 
 void Actor::AttackSpeedChange(float  attackSpeedchange, float continueTime)
 {
@@ -254,8 +240,6 @@ void Actor::AttackSpeedMaxChange(float attackSpeedchange)
 	wea->SetSpeedBuff(attackSpeed);
 }
 
-
-
 void Actor::AttackRangeChange(float attackRangechange, float continueTime)
 {
 	if (continueTime == -1.0f)
@@ -290,8 +274,6 @@ void Actor::AttackRangeMaxChange(float attackRangechange)
 	attackRange = attackRangeMax;
 	wea->SetRangeBuff(attackRange);
 }
-
-
 
 void Actor::AttackDistanceChange(float attackDistancechange, float continueTime)
 {
@@ -328,7 +310,6 @@ void Actor::AttackDistanceMaxChange(float attackDistancechange)
 	wea->SetDistanceBuff(attackDistance);
 }
 
-
 void Actor::InvincibleTimeChange(float invincibleTimechange, float continueTime)
 {
 	if (continueTime == -1.0f)
@@ -360,7 +341,6 @@ void Actor::InvincibleTimeMaxChange(float invincibleTimechange)
 	invincibleTime = invincibleTimeMax;
 }
 
-
 void Actor::AddShade(const Vec2 test)
 {
 	shade = Sprite::create("shade.png");
@@ -379,45 +359,58 @@ void Actor::SetWeaponBuff(Weapon* myWea)
 
 void  Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
 {
-	SetWeaponBuff(myWea);
 	myWea->trigger->setEnabled(false);
+	SetWeaponBuff(myWea);
 	if ((myWea->costEnergy == 0 && wea->costEnergy == 0) ||
 		(myWea->costEnergy > 0 && wea->costEnergy > 0))
 	{
+		auto weaParent = myWea->getParent();
+		auto weaPos = myWea->getPosition();
+
 		wea->retain();
 		wea->removeFromParentAndCleanup(false);
-		Weapon* tempWea = wea;
-		tempWea->setVisible(false);
-		myWea->getParent()->addChild(tempWea);
-		tempWea->setPosition(myWea->getPosition());
+		weaponForever = wea;
 
 		myWea->retain();
 		myWea->removeFromParentAndCleanup(false);
-		
+
+
 		wea = myWea;
 		addChild(wea);
 		wea->setPosition(wea->bindPoint + bindPointOffSet);
 		wea->setVisible(true);
-		wea->getPhysicsBody()->setEnabled(false);
 
+
+		myWea = weaponForever;
+		weaParent->addChild(myWea);
+		myWea->setPosition(weaPos);
+		myWea->trigger->setEnabled(true);
+
+		wea->trigger->setEnabled(false);
 		SetWeaponBuff(wea);
 
-		tempWea->setVisible(true);
-		tempWea->trigger->setEnabled(true);
 	}
 	else if (wea1 != nullptr)
 	{
-		Weapon* tempWea = wea1;
-		tempWea->setVisible(false);
-		myWea->getParent()->addChild(tempWea);
-		tempWea->setPosition(myWea->getPosition());
+		auto weaParent = myWea->getParent();
+		auto weaPos = myWea->getPosition();
+
+		weaponForever = wea1;
 
 		myWea->retain();
 		myWea->removeFromParentAndCleanup(false);
+
 		wea1 = myWea;
-		wea1->getPhysicsBody()->setEnabled(false);
-		tempWea->setVisible(true);
-		tempWea->trigger->setEnabled(true);
+
+
+		myWea = weaponForever;
+		weaParent->addChild(myWea);
+		myWea->setPosition(weaPos);
+		myWea->trigger->setEnabled(true);
+
+		wea1->trigger->setEnabled(false);
+		SetWeaponBuff(wea1);
+		wea1->retain();
 	}
 	else
 	{
@@ -426,7 +419,8 @@ void  Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
 		wea1 = myWea;
 		wea1->retain();
 	}
-	
+	wea->setTag(weaponEquipedTag);
+	myWea->setTag(weaponChestTag);
 }
 
 void  Actor::ChangeWea()
@@ -442,6 +436,7 @@ void  Actor::ChangeWea()
 		SetWeaponBuff(wea);
 		wea1 = weaponForever;
 	}
+	CCLOG("Actor::ChangeWea: weapon change");
 }
 
 Weapon* Actor::GetWea()
