@@ -288,7 +288,7 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					if (potionG->Buy())
 					{
 						/* 提示购买成功 */
-						potionG->removeFromParent();
+						//potionG->removeFromParent();	//购买完不应该立即装备
 						auto successBugLayer = SuccessBugLayer::create(myKnight);
 						successBugLayer->setGlobalZOrder(uiOrder);
 						this->addChild(successBugLayer);
