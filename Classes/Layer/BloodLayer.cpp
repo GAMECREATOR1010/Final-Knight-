@@ -53,7 +53,7 @@ void UIItem::Change(float now, float max)
     _now = now;
     _max = max;
     float precen = now / max;
-    _sprite->setScale(precen);
+    _sprite->setScaleX(precen);
     char string[30] = { 0 };
     sprintf(string, "%d/%d", (int)_now, (int)_max);
     _label->setString(string);
