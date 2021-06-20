@@ -76,6 +76,7 @@ void GoldMoney::SetBalance(int setValue)
 	goldMoney._balances = setValue;
 	return;
 }
+
 /// <summary>
 /// 怪物死时概率加金币，精英怪必加
 /// </summary>
@@ -92,7 +93,7 @@ void GoldMoney::ChangeBalanceWhileEnemyDied(int roomLevel, int enemyLevel, int d
 			return;
 		}
 	}
-	this->ChangeBalance(MONEY_EVERY_ENEMY * roomLevel * enemyLevel * difficult * (isElite ? 3 : 1));
+	goldMoney.ChangeBalance(MONEY_EVERY_ENEMY * roomLevel * enemyLevel * difficult * (isElite ? 3 : 1));
 	return;
 }
 
