@@ -10,14 +10,14 @@
 #ifndef __START_SCENE_H__
 #define __START_SCENE_H__
 
-#include "BGM.h"
+#include "source.h"
 #include "cocos2d.h"
 #include "audio/include/AudioEngine.h"
-#include "Layer/TwoUseButtonsLayer.h"
-#include "Layer/StopLayer.h"
+#include "ui/CocosGUI.h"
+#include "Const.h"
 #include "Gaming.h"
-#include "General.h"
-#include "source.h" 
+#include "SafeScene.h"
+#include "Layer/TwoUseButtonsLayer.h"
 
 class StartScene :public cocos2d::Scene
 {
@@ -25,9 +25,11 @@ class StartScene :public cocos2d::Scene
 public:
     virtual bool init() override;
 
+    void problemLoading(const char* filename);
+
     static cocos2d::Scene* createScene();
 
-    void startCallback(Ref* sender);
+    void StartCallback(Ref* sender);
 
     CREATE_FUNC(StartScene);
 };

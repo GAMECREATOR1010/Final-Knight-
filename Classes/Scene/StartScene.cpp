@@ -17,7 +17,7 @@ Scene* StartScene::createScene()
     return StartScene::create();
 }
 
-static void problemLoading(const char* filename)
+void StartScene::problemLoading(const char* filename)
 {
     printf("Error while loading: %s\n", filename);
     printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
@@ -58,7 +58,7 @@ bool StartScene::init()
     {
         MenuItemFont::setFontName("fonts/Pixeboy.ttf");
         auto startItem = MenuItemFont::create("PRESS TO START",
-            CC_CALLBACK_1(StartScene::startCallback, this));
+            CC_CALLBACK_1(StartScene::StartCallback, this));
         startItem->setFontSizeObj(100);
 
         auto actionFade = FadeIn::create(1.0f);
@@ -76,20 +76,20 @@ bool StartScene::init()
     {   
         //音效和BGM设置按钮
         auto bgmButton = BGMButton::create();
-        bgmButton->setPostionStartLayer();
+        bgmButton->SetPostionStartLayer();
         this->addChild(bgmButton);
         auto seButton = SEButton::create();
         this->addChild(seButton);
-        seButton->setPostionStartLayer();
+        seButton->SetPostionStartLayer();
         auto infoButton = InfoButton::create();
-        infoButton->setPostionStartLayer();
+        infoButton->SetPostionStartLayer();
         this->addChild(infoButton);
     }
 
     return true;
 }
 
-void StartScene::startCallback(Ref* sender)
+void StartScene::StartCallback(Ref* sender)
 {
     //音效
     se._audioID = se.play2d(s_M_ButtonSelected);
@@ -98,6 +98,7 @@ void StartScene::startCallback(Ref* sender)
     auto knight = Knight::create(0, 1);
     auto scene = Gaming::createScene(knight, 1);
     auto director = Director::getInstance();
+    /*auto scene = SafeScene::create();*/
     director->replaceScene(scene);
 }
 
