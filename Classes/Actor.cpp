@@ -398,6 +398,7 @@ void  Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
 		addChild(wea);
 		wea->setPosition(wea->bindPoint + bindPointOffSet);
 		wea->setVisible(true);
+		wea->getPhysicsBody()->setEnabled(false);
 
 		SetWeaponBuff(wea);
 
@@ -414,6 +415,7 @@ void  Actor::BindWea(Weapon* myWea)/*°óÎäÆ÷*/
 		myWea->retain();
 		myWea->removeFromParentAndCleanup(false);
 		wea1 = myWea;
+		wea1->getPhysicsBody()->setEnabled(false);
 		tempWea->setVisible(true);
 		tempWea->trigger->setEnabled(true);
 	}

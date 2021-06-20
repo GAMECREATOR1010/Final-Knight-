@@ -61,6 +61,7 @@ public:
 protected:
 	bool initWithScale(Scale scale);
 	bool _isDrunk=false;
+	bool _isFullPotion = false;
 private:
 	Scale _scale;
 	Type _type;

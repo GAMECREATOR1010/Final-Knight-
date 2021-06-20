@@ -61,7 +61,7 @@ HealPotion* HealPotion::create(Scale scale)
 /// <param name="multi">附加倍率，大小瓶规模无需附加</param>
 void HealPotion::Drink(Knight* drinker, float multi)
 {
-	if (_isDrunk)
+	if (_isDrunk && !_isFullPotion)
 	{
 		return;
 	}
@@ -70,7 +70,7 @@ void HealPotion::Drink(Knight* drinker, float multi)
 	/* 调用增加生命接口 */
 	auto beforeHp = drinker->GetHP();
 	drinker->HPNowChange(heal);
-	CCLOG("HealPotion::Drink: Before Hp %d, now Hp %d", beforeHp,drinker->GetHP());
+	CCLOG("HealPotion::Drink: Before Hp %f, now Hp %f", beforeHp,drinker->GetHP());
 	this->setVisible(false);
 	return;
 }
@@ -128,7 +128,7 @@ ManaPotion* ManaPotion::create(Scale scale)
 /// <param name="multi">附加倍率，大小瓶规模无需附加</param>
 void ManaPotion::Drink(Knight* drinker, float multi)
 {
-	if (_isDrunk)
+	if (_isDrunk && !_isFullPotion)
 	{
 		return;
 	}
@@ -137,7 +137,7 @@ void ManaPotion::Drink(Knight* drinker, float multi)
 	/* 调用增加魔力接口 */
 	auto beforeMp = drinker->GetEnergyNow();
 	drinker->EnergyNowChange(heal);
-	CCLOG("ManaPotion::Drink: Before Mp %d, now Mp %d", beforeMp, drinker->GetEnergyNow());
+	CCLOG("ManaPotion::Drink: Before Mp %f, now Mp %f", beforeMp, drinker->GetEnergyNow());
 	this->setVisible(false);
 	return;
 }
@@ -198,9 +198,9 @@ void FullPotion::Drink(Knight* drinker, float multi)
 	{
 		return;
 	}
-	_isDrunk = true;
 	HealPotion::Drink(drinker, multi);
 	ManaPotion::Drink(drinker, multi);
+	_isDrunk = true;
 	CCLOG("FullPotion::Drink: HP++MP++");
 
 	this->setVisible(false);
@@ -224,6 +224,7 @@ bool FullPotion::initWithScale(Scale scale)
 			break;
 	}
 
+	this->_isFullPotion = true;
 	this->SetValue(fullPotionValue * this->GetScale());
 
 	/* 添加碰撞范围 */
