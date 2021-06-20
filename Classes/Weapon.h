@@ -34,7 +34,7 @@ public:
 
     void AddBullet(float addBullet);
     float GetDamage();
-
+    PhysicsBody* trigger;//¼ñÆð¼ì²â
 
 private:
     virtual bool init(int id = 0, int cate = KnightCate);
@@ -63,7 +63,7 @@ private:
 
     Vec2 meleeFacDir;
     float  meleeStartRot;
-    PhysicsBody* trigger;//¼ñÆð¼ì²â
+    
 };
 static Weapon* weaponForever;
 #endif 
