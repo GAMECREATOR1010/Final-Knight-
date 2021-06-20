@@ -8,6 +8,7 @@
 			s为source标注
 			X为类型: P为图片
 					 M为音频
+					 T为字体
 					 (...待补充)
 			XXX为命名
  ****************************************************************************/
@@ -16,6 +17,11 @@ static const char s_P_Start[]                 = "sencePictures/Start.png";
 static const char s_P_StopFrame[]             = "sencePictures/StopFrame.png";
 static const char s_P_InfoFrame[]             = "sencePictures/InfoFrame.png";
 static const char s_P_InfoFrameStart[]        = "sencePictures/InfoFrameStart.png";
+static const char s_P_BackGround[]            = "sencePictures/BackGround.png";
+
+static const char s_P_EnemyFrame[]            = "sencePictures/EnemyFrame.png";
+static const char s_P_KnightFrame[]           = "sencePictures/KnightFrame.png";
+static const char s_P_WeaponFrame[]           = "sencePictures/WeaponFrame.png";
 
 static const char s_P_BloodFrame[]            = "mainUI/BloodFrame.png";
 static const char s_P_HPUI[]                  = "mainUI/PlayerHPUI.png";
@@ -48,10 +54,18 @@ static const char s_P_InfoButtonSelected[]    = "buttons/InfoButtonSelected.png"
 static const char s_P_SupremeButton[]         = "buttons/SupremeButton.png";
 static const char s_P_SupremeButtonSelected[] = "buttons/SupremeButtonSelected.png";
 
-
 static const char s_P_CloseButton[]           = "buttons/CloseButton.png";
 
 static const char s_P_LackOfCoin[]            = "hint/LackOfCoin.png";
 static const char s_P_SuccessBug[]            = "hint/SuccessBug.png";
+
+
+
+
+
 static const char s_M_StartBGM[]              = "bgm/StartBGM.mp3";
 static const char s_M_ButtonSelected[]        = "bgm/ButtonSelected.mp3";
+
+
+
+static const char s_T_Pixeboy[]               = "fonts/Pixeboy.ttf";
