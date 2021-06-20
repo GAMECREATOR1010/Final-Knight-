@@ -68,10 +68,10 @@ bool Gaming::init(Knight* myknight, int Chapter)
 
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
 
-	MainUILayer* mainUILayer = MainUILayer::create();
-	mainUILayer->AddStuff(*keyListener, *this, *myKnight);
-	mainUILayer->setGlobalZOrder(uiOrder);
-	this->addChild(mainUILayer);
+	//MainUILayer* mainUILayer = MainUILayer::create();
+	//mainUILayer->AddStuff(*keyListener, *this, *myKnight);
+	//mainUILayer->setGlobalZOrder(uiOrder);
+	//this->addChild(mainUILayer);
 
 	//this->setScale(0.2f);
 	//map->setVisible(false);
@@ -220,7 +220,7 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 			nodeA = nodeB;
 			nodeB = nodeTemp;
 		}
-		//CCLOG("onContactPreSolve, between %d %d", aTag, bTag);
+		CCLOG("onContactPreSolve, between %d %d", aTag, bTag);
 
 		/* 玩家交互检测 */
 		if (aTag == knightTag && bTag >= 100)
@@ -371,7 +371,7 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					myKnight->retain();
 					myKnight->removeFromParentAndCleanup(false);
 					myKnightForever = myKnight;
-					nodeA->removeAllComponents();
+					nodeB->removeAllComponents();
 				}
 			}
 		}
@@ -536,8 +536,8 @@ void Gaming::update(float delta)
 			CCLOG(string);
 		}
 
-		BloodLayer::Change(*myKnight);
-		MainUILayer::ChangeCoinLabel();
+		//BloodLayer::Change(*myKnight);
+		//MainUILayer::ChangeCoinLabel();
 	}
 	else if (!endGame && myKnight->death)/*转换场景*/
 	{
