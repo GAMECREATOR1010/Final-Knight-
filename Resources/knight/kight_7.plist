@@ -4,108 +4,78 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>knight301.png</key>
+            <key>knight701.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{62,74}</string>
+                <string>{72,79}</string>
                 <key>spriteSourceSize</key>
-                <string>{62,74}</string>
+                <string>{72,79}</string>
                 <key>textureRect</key>
-                <string>{{0,0},{62,74}}</string>
+                <string>{{0,0},{72,79}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>knight302.png</key>
+            <key>knight702.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{62,72}</string>
+                <string>{72,79}</string>
                 <key>spriteSourceSize</key>
-                <string>{62,72}</string>
+                <string>{72,79}</string>
                 <key>textureRect</key>
-                <string>{{0,74},{62,72}}</string>
+                <string>{{0,79},{72,79}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>knight303.png</key>
+            <key>knight703.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{62,71}</string>
+                <string>{71,79}</string>
                 <key>spriteSourceSize</key>
-                <string>{62,71}</string>
+                <string>{71,79}</string>
                 <key>textureRect</key>
-                <string>{{0,146},{62,71}}</string>
+                <string>{{0,158},{71,79}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>knight304.png</key>
+            <key>knight704.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{61,74}</string>
+                <string>{71,83}</string>
                 <key>spriteSourceSize</key>
-                <string>{61,74}</string>
+                <string>{71,83}</string>
                 <key>textureRect</key>
-                <string>{{0,217},{61,74}}</string>
+                <string>{{0,237},{71,83}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>knight305.png</key>
+            <key>knight705.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{61,71}</string>
+                <string>{71,79}</string>
                 <key>spriteSourceSize</key>
-                <string>{61,71}</string>
+                <string>{71,79}</string>
                 <key>textureRect</key>
-                <string>{{0,291},{61,71}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>knight306.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{62,71}</string>
-                <key>spriteSourceSize</key>
-                <string>{62,71}</string>
-                <key>textureRect</key>
-                <string>{{0,362},{62,71}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>knight307.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{61,74}</string>
-                <key>spriteSourceSize</key>
-                <string>{61,74}</string>
-                <key>textureRect</key>
-                <string>{{0,433},{61,74}}</string>
+                <string>{{0,320},{71,79}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -119,13 +89,13 @@
             <key>premultiplyAlpha</key>
             <false/>
             <key>realTextureFileName</key>
-            <string>knight_3.png</string>
+            <string>kight_7.png</string>
             <key>size</key>
-            <string>{62,507}</string>
+            <string>{72,399}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:6c6950b28c1f0c1b995be9082f60109d:e21e97493f407f26dc857c4ac97f75a8:48b5204904be7ac1573c4a4446c597c3$</string>
+            <string>$TexturePacker:SmartUpdate:3f8f95d50268f1fff4869ffe6a089414:753679c2fcc7856997a6eecd33989c65:8fd5f32619407f5ea469827478d04cb5$</string>
             <key>textureFileName</key>
-            <string>knight_3.png</string>
+            <string>kight_7.png</string>
         </dict>
     </dict>
 </plist>

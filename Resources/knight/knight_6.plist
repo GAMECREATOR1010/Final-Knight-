@@ -134,13 +134,13 @@
             <key>premultiplyAlpha</key>
             <false/>
             <key>realTextureFileName</key>
-            <string>knight6.png</string>
+            <string>knight_6.png</string>
             <key>size</key>
             <string>{206,232}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:75477deb021f1494ba88b6f027440b1f:4b3147e5efc74b76f5e4502de3b352fb:f7679311128bff0321db70e5c50b625a$</string>
+            <string>$TexturePacker:SmartUpdate:78b1cf29bf40c55bf3a8c533c07289c4:4b3147e5efc74b76f5e4502de3b352fb:03db5eb612765e64422de21c423145f8$</string>
             <key>textureFileName</key>
-            <string>knight6.png</string>
+            <string>knight_6.png</string>
         </dict>
     </dict>
 </plist>
