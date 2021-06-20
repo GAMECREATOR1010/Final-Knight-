@@ -23,7 +23,6 @@ todo
 #include "Buff.h"
 
 const int MAX_POTION_SCALE = 2;
-
 static const char* HEALTH_SMALL_PATH = "/potions/HealthSmall.png";
 static const char* HEALTH_LARGE_PATH = "/potions/HealthLarge.png";
 static const char* MANA_SMALL_PATH = "/potions/ManaSmall.png";
@@ -74,7 +73,7 @@ public:
 	static HealPotion* create(Scale);
 	virtual void Drink(Knight* drinker, float multi = 1);
 private:
-	int _baseHealValue;
+	int _baseHealValue=5;
 	virtual bool initWithScale(Scale _scale = SMALL);
 };
 
@@ -84,7 +83,7 @@ public:
 	static ManaPotion* create(Scale);
 	virtual void Drink(Knight* drinker, float multi = 1);
 private:
-	int _baseHealValue;
+	int _baseHealValue=30;
 	virtual bool initWithScale(Scale _scale = SMALL);
 };
 

@@ -68,7 +68,9 @@ void HealPotion::Drink(Knight* drinker, float multi)
 	_isDrunk = true;
 	int heal = heal = _baseHealValue * GetScale() * multi;
 	/* 调用增加生命接口 */
+	auto beforeHp = drinker->GetHP();
 	drinker->HPNowChange(heal);
+	CCLOG("HealPotion::Drink: Before Hp %d, now Hp %d", beforeHp,drinker->GetHP());
 	this->setVisible(false);
 	return;
 }
@@ -131,8 +133,10 @@ void ManaPotion::Drink(Knight* drinker, float multi)
 	_isDrunk = true;
 	int heal = _baseHealValue * GetScale() * multi;
 	/* 调用增加魔力接口 */
+	auto beforeMp = drinker->GetEnergyNow();
 	drinker->EnergyNowChange(heal);
-
+	CCLOG("ManaPotion::Drink: Before Mp %d, now Mp %d", beforeMp, drinker->GetEnergyNow());
+	this->setVisible(false);
 	return;
 }
 
@@ -193,6 +197,9 @@ void FullPotion::Drink(Knight* drinker, float multi)
 	_isDrunk = true;
 	HealPotion::Drink(drinker, multi);
 	ManaPotion::Drink(drinker, multi);
+	CCLOG("FullPotion::Drink: HP++MP++");
+
+	this->setVisible(false);
 
 	return;
 }
@@ -261,7 +268,7 @@ void BuffPotion::Drink(Knight* drinker, float multi)
 	int buff = _buffType;
 	if (buff == RANDOM)
 	{
-		buff = random(1, (int)_buffType);
+		buff = random(0, static_cast <int>(_buffType)-1);
 	}
 	switch (buff)
 	{
@@ -279,7 +286,7 @@ void BuffPotion::Drink(Knight* drinker, float multi)
 			break;
 		case BUFF_COUNT:
 		default:
-			throw(ERROR_DOMAIN_LIMIT_EXCEEDED);
+			CCLOG("BuffPotion::Drink; no this type %d",buff);
 			break;
 	}
 }
