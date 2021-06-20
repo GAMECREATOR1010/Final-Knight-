@@ -7,8 +7,6 @@
  ****************************************************************************/
 #include "BGM.h"
 
-BGM bgm;
-SE se;
 
 BGM::BGM()
 {
@@ -28,13 +26,13 @@ int BGM::play2d(const std::string& filePath, bool loop)
 }
 
 
-int BGM::getIfon()
+int BGM::GetIfon()
 {
 	return _ifonBGM;
 }
 
 
-void BGM::change()
+void BGM::Change()
 {
 	if (false == _ifonBGM)
 	{
@@ -56,13 +54,13 @@ int SE::play2d(const std::string& filePath, bool loop)
 		return AudioEngine::INVALID_AUDIO_ID;
 }
 
-int SE::getIfon()
+int SE::GetIfon()
 {
 	return _ifonSE;
 }
 
 
-void SE::change()
+void SE::Change()
 {
 	if (false == _ifonSE)
 	{

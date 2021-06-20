@@ -12,7 +12,7 @@
 #include "cocos2d.h"
 #include "audio/include/AudioEngine.h"
 
-class BGM :public cocos2d::AudioEngine
+static class BGM :public cocos2d::AudioEngine
 {
 private:
 	static bool _ifonBGM;
@@ -20,29 +20,27 @@ public:
 	int _audioID;
 
 	BGM();
-	int getIfon();
+	int GetIfon();
 
 	virtual int play2d(const std::string& filePath, bool loop = true);
 
-	void change();
-};
+	void Change();
+}bgm;
 
-class SE :public BGM
+static class SE :public BGM
 {
 private:
 	static bool _ifonSE;
 public:
 	int _audioID;
 
-	int getIfon();
+	int GetIfon();
 
 	virtual int play2d(const std::string& filePath, bool loop = false);
 
-	void change();
-};
+	void Change();
+}se;
 
 
-extern BGM bgm;
-extern SE se;
 
 #endif  __BGM_H_H__
