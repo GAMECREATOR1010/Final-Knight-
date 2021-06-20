@@ -13,23 +13,24 @@
 #ifndef __TWOUSE_BUTTONS_LAYER_H__
 #define __TWOUSE_BUTTONS_LAYER_H__
 
-#include "cocos2d.h"
 #include "BGM.h"
-#include "ui/CocosGUI.h"
-#include "Const.h"
 #include "source.h" 
+#include "Const.h"
+#include "cocos2d.h"
+#include "audio/include/AudioEngine.h"
+#include "ui/CocosGUI.h"
 
 using namespace cocos2d::ui;
 
-void problemLoading(const char* filename);
+static void problemLoading(const char* filename);
 
 class BGMButton : public Sprite
 {
 public:
     virtual bool init();
 
-    void setPostionStartLayer();
-    void setPostionStopLayer(Sprite*  sprite);
+    void SetPostionStartLayer();
+    void SetPostionStopLayer(Sprite*  sprite);
 
     static BGMButton* create()
     {
@@ -53,7 +54,7 @@ protected:
     BGMButton()
     {
 
-        if (bgm.getIfon() == false)//如果BGM没有播放，则设置为选下
+        if (bgm.GetIfon() == false)//如果BGM没有播放，则设置为选下
         {
             _bgmButton = Sprite::create(s_P_BGMButtonSelected);
         }
@@ -62,12 +63,6 @@ protected:
             _bgmButton = Sprite::create(s_P_BGMButton);
         }
         _listener = nullptr;
-        if (_bgmButton == nullptr ||
-            _bgmButton->getContentSize().width <= 0 ||
-            _bgmButton->getContentSize().height <= 0)
-        {
-            problemLoading("'s_P_BGMButton' and 's_P_BGMButtonSelected'");
-        }
     }
 private:
     Sprite* _bgmButton;
@@ -80,8 +75,8 @@ class SEButton : public cocos2d::Sprite
 public:
     virtual bool init();
 
-    void setPostionStartLayer();
-    void setPostionStopLayer(Sprite*  sprite);
+    void SetPostionStartLayer();
+    void SetPostionStopLayer(Sprite*  sprite);
 
     static SEButton* create()
     {
@@ -103,7 +98,7 @@ public:
 protected:
     SEButton()
     {
-        if (se.getIfon() == false)//如果SE没有播放，则设置为选下
+        if (se.GetIfon() == false)//如果SE没有播放，则设置为选下
         {
             _seButton = Sprite::create(s_P_SEButtonSelected);
         }
@@ -112,13 +107,6 @@ protected:
             _seButton = Sprite::create(s_P_SEButton);
         }
         _listener = nullptr;
-
-        if (_seButton == nullptr ||
-            _seButton->getContentSize().width <= 0 ||
-            _seButton->getContentSize().height <= 0)
-        {
-            problemLoading("'s_P_SEButton' and 's_P_SEButtonSelected'");
-        }
     }
 private:
     Sprite* _seButton;
@@ -133,8 +121,8 @@ class InfoButton : public Sprite
 public:
     virtual bool init();
 
-    void setPostionStartLayer();
-    void setPostionStopLayer(Sprite* sprite);
+    void SetPostionStartLayer();
+    void SetPostionStopLayer(Sprite* sprite);
 
     static InfoButton* create()
     {
@@ -155,12 +143,6 @@ protected:
         : _infoButton(Sprite::create(s_P_InfoButton))
         , _listener(nullptr)
     {
-        if (_infoButton == nullptr ||
-            _infoButton->getContentSize().width <= 0 ||
-            _infoButton->getContentSize().height <= 0)
-        {
-            problemLoading("'s_P_InfoButton' and 's_P_InfoButtonSelected'");
-        }
     }
 private:
     Sprite* _infoButton;
@@ -175,7 +157,7 @@ public:
 
     virtual bool init();
 
-    void touchEvent(Ref* pSender, Widget::TouchEventType type);
+    void TouchEvent(Ref* pSender, Widget::TouchEventType type);
 
     static InfoScene* create()
     {

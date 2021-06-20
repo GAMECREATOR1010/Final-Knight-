@@ -15,11 +15,7 @@ USING_NS_CC;
 using namespace cocos2d::ui;
 
 
-void problemLoading(const char* filename)
-{
-    printf("Error while loading: %s\n", filename);
-    printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
-}
+
 
 bool BGMButton::init()
 {
@@ -45,15 +41,15 @@ bool BGMButton::init()
         if (rect.containsPoint(locationInNode))
         {
             se._audioID = se.play2d(s_M_ButtonSelected);
-            if (bgm.getIfon() == false)//如果BGM没有播放，则继续BGM
+            if (bgm.GetIfon() == false)//如果BGM没有播放，则继续BGM
             {
                 bgm.resumeAll();
-                bgm.change();
+                bgm.Change();
             }
             else//如果BGM有在播放，则暂停BGM
             {
                 bgm.pauseAll();
-                bgm.change();
+                bgm.Change();
             }
             return true;
         }
@@ -65,7 +61,7 @@ bool BGMButton::init()
 
     listener->onTouchEnded = [=](Touch* touch, Event* event) {
         auto visibleSize = Director::getInstance()->getVisibleSize();
-        if (bgm.getIfon() == false)//如果BGM没有播放，则设置按钮为按下
+        if (bgm.GetIfon() == false)//如果BGM没有播放，则设置按钮为按下
         {
             _bgmButton->setTexture(s_P_BGMButtonSelected);
             float scaledPre = visibleSize.width * ButtonPre / (_bgmButton->getContentSize().width);
@@ -87,7 +83,7 @@ bool BGMButton::init()
 }
 
 
-void BGMButton::setPostionStartLayer()
+void BGMButton::SetPostionStartLayer()
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto originSize = Director::getInstance()->getVisibleOrigin();
@@ -98,7 +94,7 @@ void BGMButton::setPostionStartLayer()
     addChild(_bgmButton);
 }
 
-void BGMButton::setPostionStopLayer(Sprite* sprite)
+void BGMButton::SetPostionStopLayer(Sprite* sprite)
 {
     _bgmButton->setAnchorPoint(Vec2(0.5, 0));
     auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -139,13 +135,13 @@ bool SEButton::init()
         Rect rect = Rect(0, 0, s.width, s.height);
         if (rect.containsPoint(locationInNode))
         {
-            if (se.getIfon() == false)//如果SE没有播放，则改变状态
+            if (se.GetIfon() == false)//如果SE没有播放，则改变状态
             {
-                se.change();
+                se.Change();
             }
             else//如果SE有在播放，则关闭SE，改变状态
             {
-                se.change();
+                se.Change();
             }
             return true;
         }
@@ -158,7 +154,7 @@ bool SEButton::init()
     listener->onTouchEnded = [=](Touch* touch, Event* event) {
         auto visibleSize = Director::getInstance()->getVisibleSize();
 
-        if (se.getIfon() == false)//如果SE没有播放，则设置按钮为按下
+        if (se.GetIfon() == false)//如果SE没有播放，则设置按钮为按下
         {
             _seButton->setTexture(s_P_SEButtonSelected);
             float scaledPre = visibleSize.width * ButtonPre / (_seButton->getContentSize().width);
@@ -181,7 +177,7 @@ bool SEButton::init()
 }
 
 
-void SEButton::setPostionStartLayer()
+void SEButton::SetPostionStartLayer()
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto originSize = Director::getInstance()->getVisibleOrigin();
@@ -192,7 +188,7 @@ void SEButton::setPostionStartLayer()
     addChild(_seButton);
 }
 
-void SEButton::setPostionStopLayer(Sprite* sprite)
+void SEButton::SetPostionStopLayer(Sprite* sprite)
 {
     _seButton->setAnchorPoint(Vec2(0.5, 0));
     auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -254,7 +250,7 @@ bool InfoButton::init()
 }
 
 
-void InfoButton::setPostionStartLayer()
+void InfoButton::SetPostionStartLayer()
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto originSize = Director::getInstance()->getVisibleOrigin();
@@ -267,7 +263,7 @@ void InfoButton::setPostionStartLayer()
     addChild(_infoButton);
 }
 
-void InfoButton::setPostionStopLayer(Sprite* sprite)
+void InfoButton::SetPostionStopLayer(Sprite* sprite)
 {
     _infoButton->setAnchorPoint(Vec2(0.5, 0));
     auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -311,7 +307,7 @@ bool InfoScene::init()
         closeButton->ignoreContentAdaptWithSize(false);
         closeButton->setScale9Enabled(true);
         closeButton->setPressedActionEnabled(false);
-        closeButton->addTouchEventListener(CC_CALLBACK_2(InfoScene::touchEvent, this));
+        closeButton->addTouchEventListener(CC_CALLBACK_2(InfoScene::TouchEvent, this));
 
         float x = originSize.x + visibleSize.width / 2;
         closeButton->setPosition(Vec2(x, y));
@@ -322,7 +318,7 @@ bool InfoScene::init()
     return true;
 }
 
-void InfoScene::touchEvent(Ref* pSender, Widget::TouchEventType type)
+void InfoScene::TouchEvent(Ref* pSender, Widget::TouchEventType type)
 {
     switch (type)
     {
