@@ -96,3 +96,92 @@ bool SuccessBugLayer::init(Knight* kinght)
     }
     return true;
 }
+
+
+
+void SuccessStatueLayer::problemLoading(const char* filename)
+{
+    printf("Error while loading: %s\n", filename);
+    printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
+}
+
+bool SuccessStatueLayer::init(Knight* kinght)
+{
+    if (!Layer::init())
+    {
+        return false;
+    }
+
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    auto originSize = Director::getInstance()->getVisibleOrigin();
+
+    {
+        auto sprite = Sprite::create(s_P_SuccessStatue);
+
+        if (sprite == nullptr)
+        {
+            problemLoading("s_P_LackOfCoin");
+        }
+        else
+        {
+            Vec2& knightPosition = Vec2(0, 0);
+            Size& knightSize = Size(0, 0);
+            knightPosition = kinght->getPosition();
+            knightSize = kinght->getContentSize();
+            sprite->setPosition(knightPosition + knightSize);
+            sprite->runAction(
+                Sequence::create(
+                    FadeTo::create(2, 0),
+                    nullptr));
+            sprite->setGlobalZOrder(uiOrder);
+            this->addChild(sprite);
+        }
+    }
+
+    return true;
+}
+
+
+
+
+void FailStatueLayer::problemLoading(const char* filename)
+{
+    printf("Error while loading: %s\n", filename);
+    printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
+}
+
+bool FailStatueLayer::init(Knight* kinght)
+{
+    if (!Layer::init())
+    {
+        return false;
+    }
+
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    auto originSize = Director::getInstance()->getVisibleOrigin();
+
+    {
+        auto sprite = Sprite::create(s_P_FailStatue);
+
+        if (sprite == nullptr)
+        {
+            problemLoading("s_P_LackOfCoin");
+        }
+        else
+        {
+            Vec2& knightPosition = Vec2(0, 0);
+            Size& knightSize = Size(0, 0);
+            knightPosition = kinght->getPosition();
+            knightSize = kinght->getContentSize();
+            sprite->setPosition(knightPosition + knightSize);
+            sprite->runAction(
+                Sequence::create(
+                    FadeTo::create(2, 0),
+                    nullptr));
+            sprite->setGlobalZOrder(uiOrder);
+            this->addChild(sprite);
+        }
+    }
+
+    return true;
+}

@@ -58,6 +58,8 @@ static const char s_P_CloseButton[]           = "buttons/CloseButton.png";
 
 static const char s_P_LackOfCoin[]            = "hint/LackOfCoin.png";
 static const char s_P_SuccessBug[]            = "hint/SuccessBug.png";
+static const char s_P_SuccessStatue[]         = "hint/SuccessStatue.png";
+static const char s_P_FailStatue[]            = "hint/FailStatue.png";
 
 
 

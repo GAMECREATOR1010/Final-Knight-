@@ -266,10 +266,16 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					if (statue->ActiveStatue(activer))
 					{
 						/* 激活成功 */
+						auto successStatueLayer = SuccessStatueLayer::create(myKnight);
+						 successStatue->setGlobalZOrder(uiOrder);
+						this->addChild( successStatue);
 					}
 					else
 					{
 						/* 激活失败 */
+						auto failStatueLayer = FailStatueLayer::create(myKnight);
+						failStatue->setGlobalZOrder(uiOrder);
+						this->addChild(failStatue);
 					}
 				}
 			}

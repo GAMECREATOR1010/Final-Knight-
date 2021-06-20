@@ -67,4 +67,51 @@ public:
 
 };
 
+
+class SuccessStatueLayer : public cocos2d::Layer
+{
+public:
+    void problemLoading(const char* filename);
+
+    virtual bool init(Knight* kinght);
+
+    static SuccessStatueLayer* create(Knight* kinght)
+    {
+        auto ret = new (std::nothrow) SuccessStatueLayer();
+        if (ret && ret->init(kinght))
+        {
+            ret->autorelease();
+        }
+        else
+        {
+            CC_SAFE_DELETE(ret);
+        }
+        return ret;
+    }
+
+};
+
+
+class FailStatueLayer : public cocos2d::Layer
+{
+public:
+    void problemLoading(const char* filename);
+
+    virtual bool init(Knight* kinght);
+
+    static FailStatueLayer* create(Knight* kinght)
+    {
+        auto ret = new (std::nothrow) FailStatueLayer();
+        if (ret && ret->init(kinght))
+        {
+            ret->autorelease();
+        }
+        else
+        {
+            CC_SAFE_DELETE(ret);
+        }
+        return ret;
+    }
+
+};
 #endif __CONTACT_LAYER_H__
