@@ -66,9 +66,11 @@ bool Gaming::init(Knight* myknight, int Chapter)
 
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
 
-	auto mainUILayer = MainUILayer::create(*keyListener, *this);
+	MainUILayer* mainUILayer = MainUILayer::create();
+	mainUILayer->AddStuff(*keyListener, *this, *myKnight);
 	mainUILayer->setGlobalZOrder(uiOrder);
 	this->addChild(mainUILayer);
+
 
 	//this->setScale(0.2f);
 	//map->setVisible(false);
@@ -286,10 +288,17 @@ bool Gaming::onContactPreSolve(const PhysicsContact& contact)
 					if (potionG->Buy())
 					{
 						/* 提示购买成功 */
+						potionG->removeFromParent();
+						auto successBugLayer = SuccessBugLayer::create(myKnight);
+						successBugLayer->setGlobalZOrder(uiOrder);
+						this->addChild(successBugLayer);
 					}
 					else
 					{
 						/* 提示没有足够的钱 */
+						auto lackOfCoinLayer = LackOfCoinLayer::create(myKnight);
+						lackOfCoinLayer->setGlobalZOrder(uiOrder);
+						this->addChild(lackOfCoinLayer);
 					}
 				}
 			}
@@ -369,37 +378,37 @@ bool Gaming::onKeyPressed(EventKeyboard::KeyCode keycode, Event* event)
 	{
 		switch (keycode)
 		{
-			case K::KEY_A:
-				myKnight->BindRoom(atRoom);
-				myKnight->MyAttack();
-				break;
-			case K::KEY_W:
-				map->setVisible(true);
-				break;
-			case K::KEY_S:
-				map->setVisible(false);
-				break;
-			case K::KEY_E:
-				myKnight->ChangeWea();
-				break;
-			case K::KEY_F:
-				_isInteract = true;
-				break;
-			case K::KEY_G:
-			{
-				auto hackWea = Weapon::create(8);
-				myKnight->BindWea(hackWea);
-				//myKnight->ChangeWea();
-				myKnight->MoveSpeedMaxChange(5);
-				myKnight->AttackDistanceMaxChange(5);
-				myKnight->DamageMaxChange(10);
-			}
+		case K::KEY_A:
+			myKnight->BindRoom(atRoom);
+			myKnight->MyAttack();
 			break;
-			case K::KEY_SPACE:
-				myKnight->LaunchSkillTime();
-				break;
-			default:
-				break;
+		case K::KEY_W:
+			map->setVisible(true);
+			break;
+		case K::KEY_S:
+			map->setVisible(false);
+			break;
+		case K::KEY_E:
+			myKnight->ChangeWea();
+			break;
+		case K::KEY_F:
+			_isInteract = true;
+			break;
+		case K::KEY_G:
+		{
+			auto hackWea = Weapon::create(8);
+			myKnight->BindWea(hackWea);
+			//myKnight->ChangeWea();
+			myKnight->MoveSpeedMaxChange(5);
+			myKnight->AttackDistanceMaxChange(5);
+			myKnight->DamageMaxChange(10);
+		}
+		break;
+		case K::KEY_SPACE:
+			myKnight->LaunchSkillTime();
+			break;
+		default:
+			break;
 		}
 
 		if (keycode == EventKeyboard::KeyCode::KEY_UP_ARROW)
@@ -472,6 +481,13 @@ void Gaming::update(float delta)
 			else
 				map->setPosition(map->getPosition() + change * move);
 		}
+		char string[30] = { 0 };
+		sprintf(string, "HP:%.2f/%.2f", myKnight->GetHP(), myKnight->GetHPMax());
+		CCLOG(string);
+		sprintf(string, "%d", goldMoney.GetBalance());
+		CCLOG(string);
+		BloodLayer::Change(*myKnight);
+		MainUILayer::ChangeCoinLabel();
 	}
 	else if (!endGame && myKnight->death)/*转换场景*/
 	{
