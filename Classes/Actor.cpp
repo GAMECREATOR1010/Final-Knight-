@@ -509,6 +509,11 @@ void Actor::DeathEffect()/*ËÀÍöÐ§¹û*/
 			inRoom->enemyCount -= 1;
 			if (inRoom->enemyCount <= 0)
 			{
+				auto enemyDiePos = getPosition();
+				auto wChe = WhiteChest::create();
+				wChe->setPosition(enemyDiePos);
+				this->getParent()->addChild(wChe);
+
 				inRoom->UpdateDoor();
 				if (inRoom->roomType == endRoomEnum)
 				{
