@@ -1,10 +1,10 @@
 #include "BattleMap.h"
 USING_NS_CC;
 
-BattleMap* BattleMap::create(int chapter, roomThemeEnum rTheme,  Knight* target) 
+BattleMap* BattleMap::create(int chapter, roomThemeEnum rTheme, Knight* target)
 {
 	BattleMap* battleMap = new BattleMap;
-	if (battleMap != nullptr && battleMap->init(chapter, rTheme,target))
+	if (battleMap != nullptr && battleMap->init(chapter, rTheme, target))
 	{
 		battleMap->autorelease();
 		return battleMap;
@@ -21,7 +21,8 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 	if (chapter <= 4)
 	{
 		roomNumber = 7;
-	} else
+	}
+	else
 		roomNumber = rand() % 3 + 8;
 
 	Vec2 genPoint = Vec2(0, 0);
@@ -36,7 +37,8 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 				if (dirOne == dirNext) {
 					dirOne = ChangeDir();
 					continue;
-				} else {
+				}
+				else {
 					dirNext = dirOne;
 					break;
 				}
@@ -48,7 +50,8 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 				if (tempPos == pos) {
 					flag = true;
 					break;
-				} else
+				}
+				else
 					flag = false;
 			}
 			if (flag) {
@@ -112,16 +115,16 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 	}
 
 
-	for (auto temp1 : rooms) 
+	for (auto temp1 : rooms)
 	{ /*连接各房间，找到距离较远的房间*/
 		Vec2 pos = temp1->getPosition();
-		for (auto temp2 : rooms) 
+		for (auto temp2 : rooms)
 		{
 			if (temp2->distance > temp1->distance)
 			{
 				maxDistance = temp2->distance;
 			}
-			if (temp2->Ifnear(pos + Vec2(0, offSet))) 
+			if (temp2->Ifnear(pos + Vec2(0, offSet)))
 			{
 				temp1->doorUp = true;
 				temp1->doorNum++;
@@ -131,12 +134,12 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 				temp1->doorDown = true;
 				temp1->doorNum++;
 			}
-			if (temp2->Ifnear(pos + Vec2(offSet, 0))) 
+			if (temp2->Ifnear(pos + Vec2(offSet, 0)))
 			{
 				temp1->doorRight = true;
 				temp1->doorNum++;
 			}
-			if (temp2->Ifnear(pos - Vec2(offSet, 0))) 
+			if (temp2->Ifnear(pos - Vec2(offSet, 0)))
 			{
 				temp1->doorLeft = true;
 				temp1->doorNum++;
@@ -153,47 +156,51 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 
 	Vec2 final = Vec2(0, 0);
 	for (auto temp : farRoom) { //Find endRoom
-		if (temp->doorNum == 1) 
+		if (temp->doorNum == 1)
 		{
 			oneDoorRoom.pushBack(temp);
 			break;
 		}
 	}
 
-	if (oneDoorRoom.size() != 0) 
+	if (oneDoorRoom.size() != 0)
 	{
 		endRoom = oneDoorRoom.front();
 		endRoom->roomType = endRoomEnum;
-	} else {
+	}
+	else {
 		Vec2 final = Vec2(0, 0);
 		bool doorU = false, doorD = false, doorL = false, doorR = false;
-		if (!farRoom.front()->doorUp) 
+		if (!farRoom.front()->doorUp)
 		{
 			doorD = true;
 			final = Vec2(0, offSet);
 			farRoom.front()->doorUp = true;
-		} else if (!farRoom.front()->doorDown) 
+		}
+		else if (!farRoom.front()->doorDown)
 		{
 			doorU = true;
 			final = Vec2(0, -offSet);
 			farRoom.front()->doorDown = true;
-		} else if (!farRoom.front()->doorLeft) 
+		}
+		else if (!farRoom.front()->doorLeft)
 		{
 			doorR = true;
 			final = Vec2(-offSet, 0);
 			farRoom.front()->doorLeft = true;
-		} else if (!farRoom.front()->doorRight) 
+		}
+		else if (!farRoom.front()->doorRight)
 		{
 			doorL = true;
 			final = Vec2(offSet, 0);
 			farRoom.front()->doorRight = true;
 		}
-		if (chapter % 3 == 0) 
+		if (chapter % 3 == 0)
 		{
 			wid = (rand() % 4) * 2 + 14;
 			hei = (rand() % 4) * 2 + 14;
-		} 
-		else 
+		}
+		else
 		{
 			wid = (rand() % 4) * 2 + 10;
 			hei = (rand() % 4) * 2 + 10;
@@ -233,84 +240,97 @@ bool BattleMap::init(int cha, roomThemeEnum rTheme, Knight* target)
 void BattleMap::AddThings(Room* inRoom) {
 	roomTypeEnum rType = inRoom->roomType;
 	switch (rType) {
-		case startRoomEnum:
-			break;
-		case normalRoomEnum: {
-			int enemyType = random(0, 4);
-			int i = 0;
-			if (enemyType < 2)
-				i = random(3, 7);
-			else if(enemyType==2) {
-				i = random(5, 7);
-			} else
-				i = random(2, 3);
+	case startRoomEnum:
 
-			i+=(chapter / 3) % 4;
-			inRoom->enemyCount = i;
-
-			for (int j = 0; j < i; ++j) {
-				int x =random(-(inRoom->width-2)/2, (inRoom->width - 2) / 2);
-				int y = random(-(inRoom->height - 2)/2, (inRoom->height - 2) / 2);
-				if (inRoom->Movable(Vec2((15 + x) * 64, offSet - (15 + y) * 64), roomFloorGid)&&
-				        (inRoom->enemyPos->getTileGIDAt(Vec2(15+x, 15+y)) == passageFloorGid)) {
-					inRoom->enemyPos->setTileGID(roomFloorGid, Vec2(15 + x, 15 + y));
-					auto enemy = Enemy::create(enemyType);
-					enemy->target = targetKnight;
-					inRoom->addChild(enemy);
-					enemy->HPMaxChange(chapter/3);
-					enemy->setPosition(Vec2((15 + x)* 64, offSet - (15+y) * 64));
-					enemy->BindRoom(inRoom);
-				} else {
-					--j;
-				}
-			}
-		}
 		break;
-		case bossRoomEnum:
-			break;
-		case endRoomEnum:
-			inRoom->AddTransDoor();
-			break;
-		case ShopRoomEnum: {
-			Shop shop;
-			shop.InitGoods(chapter);
+	case normalRoomEnum:
+	{
+		int enemyType = random(0, 4);
+		int i = 0;
+		if (enemyType < 2)
+			i = random(3, 7);
+		else if (enemyType == 2) {
+			i = random(5, 7);
+		}
+		else
+			i = random(2, 3);
 
-			/* 添加商人*/
-			auto shopkeeper = shop.SetShopKeeper();
-			shopkeeper->setPosition(Vec2(offSet / 2, offSet / 2+100));
-			inRoom->addChild(shopkeeper);
+		i += (chapter / 3) % 4;
+		inRoom->enemyCount = i;
 
-			/* 添加商品 */
-			for (int i = 0; i < MAX_GOODS; i++)
-			{
-				auto point = Vec2(offSet / 2 + (i - 1) * 250, offSet / 2 - 150);
-
-				auto shelf = shop.shelfCreate();
-				shelf->setPosition(point);
-				inRoom->addChild(shelf);
-
-				auto goods = shop.goodses[i].GetGoods();
-				goods->setScale(1.5);
-				goods->setPosition(point);
-				inRoom->addChild(goods);
+		for (int j = 0; j < i; ++j) {
+			int x = random(-(inRoom->width - 2) / 2, (inRoom->width - 2) / 2);
+			int y = random(-(inRoom->height - 2) / 2, (inRoom->height - 2) / 2);
+			if (inRoom->Movable(Vec2((15 + x) * 64, offSet - (15 + y) * 64), roomFloorGid) &&
+				(inRoom->enemyPos->getTileGIDAt(Vec2(15 + x, 15 + y)) == passageFloorGid)) {
+				inRoom->enemyPos->setTileGID(roomFloorGid, Vec2(15 + x, 15 + y));
+				auto enemy = Enemy::create(enemyType);
+				enemy->target = targetKnight;
+				inRoom->addChild(enemy);
+				enemy->HPMaxChange(chapter / 3);
+				enemy->setPosition(Vec2((15 + x) * 64, offSet - (15 + y) * 64));
+				enemy->BindRoom(inRoom);
+			}
+			else {
+				--j;
 			}
 		}
-			break;
-		case StatueRoomEnum:
+	}
+	break;
+	case bossRoomEnum:
+	{
+		auto enemy = Enemy::create(5);
+		enemy->target = targetKnight;
+		inRoom->addChild(enemy);
+		enemy->HPMaxChange(chapter / 3);
+		enemy->setPosition(Vec2(offSet / 2, offSet / 2));
+		enemy->BindRoom(inRoom);
+	}
+	break;
+	case endRoomEnum:
+		inRoom->AddTransDoor();
+		break;
+	case ShopRoomEnum:
+	{
+		Shop shop;
+		shop.InitGoods(chapter);
+
+		/* 添加商人*/
+		auto shopkeeper = shop.SetShopKeeper();
+		shopkeeper->setPosition(Vec2(offSet / 2, offSet / 2 + 100));
+		inRoom->addChild(shopkeeper);
+
+		/* 添加商品 */
+		for (int i = 0; i < MAX_GOODS; i++)
 		{
-			auto sType = static_cast<StatueType>(random(0, static_cast<int>(STATUECOUNT) - 1));
-			auto statue = Statue::create(sType);
-			if (statue)
-			{
-				statue->setPosition(Vec2(offSet / 2, offSet / 2));
-				inRoom->addChild(statue);
-				inRoom->AddThing((offSet / 2 - 64*0.52)/ 64 , (offSet / 2+64*1)/ 64,2, 2.1);
-				CCLOG("BattleMap::AddThings: Statue create succsee, type %d",sType);
-			}
+			auto point = Vec2(offSet / 2 + (i - 1) * 250, offSet / 2 - 150);
+
+			auto shelf = shop.shelfCreate();
+			shelf->setPosition(point);
+			inRoom->addChild(shelf);
+
+			auto goods = shop.goodses[i].GetGoods();
+			goods->setScale(1.5);
+			goods->setPosition(point);
+			inRoom->addChild(goods);
 		}
+	}
+	break;
+	case StatueRoomEnum:
+	{
+		auto sType = static_cast<StatueType>(random(0, static_cast<int>(STATUECOUNT) - 1));
+		auto statue = Statue::create(sType);
+		if (statue)
+		{
+			statue->setPosition(Vec2(offSet / 2, offSet / 2));
+			inRoom->addChild(statue);
+			inRoom->AddThing((offSet / 2 - 64 * 0.52) / 64, (offSet / 2 + 64 * 1) / 64, 2, 2.1);
+			CCLOG("BattleMap::AddThings: Statue create succsee, type %d", sType);
+		}
+	}
+	break;
+	default:
 		break;
-		default:
-			break;
 	}
 
 }
